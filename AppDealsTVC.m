@@ -28,7 +28,8 @@ NSString *const kDDescription = @"ddescription";
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
-
+    // Test
+    
     self.dealListArray = [NSMutableArray arrayWithObjects:
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"25% off Club Sandwich", kDeal, @"now $5.25", kDiscount, @"Club_San_RA.jpg", kDImage, @"Get 25% off our flavorful Club Sandwich!", kDDescription,
