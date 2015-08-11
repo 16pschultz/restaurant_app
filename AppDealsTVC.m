@@ -29,7 +29,7 @@ NSString *const kDDescription = @"ddescription";
     }
     
     // Test
-    // Test 2
+    // Test 2d
     
     self.dealListArray = [NSMutableArray arrayWithObjects:
                       [NSDictionary dictionaryWithObjectsAndKeys:
