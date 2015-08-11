@@ -28,9 +28,6 @@ NSString *const kDDescription = @"ddescription";
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
-    // Test
-    // Test 2d
-    // Test 3d
     
     self.dealListArray = [NSMutableArray arrayWithObjects:
                       [NSDictionary dictionaryWithObjectsAndKeys:
