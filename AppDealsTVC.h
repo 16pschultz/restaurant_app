@@ -10,7 +10,7 @@
 
 @interface AppDealsTVC : UITableViewController
 
-@property (strong, nonatomic) NSMutableArray *dealListArray;
+@property (strong, nonatomic) NSArray *dealListArray;
 @property (strong, nonatomic) NSString *stringPlaceholder;
 
 @end

@@ -9,6 +9,7 @@
 #import "AppDealsTVC.h"
 #import "DealVC.h"
 #import <QuartzCore/CALayer.h>
+#import <Parse/Parse.h>
 
 NSString *const kDeal = @"deal";
 NSString *const kDiscount = @"discount";
@@ -28,30 +29,64 @@ NSString *const kDDescription = @"ddescription";
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
+
+                 
+    self.dealListArray = @[@{kDeal: @"25% off Club Sandwich",
+                             kDiscount: @"now $5.25",
+                             kDImage: @"Club_San_RA.jpg",
+                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
+                             },
+                           @{kDeal: @"Grilled Cheese",
+                             kDiscount: @"FREE (Tues/Thurs only)",
+                             kDImage: @"grilled_cheese_RA.jpg",
+                             kDDescription: @"This is cheesy! And free-y!",
+                             },
+                           @{kDeal: @"25% off Club Sandwich",
+                             kDiscount: @"now $5.25",
+                             kDImage: @"Club_San_RA.jpg",
+                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
+                             },
+                           @{kDeal: @"Grilled Cheese",
+                             kDiscount: @"FREE (Tues/Thurs only)",
+                             kDImage: @"grilled_cheese_RA.jpg",
+                             kDDescription: @"This is cheesy! And free-y!",
+                             },
+                           @{kDeal: @"25% off Club Sandwich",
+                             kDiscount: @"now $5.25",
+                             kDImage: @"Club_San_RA.jpg",
+                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
+                             },
+                           @{kDeal: @"Grilled Cheese",
+                             kDiscount: @"FREE (Tues/Thurs only)",
+                             kDImage: @"grilled_cheese_RA.jpg",
+                             kDDescription: @"This is cheesy! And free-y!",
+                             },
+                           ];
     
-    self.dealListArray = [NSMutableArray arrayWithObjects:
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                       @"25% off Club Sandwich", kDeal, @"now $5.25", kDiscount, @"Club_San_RA.jpg", kDImage, @"Get 25% off our flavorful Club Sandwich!", kDDescription,
-                       nil],
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                           @"Grilled Cheese", kDeal, @"FREE (read more)", kDiscount, @"grilled_cheese_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-                           nil],
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                           @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-                           nil],
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                           @"25% off Club Sandwich", kDeal, @"now $5.25", kDiscount, @"Club_San_RA.jpg", kDImage, @"Get 25% off our flavorful Club Sandwich!", kDDescription,
-                           nil],
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                           @"Grilled Cheese", kDeal, @"FREE (read more)", kDiscount, @"grilled_cheese_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-                           nil],
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                           @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-                           nil],
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                          @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-                          nil],
-                      nil];
+    
+//    self.dealListArray = [NSMutableArray arrayWithObjects:
+//                      [NSDictionary dictionaryWithObjectsAndKeys:
+//                       @"25% off Club Sandwich", kDeal, @"now $5.25", kDiscount, @"Club_San_RA.jpg", kDImage, @"Get 25% off our flavorful Club Sandwich!", kDDescription,
+//                       nil],
+//                      [NSDictionary dictionaryWithObjectsAndKeys:
+//                           @"Grilled Cheese", kDeal, @"FREE (read more)", kDiscount, @"grilled_cheese_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
+//                           nil],
+//                      [NSDictionary dictionaryWithObjectsAndKeys:
+//                           @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
+//                           nil],
+//                      [NSDictionary dictionaryWithObjectsAndKeys:
+//                           @"25% off Club Sandwich", kDeal, @"now $5.25", kDiscount, @"Club_San_RA.jpg", kDImage, @"Get 25% off our flavorful Club Sandwich!", kDDescription,
+//                           nil],
+//                      [NSDictionary dictionaryWithObjectsAndKeys:
+//                           @"Grilled Cheese", kDeal, @"FREE (read more)", kDiscount, @"grilled_cheese_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
+//                           nil],
+//                      [NSDictionary dictionaryWithObjectsAndKeys:
+//                           @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
+//                           nil],
+//                      [NSDictionary dictionaryWithObjectsAndKeys:
+//                          @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
+//                          nil],
+//                      nil];
 }
 
 
@@ -88,6 +123,8 @@ NSString *const kDDescription = @"ddescription";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     NSDictionary *dealList = [self.dealListArray objectAtIndex:indexPath.row];
+    
+    
     /*
      Maybe NSDictionary *dealList = parseArray;
     */
