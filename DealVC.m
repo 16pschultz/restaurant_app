@@ -19,6 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [[self.dealImage layer] setBorderWidth:0.7f];
+    [[self.dealImage layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
     [[self.oRedeemButton layer] setBorderWidth:1.0f];
     [[self.oRedeemButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     

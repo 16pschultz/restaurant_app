@@ -16,7 +16,7 @@
 
 }
 
-@property (weak, nonatomic) IBOutlet UIView *viewPreview;
+@property (strong, nonatomic) IBOutlet UIView *viewPreview;
 @property (strong, nonatomic) IBOutlet UIImageView *imageCheckmark;
 
 @property (strong, nonatomic) IBOutlet UILabel *wrongQRCodeLabel;

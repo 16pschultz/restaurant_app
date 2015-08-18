@@ -145,6 +145,8 @@ NSString *const kDDescription = @"ddescription";
     // Item Image
     self.stringPlaceholder = [dealList objectForKey:kDImage];
     cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
+    [cell.imageView.layer setBorderWidth:1.4f];
+    [cell.imageView.layer setBorderColor:[UIColor redColor].CGColor];
     
     // Cell and Background Attributes
     cell.backgroundColor = [UIColor whiteColor];
