@@ -630,7 +630,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <outlet property="dataSource" destination="dsa-H2-Rxh" id="OoZ-Ky-v0z"/>
+                                    <outlet property="dataSource" destination="dsa-H2-Rxh" id="uw5-KN-dch"/>
                                     <outlet property="delegate" destination="dsa-H2-Rxh" id="O4O-vB-kEc"/>
                                 </connections>
                             </tableView>

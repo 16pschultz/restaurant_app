@@ -31,10 +31,6 @@ NSString *const kNumber = @"number";
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
-    self.tableViewRewards = [[UITableView alloc] initWithFrame:CGRectMake(20,87,281,399)];
-    self.tableViewRewards.delegate = self;
-    self.tableViewRewards.dataSource = self;
-    
 //    self.tableViewRewards.layer.cornerRadius = 7;
 //    self.tableViewRewards.layer.masksToBounds = YES;
     
@@ -65,6 +61,8 @@ NSString *const kNumber = @"number";
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
+    
+    [self.tableViewRewards reloadData];
     
     // Presenting the User's points and not letting it equal less than 0 if any bug occurs.
     NSNumber *currentPoints = [PFUser currentUser][@"Points"];
@@ -151,26 +149,20 @@ NSString *const kNumber = @"number";
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
     
-    // TableView Separator
-//    [self.tableView setSeparatorColor:[UIColor redColor]];
-        
+//     TableView Separator
+    [self.tableViewRewards setSeparatorColor:[UIColor darkGrayColor]];
+    
     return cell;
 }
 
-
--(void)refreshView:(NSNotification *) notification {
-    
-    [self viewDidLoad];
-    [self viewWillAppear:YES];
-}
 
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([segue.identifier isEqualToString:@"showAppReward"]) {
         
-        NSIndexPath *myIndexPath = [self.tableViewRewards indexPathForSelectedRow];
-        NSDictionary *rewardItems = [self.rewardsArray objectAtIndex:myIndexPath.row];
+        NSIndexPath *indexPath = [self.tableViewRewards indexPathForSelectedRow];
+        NSDictionary *rewardItems = [self.rewardsArray objectAtIndex:indexPath.row];
         
         AppRewardVC *appRewardVC = (AppRewardVC *)segue.destinationViewController;
         
