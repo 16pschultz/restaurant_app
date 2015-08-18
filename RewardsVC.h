@@ -15,7 +15,6 @@
 
 @property (strong, nonatomic) NSArray *rewardsArray;
 @property (strong, nonatomic) NSString *myPlaceHolder;
-@property (strong, nonatomic) IBOutlet UITableViewCell *myTableCell;
 
 @property (strong, nonatomic) IBOutlet UILabel *userPoints;
 

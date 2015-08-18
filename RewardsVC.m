@@ -8,12 +8,11 @@
 
 #import "RewardsVC.h"
 #import <Parse/Parse.h>
+#import "AppRewardVC.h"
 
 NSString *const kReward = @"reward";
 NSString *const kPoints = @"points";
-NSString *const kPicture = @"picture";
 NSString *const kNumber = @"number";
-
 
 @interface RewardsVC ()
 
@@ -23,16 +22,9 @@ NSString *const kNumber = @"number";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     
     [[self.tableViewRewards layer] setBorderWidth:1.5f];
     [[self.tableViewRewards layer] setBorderColor:[UIColor redColor].CGColor];
-    
-    
-    NSNumber *currentPoints = [PFUser currentUser][@"Points"];
-    int difference = currentPoints.intValue;
-    
-    self.userPoints.text = [NSString stringWithFormat:@"Your Points: %d", difference];
     
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
@@ -48,19 +40,16 @@ NSString *const kNumber = @"number";
     
     NSDictionary *rewardOne = @{kReward: @"10% off entire meal",
                                 kPoints: @"2 Points",
-                                kPicture: @"1.jpg",
                                 kNumber: @2,
                                 };
     
     NSDictionary *rewardTwo = @{kReward: @"One FREE Dessert",
                                 kPoints: @"4 Points",
-                                kPicture: @"2.jpg",
                                 kNumber: @4,
                                 };
     
     NSDictionary *rewardThree = @{kReward: @"One FREE Appetiser",
                                   kPoints: @"6 Points",
-                                  kPicture: @"3.jpg",
                                   kNumber: @6,
                                 };
 
@@ -76,6 +65,30 @@ NSString *const kNumber = @"number";
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
+    
+    // Presenting the User's points and not letting it equal less than 0 if any bug occurs.
+    NSNumber *currentPoints = [PFUser currentUser][@"Points"];
+    int usersPoints = currentPoints.intValue;
+    NSLog(@"%@",currentPoints);
+    
+    if (usersPoints < 0) {
+        
+        currentPoints = @0;
+        [[PFUser currentUser] setValue:@0 forKey:@"Points"];
+        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                NSLog(@"The object has been saved.");
+            } else {
+                NSLog(@"There was a problem");
+            }
+        }];
+        
+        self.userPoints.text = [NSString stringWithFormat:@"Your Points: %@", currentPoints];
+    } else {
+        
+        self.userPoints.text = [NSString stringWithFormat:@"Your Points: %@", currentPoints];
+    }
+    //
     
     [self.navigationController.navigationBar setHidden:NO];
     
@@ -103,7 +116,6 @@ NSString *const kNumber = @"number";
     return [self.rewardsArray count];
     
     // Count, seen above, means it “counts” the amount of objects in the array, finds 3 (for example), and displays 3 cells
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -122,7 +134,6 @@ NSString *const kNumber = @"number";
         cell.detailTextLabel.enabled = NO;
     }
     
-    
     // Item Name
     cell.textLabel.text = [rewardItems objectForKey:kReward];
     cell.textLabel.textColor = [UIColor blackColor];
@@ -133,10 +144,6 @@ NSString *const kNumber = @"number";
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
-    // Item Image
-    self.myPlaceHolder = [rewardItems objectForKey:kPicture];
-    cell.imageView.image = [UIImage imageNamed:self.myPlaceHolder];
-    
     // Navigation Bar Attibutes
     self.navigationController.navigationBar.barTintColor = [UIColor redColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -146,8 +153,31 @@ NSString *const kNumber = @"number";
     
     // TableView Separator
 //    [self.tableView setSeparatorColor:[UIColor redColor]];
-    
+        
     return cell;
+}
+
+
+-(void)refreshView:(NSNotification *) notification {
+    
+    [self viewDidLoad];
+    [self viewWillAppear:YES];
+}
+
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"showAppReward"]) {
+        
+        NSIndexPath *myIndexPath = [self.tableViewRewards indexPathForSelectedRow];
+        NSDictionary *rewardItems = [self.rewardsArray objectAtIndex:myIndexPath.row];
+        
+        AppRewardVC *appRewardVC = (AppRewardVC *)segue.destinationViewController;
+        
+        appRewardVC.point2Redeem = [rewardItems valueForKey:kNumber];
+        appRewardVC.rewardDescription = [rewardItems objectForKey:kReward];
+        appRewardVC.rewardCost = [rewardItems objectForKey:kPoints];
+    }
 }
 
 @end
