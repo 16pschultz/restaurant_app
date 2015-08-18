@@ -37,6 +37,7 @@
 		D03C0DF01B5D8A7800E67AF4 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03C0DEE1B5D8A7800E67AF4 /* Parse.framework */; };
 		D058A7D61B6846E20097997C /* DealVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D058A7D51B6846E20097997C /* DealVC.m */; };
 		D058A7D91B6848AC0097997C /* LostPsswrdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D058A7D81B6848AC0097997C /* LostPsswrdVC.m */; };
+		D07657B41B8120550069ED9D /* AppRewardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D07657B31B8120550069ED9D /* AppRewardVC.m */; };
 		D0CAA9CE1B727C34009421D9 /* MapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CAA9CD1B727C34009421D9 /* MapVC.m */; };
 		D0CAA9D11B727C5B009421D9 /* MapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CAA9D01B727C5B009421D9 /* MapPin.m */; };
 		D0CAA9D31B727CFF009421D9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0CAA9D21B727CFF009421D9 /* MapKit.framework */; };
@@ -98,6 +99,8 @@
 		D058A7D51B6846E20097997C /* DealVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DealVC.m; path = ../DealVC.m; sourceTree = "<group>"; };
 		D058A7D71B6848AC0097997C /* LostPsswrdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LostPsswrdVC.h; path = ../LostPsswrdVC.h; sourceTree = "<group>"; };
 		D058A7D81B6848AC0097997C /* LostPsswrdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LostPsswrdVC.m; path = ../LostPsswrdVC.m; sourceTree = "<group>"; };
+		D07657B21B8120550069ED9D /* AppRewardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppRewardVC.h; path = ../AppRewardVC.h; sourceTree = "<group>"; };
+		D07657B31B8120550069ED9D /* AppRewardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppRewardVC.m; path = ../AppRewardVC.m; sourceTree = "<group>"; };
 		D0CAA9CC1B727C34009421D9 /* MapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapVC.h; path = ../MapVC.h; sourceTree = "<group>"; };
 		D0CAA9CD1B727C34009421D9 /* MapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapVC.m; path = ../MapVC.m; sourceTree = "<group>"; };
 		D0CAA9CF1B727C5B009421D9 /* MapPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapPin.h; path = ../MapPin.h; sourceTree = "<group>"; };
@@ -173,6 +176,8 @@
 				D023BAD21B5D5BEC001E1920 /* LoginVC.m */,
 				D023BACE1B5D5688001E1920 /* SignUpVC.h */,
 				D023BACF1B5D5688001E1920 /* SignUpVC.m */,
+				D07657B21B8120550069ED9D /* AppRewardVC.h */,
+				D07657B31B8120550069ED9D /* AppRewardVC.m */,
 				D0E341F71B61DE90004E4BD4 /* RewardsVC.h */,
 				D0E341F81B61DE90004E4BD4 /* RewardsVC.m */,
 				D058A7D41B6846E20097997C /* DealVC.h */,
@@ -359,6 +364,7 @@
 				D01F19531B55789E0030EE37 /* MenuTVC.m in Sources */,
 				D01F19561B5579210030EE37 /* ItemVC.m in Sources */,
 				D023BAD31B5D5BEC001E1920 /* LoginVC.m in Sources */,
+				D07657B41B8120550069ED9D /* AppRewardVC.m in Sources */,
 				D0CAA9CE1B727C34009421D9 /* MapVC.m in Sources */,
 				D058A7D61B6846E20097997C /* DealVC.m in Sources */,
 				D0CAA9D11B727C5B009421D9 /* MapPin.m in Sources */,
