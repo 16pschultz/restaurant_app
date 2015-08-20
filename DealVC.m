@@ -19,6 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.time = 120;
+    
+//    self.minutes = 2;
+//    self.seconds = 60;
+    
     [[self.dealImage layer] setBorderWidth:0.7f];
     [[self.dealImage layer] setBorderColor:[UIColor whiteColor].CGColor];
     
@@ -28,6 +33,8 @@
     self.dealImage.image = [UIImage imageNamed:self.stringImage];
     self.dealDescription.text = self.stringDescription;
     self.dealDiscount.text = self.stringDiscount;
+    self.dealDDiscount.text = self.stringDiscount;
+    self.dealTitle.text = self.stringDescription;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,10 +43,19 @@
 }
 
 
+- (IBAction)exitViewButton {
+    
+    self.outletViewRedeeming.hidden = YES;
+    
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+}
+
 - (IBAction)redeemButton:(id)sender {
  
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Redeem"
-                                                    message:@"Are you sure you want to redeem?"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Redeem?"
+                                                    message:@"Show to your waiter when redeeming"
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"Yes", nil];
@@ -54,21 +70,85 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
         // Cancel was Tapped
         
     }else{
+
+        if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        }
         
-//        PFQuery *query = [PFQuery queryWithClassName:@"Events"];
-//        [query whereKey:@"usersIncluded" equalTo:[self.uniqeFriendList objectAtIndex:indexPath.row]];
-//        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
-//            for (int i = 0; i <objects.count; i++) {
-//                PFObject *event = [objects objectAtIndex:i];    // note using 'objects', not 'eventObjects'
-//                [event removeObject:[self.uniqeFriendList objectAtIndex:indexPath.row] forKey:@"usersIncluded"];
-//            }
-//            
-//            [PFObject saveAll:objects];
-//        }];
-//        
-        // Redeem Deal
+        [self startTimer_subtractMinute];
+
+        self.outletViewRedeeming.hidden = NO;
+        
+        [self.oRedeemButton setBackgroundColor:[UIColor greenColor]];
+        [self.oRedeemButton setTitle:@"Redeemed!" forState:UIControlStateNormal];
+        [self.oRedeemButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.oRedeemButton setEnabled:NO];
+        
+        [[self.oRedeemButton layer] setBorderWidth:1.0f];
+        [[self.oRedeemButton layer] setBorderColor:[UIColor whiteColor].CGColor];
         
     }
 }
-     
+
+
+
+- (void)countdown {
+
+    self.time -= 1;
+    
+    self.seconds = self.time % 60;
+    self.minutes = (self.time - self.seconds) / 60;
+    self.outletTimer.text = [NSString stringWithFormat:@"%d:%.2d", self.minutes, self.seconds];
+    
+    NSString *padZero = @"";
+    
+    if(self.seconds < 10) padZero = @"0";
+    
+    self.outletTimer.text = [NSString stringWithFormat:@"%i:%@%i", self.minutes , padZero, self.seconds];
+    
+    if (self.time == 0) {
+        
+                [timer invalidate];
+                [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    
+//    self.seconds -= 1;
+//    
+//    if (self.seconds < 10) {
+//        
+//        self.outletTimer.text = [NSString stringWithFormat:@"%i:0%i", self.minutes, self.seconds];
+//    } else {
+//        
+//        self.outletTimer.text = [NSString stringWithFormat:@"%i:%i", self.minutes, self.seconds];
+//    }
+//    
+//    if (self.seconds < 0 && self.minutes < 0) {
+//        
+//        [timer invalidate];
+//        [self.navigationController popViewControllerAnimated:YES];
+//        
+//    } else if (self.minutes < self.minutes + 1 && self.seconds < 0) {
+//        
+//        [self startTimer_subtractMinute];
+//    }
+}
+
+
+- (void)subtractMinute {
+    
+}
+
+- (void) startTimer_subtractMinute {
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+    
+    self.minutes -= 1;
+}
+
+
+
+
+
+
 @end

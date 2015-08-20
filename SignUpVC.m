@@ -16,6 +16,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [[self.oSignUpButton layer] setBorderWidth:0.7f];
+    [[self.oSignUpButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
@@ -28,7 +31,7 @@
     
     // Navigation Bar Attibutes
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor darkGrayColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];

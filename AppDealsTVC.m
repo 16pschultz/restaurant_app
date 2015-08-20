@@ -32,7 +32,7 @@ NSString *const kDDescription = @"ddescription";
 
                  
     self.dealListArray = @[@{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now $5.25",
+                             kDiscount: @"now 5.25",
                              kDImage: @"Club_San_RA.jpg",
                              kDDescription: @"Get 25% off our flavorful Club Sandwich!",
                              },
@@ -42,7 +42,7 @@ NSString *const kDDescription = @"ddescription";
                              kDDescription: @"This is cheesy! And free-y!",
                              },
                            @{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now $5.25",
+                             kDiscount: @"now 5.25",
                              kDImage: @"Club_San_RA.jpg",
                              kDDescription: @"Get 25% off our flavorful Club Sandwich!",
                              },
@@ -52,7 +52,7 @@ NSString *const kDDescription = @"ddescription";
                              kDDescription: @"This is cheesy! And free-y!",
                              },
                            @{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now $5.25",
+                             kDiscount: @"now 5.25",
                              kDImage: @"Club_San_RA.jpg",
                              kDDescription: @"Get 25% off our flavorful Club Sandwich!",
                              },

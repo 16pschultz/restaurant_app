@@ -15,6 +15,9 @@
 @property (weak, nonatomic) NSString *stringPassword;
 
 
+@property (weak, nonatomic) IBOutlet UIButton *oLogInButton;
+
+
 - (IBAction)loginButton:(id)sender;
 
 - (IBAction)signUpLaterButton:(id)sender;

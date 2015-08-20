@@ -28,9 +28,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    timer = [NSTimer scheduledTimerWithTimeInterval:(1.0/2.0) target:self selector:@selector(loading) userInfo:nil repeats:YES];
-    
-    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
@@ -193,6 +190,7 @@
                 [[self.viewPreview layer] setBorderWidth:2.0f];
                 [[self.viewPreview layer] setBorderColor:[UIColor greenColor].CGColor];
                 
+                
                 [[PFUser currentUser] incrementKey:@"Points" byAmount:[NSNumber numberWithInt:1]];
                 [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
@@ -242,9 +240,6 @@
     
 }
 
-- (void) loading {
-    
-}
 
 //if (metadataObjects != nil && metadataObjects.count > 0) {
 //    AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects firstObject];
