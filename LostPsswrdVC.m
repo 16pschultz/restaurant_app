@@ -20,7 +20,13 @@
     [super viewDidLoad];
 
     self.outletEmailTF.delegate = self;
-
+    
+    [[self.oSendButton layer] setBorderWidth:0.7f];
+    [[self.oSendButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,30 +52,31 @@
 - (IBAction)sendEmailButton {
     
     self.stringEmailAddress = [self.outletEmailTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
+    
     if ([self.stringEmailAddress length] == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!" message:@"Make sure you enter a valid email address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!" message:@"Make sure you enter a valid Username & Email Address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         
     } else {
         
-    [PFUser requestPasswordResetForEmailInBackground:self.stringEmailAddress
-                                                   block:^(BOOL succeeded, NSError *error) {
-                                                       if (!error)
-                                                       {
-                                                           NSLog(@"Reset Successful!");
-                                                           self.outletEmailTF.text = @"";
-                                                           self.outletLabel.text = @"Password reset has been sent!";
-                                                       }
-                                                       else
-                                                       {
-                                                           NSLog(@"Reset Unsuccessful!");
-                                                           self.outletLabel.text = @"Email Address unrecognized!";
-                                                       }
-                                                   }];
-        
-}
+                
+            [PFUser requestPasswordResetForEmailInBackground:self.stringEmailAddress
+                                                           block:^(BOOL succeeded, NSError *error) {
+                                                               if (succeeded)
+                                                               {
+                                                                   NSLog(@"Reset Successful!");
+                                                                   self.outletEmailTF.text = @"";
+                                                                   self.outletLabel.text = @"Password reset has been sent!";
+                                                               }
+                                                               else
+                                                               {
+                                                                   NSLog(@"Reset Unsuccessful!");
+                                                                   self.outletLabel.text = @"Email Address unrecognized!";
+                                                               }
+                                                           }];
+
+    }
 }
 
 

@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DealVC : UIViewController
+@interface DealVC : UIViewController {
+    NSTimer *timer;
+}
 
 // Strings
 @property (strong, nonatomic) NSString *stringImage;
@@ -20,6 +22,20 @@
 @property (strong, nonatomic) IBOutlet UILabel *dealDescription;
 @property (strong, nonatomic) IBOutlet UILabel *dealDiscount;
 @property (weak, nonatomic) IBOutlet UIButton *oRedeemButton;
+
+
+
+// View after Redeeming
+@property (weak, nonatomic) IBOutlet UIView *outletViewRedeeming;
+@property (weak, nonatomic) IBOutlet UILabel *dealTitle;
+@property (weak, nonatomic) IBOutlet UILabel *outletTimer;
+@property (weak, nonatomic) IBOutlet UILabel *dealDDiscount;
+
+@property (nonatomic, assign) int time;
+@property (nonatomic, assign) int minutes;
+@property (nonatomic, assign) int seconds;
+
+- (IBAction)exitViewButton;
 
 
 - (IBAction)redeemButton:(id)sender;

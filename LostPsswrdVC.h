@@ -11,11 +11,11 @@
 @interface LostPsswrdVC : UIViewController <UITextFieldDelegate> {
 }
 
+@property (weak, nonatomic) IBOutlet UIButton *oSendButton;
 @property (strong, nonatomic) IBOutlet UILabel *outletLabel;
 
 // String
 @property (weak, nonatomic) NSString *stringEmailAddress;
-
 
 // UITextField Property
 @property (weak, nonatomic) IBOutlet UITextField *outletEmailTF;

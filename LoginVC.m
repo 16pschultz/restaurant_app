@@ -15,6 +15,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[self.oLogInButton layer] setBorderWidth:0.7f];
+    [[self.oLogInButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    
+    
+    self.usernameField.frame = CGRectMake (32, 172, 257, 50);
+    
+    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
