@@ -62,31 +62,6 @@ NSString *const kDDescription = @"ddescription";
                              kDDescription: @"This is cheesy! And free-y!",
                              },
                            ];
-    
-    
-//    self.dealListArray = [NSMutableArray arrayWithObjects:
-//                      [NSDictionary dictionaryWithObjectsAndKeys:
-//                       @"25% off Club Sandwich", kDeal, @"now $5.25", kDiscount, @"Club_San_RA.jpg", kDImage, @"Get 25% off our flavorful Club Sandwich!", kDDescription,
-//                       nil],
-//                      [NSDictionary dictionaryWithObjectsAndKeys:
-//                           @"Grilled Cheese", kDeal, @"FREE (read more)", kDiscount, @"grilled_cheese_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-//                           nil],
-//                      [NSDictionary dictionaryWithObjectsAndKeys:
-//                           @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-//                           nil],
-//                      [NSDictionary dictionaryWithObjectsAndKeys:
-//                           @"25% off Club Sandwich", kDeal, @"now $5.25", kDiscount, @"Club_San_RA.jpg", kDImage, @"Get 25% off our flavorful Club Sandwich!", kDDescription,
-//                           nil],
-//                      [NSDictionary dictionaryWithObjectsAndKeys:
-//                           @"Grilled Cheese", kDeal, @"FREE (read more)", kDiscount, @"grilled_cheese_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-//                           nil],
-//                      [NSDictionary dictionaryWithObjectsAndKeys:
-//                           @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-//                           nil],
-//                      [NSDictionary dictionaryWithObjectsAndKeys:
-//                          @"Club Sandwich w fries/chips", kDeal, @"FREE (read more)", kDiscount, @"Club_San_RA.jpg", kDImage, @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!", kDDescription,
-//                          nil],
-//                      nil];
 }
 
 
