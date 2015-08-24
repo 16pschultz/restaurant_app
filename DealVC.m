@@ -21,9 +21,6 @@
 
     self.time = 120;
     
-//    self.minutes = 2;
-//    self.seconds = 60;
-    
     [[self.dealImage layer] setBorderWidth:0.7f];
     [[self.dealImage layer] setBorderColor:[UIColor whiteColor].CGColor];
     
@@ -45,6 +42,7 @@
 
 - (IBAction)exitViewButton {
     
+    self.navigationItem.hidesBackButton = NO;
     self.outletViewRedeeming.hidden = YES;
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
@@ -75,8 +73,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
             self.navigationController.interactivePopGestureRecognizer.enabled = NO;
         }
         
-        [self startTimer_subtractMinute];
-
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+        
+        self.navigationItem.hidesBackButton = YES;
         self.outletViewRedeeming.hidden = NO;
         
         [self.oRedeemButton setBackgroundColor:[UIColor greenColor]];
@@ -108,42 +107,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (self.time == 0) {
         
-                [timer invalidate];
-                [self.navigationController popViewControllerAnimated:YES];
+        [timer invalidate];
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    
-    
-//    self.seconds -= 1;
-//    
-//    if (self.seconds < 10) {
-//        
-//        self.outletTimer.text = [NSString stringWithFormat:@"%i:0%i", self.minutes, self.seconds];
-//    } else {
-//        
-//        self.outletTimer.text = [NSString stringWithFormat:@"%i:%i", self.minutes, self.seconds];
-//    }
-//    
-//    if (self.seconds < 0 && self.minutes < 0) {
-//        
-//        [timer invalidate];
-//        [self.navigationController popViewControllerAnimated:YES];
-//        
-//    } else if (self.minutes < self.minutes + 1 && self.seconds < 0) {
-//        
-//        [self startTimer_subtractMinute];
-//    }
-}
-
-
-- (void)subtractMinute {
-    
-}
-
-- (void) startTimer_subtractMinute {
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
-    
-    self.minutes -= 1;
 }
 
 
