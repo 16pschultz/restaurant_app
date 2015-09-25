@@ -8,9 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDealsTVC : UITableViewController
+@interface AppDealsTVC : UITableViewController {
+    NSInteger rows;
+}
 
-@property (strong, nonatomic) NSArray *dealListArray;
-@property (strong, nonatomic) NSString *stringPlaceholder;
+@property (nonatomic, retain) NSArray *dealList;
+
+@property (nonatomic, retain) NSString *dealTitle;
+@property (nonatomic, retain) NSString *dealDiscount;
+@property (nonatomic, retain) NSString *dealDescription;
+@property (nonatomic, retain) NSString *stringPlaceholder;
+
+@property (nonatomic, retain) NSDictionary *dealsDic;
+
 
 @end

@@ -7,6 +7,7 @@
 #import "SignUpVC.h"
 #import <Parse/Parse.h>
 
+
 @interface SignUpVC ()
 
 @end
@@ -15,14 +16,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [[self.oSignUpButton layer] setBorderWidth:0.7f];
     [[self.oSignUpButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
-    
     
     // Preparing the text fields to dismiss when user hits 'Return'
     self.usernameField.delegate = self;
@@ -36,6 +36,7 @@
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
+    
 }
 
 
@@ -57,10 +58,6 @@
         newUser.email = self.stringEmail;
         [newUser setObject:@0 forKey:@"Points"];
         
-        /*
-         Save Dictionaries into my Parse Deals Array
-        */
-        
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
             if (error) {
@@ -76,6 +73,7 @@
             }
             
         }];
+        
     }
 }
 

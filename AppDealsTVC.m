@@ -11,11 +11,6 @@
 #import <QuartzCore/CALayer.h>
 #import <Parse/Parse.h>
 
-NSString *const kDeal = @"deal";
-NSString *const kDiscount = @"discount";
-NSString *const kDImage = @"dimage";
-NSString *const kDDescription = @"ddescription";
-
 @interface AppDealsTVC ()
 
 @end
@@ -25,43 +20,20 @@ NSString *const kDDescription = @"ddescription";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    PFQuery *query = [PFUser query];
+    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *appDeals, NSError *error) {
+
+        self.dealList = [appDeals objectForKey:@"Deals"];
+        NSLog(@"%@", self.dealList);
+    
+        [[NSUserDefaults standardUserDefaults] setObject:self.dealList forKey:@"DealKey"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self.tableView reloadData];
+    }];
+    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
-    
-
-                 
-    self.dealListArray = @[@{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now 5.25",
-                             kDImage: @"Club_San_RA.jpg",
-                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
-                             },
-                           @{kDeal: @"Grilled Cheese",
-                             kDiscount: @"FREE (Tues/Thurs only)",
-                             kDImage: @"grilled_cheese_RA.jpg",
-                             kDDescription: @"This is cheesy! And free-y!",
-                             },
-                           @{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now 5.25",
-                             kDImage: @"Club_San_RA.jpg",
-                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
-                             },
-                           @{kDeal: @"Grilled Cheese",
-                             kDiscount: @"FREE (Tues/Thurs only)",
-                             kDImage: @"grilled_cheese_RA.jpg",
-                             kDDescription: @"This is cheesy! And free-y!",
-                             },
-                           @{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now 5.25",
-                             kDImage: @"Club_San_RA.jpg",
-                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
-                             },
-                           @{kDeal: @"Grilled Cheese",
-                             kDiscount: @"FREE (Tues/Thurs only)",
-                             kDImage: @"grilled_cheese_RA.jpg",
-                             kDDescription: @"This is cheesy! And free-y!",
-                             },
-                           ];
 }
 
 
@@ -85,11 +57,10 @@ NSString *const kDDescription = @"ddescription";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    
-    /*
-     Retrieve array data, return [parseArray count];
-     */
-    return [self.dealListArray count];
+
+    NSArray *myDeals = [[NSUserDefaults standardUserDefaults] objectForKey:@"DealKey"];
+
+    return [myDeals count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,28 +68,25 @@ NSString *const kDDescription = @"ddescription";
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    NSDictionary *dealList = [self.dealListArray objectAtIndex:indexPath.row];
-    
-    
-    /*
-     Maybe NSDictionary *dealList = parseArray;
-    */
-    
+    NSArray *myDeals = [[NSUserDefaults standardUserDefaults] objectForKey:@"DealKey"];
+
+    self.dealsDic = [myDeals objectAtIndex:indexPath.row];
+
     
     // Item Name
-    cell.textLabel.text = [dealList objectForKey:kDeal];
+    cell.textLabel.text = [[myDeals objectAtIndex:indexPath.row] objectForKey:@"deal"];
     cell.textLabel.numberOfLines = 3;
 // Line Breaking
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont fontWithName:@"Noteworthy" size:17];
     
     // Item Price
-    cell.detailTextLabel.text = [dealList objectForKey:kDiscount];
+    cell.detailTextLabel.text = [[myDeals objectAtIndex:indexPath.row] objectForKey:@"discount"];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
     // Item Image
-    self.stringPlaceholder = [dealList objectForKey:kDImage];
+    self.stringPlaceholder = [[myDeals objectAtIndex:indexPath.row] objectForKey:@"dimage"];
     cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
     [cell.imageView.layer setBorderWidth:1.4f];
     [cell.imageView.layer setBorderColor:[UIColor redColor].CGColor];
@@ -151,15 +119,16 @@ NSString *const kDDescription = @"ddescription";
     
     if ([segue.identifier isEqualToString:@"showDeal"]) {
         
+        NSArray *myDeals = [[NSUserDefaults standardUserDefaults] objectForKey:@"DealKey"];
+
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDictionary *dealList = [self.dealListArray objectAtIndex:indexPath.row];
+        NSDictionary *dealList = [myDeals objectAtIndex:indexPath.row];
         
         DealVC *dealVC = (DealVC *)segue.destinationViewController;
         
-        
-        dealVC.stringImage = [dealList objectForKey:kDImage];
-        dealVC.stringDescription = [dealList objectForKey:kDDescription];
-        dealVC.stringDiscount = [dealList objectForKey:kDiscount];
+        dealVC.stringImage = [dealList objectForKey:@"dimage"];
+        dealVC.stringDescription = [dealList objectForKey:@"deal"];
+        dealVC.stringDiscount = [dealList objectForKey:@"discount"];
 
     }
 }

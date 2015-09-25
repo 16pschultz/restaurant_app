@@ -190,13 +190,12 @@
                 [[self.viewPreview layer] setBorderWidth:2.0f];
                 [[self.viewPreview layer] setBorderColor:[UIColor greenColor].CGColor];
                 
-                
                 [[PFUser currentUser] incrementKey:@"Points" byAmount:[NSNumber numberWithInt:1]];
                 [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         NSLog(@"The object has been saved.");
                     } else {
-                        NSLog(@"There was a problem");
+                        [self.navigationController popViewControllerAnimated:YES];
                     }
                 }];
                 
@@ -239,25 +238,5 @@
     
     
 }
-
-
-//if (metadataObjects != nil && metadataObjects.count > 0) {
-//    AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects firstObject];
-//    if ([[metadataObject type] isEqualToString:AVMetadataObjectTypeQRCode]) {
-//        NSString * scanResult = [metadataObject stringValue];
-//        NSLog(@"%@",scanResult);
-
-
-/*
-NSNumber *currentPoints = [PFUser currentUser][@"Points"];
-int difference = currentPoints.intValue - 10;
-
-if (difference < 0) {
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You don't have 10 Points" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    
-    [alertView show];
-}
-*/
 
 @end
