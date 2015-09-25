@@ -76,8 +76,6 @@ NSString *const kNumber = @"number";
         [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 NSLog(@"The object has been saved.");
-            } else {
-                NSLog(@"There was a problem");
             }
         }];
         
@@ -130,6 +128,12 @@ NSString *const kNumber = @"number";
         cell.userInteractionEnabled = NO;
         cell.textLabel.enabled = NO;
         cell.detailTextLabel.enabled = NO;
+        
+    } else {
+        
+        cell.userInteractionEnabled = YES;
+        cell.textLabel.enabled = YES;
+        cell.detailTextLabel.enabled = YES;
     }
     
     // Item Name

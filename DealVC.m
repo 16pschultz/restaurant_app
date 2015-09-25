@@ -57,8 +57,17 @@
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"Yes", nil];
-    
     [alert show];
+    
+//    [[PFUser currentUser] removeObjectsInArray:[1] forKey:@"Deals";
+//    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
+//            NSLog(@"The object has been saved.");
+//        } else {
+//            [self.navigationController popViewControllerAnimated:YES];
+//        }
+//    }];
+
 }
 
 
@@ -78,7 +87,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
         self.navigationItem.hidesBackButton = YES;
         self.outletViewRedeeming.hidden = NO;
         
-        [self.oRedeemButton setBackgroundColor:[UIColor greenColor]];
+        [self.oRedeemButton setBackgroundColor:[UIColor colorWithRed:25/255.0 green:191/255.0 blue:0/255.0 alpha:1]];
         [self.oRedeemButton setTitle:@"Redeemed!" forState:UIControlStateNormal];
         [self.oRedeemButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.oRedeemButton setEnabled:NO];
