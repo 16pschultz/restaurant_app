@@ -20,16 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    PFQuery *query = [PFUser query];
-    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *appDeals, NSError *error) {
-
-        self.dealList = [appDeals objectForKey:@"Deals"];
-        NSLog(@"%@", self.dealList);
-    
-        [[NSUserDefaults standardUserDefaults] setObject:self.dealList forKey:@"DealKey"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.tableView reloadData];
-    }];
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
@@ -64,32 +54,80 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+//    PFQuery *query = [PFUser query];
+//    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *appDeals, NSError *error) {
+//        
+//        NSString *CellIdentifier = @"Cell";
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+//        
+//        self.dealList = [appDeals objectForKey:@"Deals"];
+//
+//        // Item Name
+//        cell.textLabel.text = [[self.dealList objectAtIndex:indexPath.row] objectForKey:@"deal"];
+//        cell.textLabel.numberOfLines = 3;
+//        // Line Breaking
+//        cell.textLabel.textColor = [UIColor blackColor];
+//        cell.textLabel.font = [UIFont fontWithName:@"Noteworthy" size:17];
+//        
+//        // Item Price
+//        cell.detailTextLabel.text = [[self.dealList objectAtIndex:indexPath.row] objectForKey:@"discount"];
+//        cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
+//        cell.detailTextLabel.textColor = [UIColor blackColor];
+//        
+//        // Item Image
+//        self.stringPlaceholder = [[self.dealList objectAtIndex:indexPath.row] objectForKey:@"dimage"];
+//        cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
+//        [cell.imageView.layer setBorderWidth:1.4f];
+//        [cell.imageView.layer setBorderColor:[UIColor redColor].CGColor];
+//        
+//        
+//        // Cell and Background Attributes
+//        cell.backgroundColor = [UIColor whiteColor];
+//        self.view.backgroundColor = [UIColor whiteColor];
+//        
+//        // Navigation Bar Attibutes
+//        self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+//        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//        [self.navigationController.navigationBar
+//         setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+//        self.navigationController.navigationBar.translucent = NO;
+//        
+//        // TableView Separator
+//        [self.tableView setSeparatorColor:[UIColor redColor]];
+//        
+//        // Rounded Image
+//        CALayer *cellImageLayer = cell.imageView.layer;
+//        [cellImageLayer setCornerRadius:7];
+//        [cellImageLayer setMasksToBounds:YES];
+//        
+//        return cell;
+//    }];
     
-    static NSString *CellIdentifier = @"Cell";
+    NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    NSArray *myDeals = [[NSUserDefaults standardUserDefaults] objectForKey:@"DealKey"];
-
-    self.dealsDic = [myDeals objectAtIndex:indexPath.row];
-
+    NSDictionary *appDeals;
+    self.dealList = [appDeals objectForKey:@"Deals"];
     
     // Item Name
-    cell.textLabel.text = [[myDeals objectAtIndex:indexPath.row] objectForKey:@"deal"];
+    cell.textLabel.text = [[self.dealList objectAtIndex:indexPath.row] objectForKey:@"deal"];
     cell.textLabel.numberOfLines = 3;
-// Line Breaking
+    // Line Breaking
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont fontWithName:@"Noteworthy" size:17];
     
     // Item Price
-    cell.detailTextLabel.text = [[myDeals objectAtIndex:indexPath.row] objectForKey:@"discount"];
+    cell.detailTextLabel.text = [[self.dealList objectAtIndex:indexPath.row] objectForKey:@"discount"];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
     // Item Image
-    self.stringPlaceholder = [[myDeals objectAtIndex:indexPath.row] objectForKey:@"dimage"];
+    self.stringPlaceholder = [[self.dealList objectAtIndex:indexPath.row] objectForKey:@"dimage"];
     cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
     [cell.imageView.layer setBorderWidth:1.4f];
     [cell.imageView.layer setBorderColor:[UIColor redColor].CGColor];
+    
     
     // Cell and Background Attributes
     cell.backgroundColor = [UIColor whiteColor];
@@ -110,8 +148,8 @@
     [cellImageLayer setCornerRadius:7];
     [cellImageLayer setMasksToBounds:YES];
     
-    
     return cell;
+
 }
 
 
@@ -119,10 +157,13 @@
     
     if ([segue.identifier isEqualToString:@"showDeal"]) {
         
-        NSArray *myDeals = [[NSUserDefaults standardUserDefaults] objectForKey:@"DealKey"];
-
+        PFQuery *query = [PFUser query];
+        [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *appDeals, NSError *error) {
+            
+        self.dealList = [appDeals objectForKey:@"Deals"];
+            
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDictionary *dealList = [myDeals objectAtIndex:indexPath.row];
+        NSDictionary *dealList = [[self.dealList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         
         DealVC *dealVC = (DealVC *)segue.destinationViewController;
         
@@ -130,6 +171,7 @@
         dealVC.stringDescription = [dealList objectForKey:@"deal"];
         dealVC.stringDiscount = [dealList objectForKey:@"discount"];
 
+        }];
     }
 }
 

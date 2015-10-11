@@ -19,6 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    NSLog(@"%@", self.indexArray);
+
     self.time = 120;
     
     [[self.dealImage layer] setBorderWidth:0.7f];

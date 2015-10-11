@@ -9,6 +9,7 @@
 
 #import "MapVC.h"
 #import <QuartzCore/QuartzCore.h>
+#import <Parse/Parse.h>
 
 
 @interface MapVC ()
@@ -20,6 +21,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    PFQuery *query = [PFUser query];
+    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resDetails, NSError *error) {
+        
+        NSString *resTitle;
+        resTitle = [resDetails objectForKey:@"restaurantName"];
+        
+        NSString *resLocation;
+        resLocation = [resDetails objectForKey:@"restaurantLocation"];
+
+        NSNumber *resLong;
+        resLong = [resDetails objectForKey:@"longitude"];
+        
+        NSNumber *resLat;
+        resLat = [resDetails objectForKey:@"latitude"];
+
+        self.myMapView.mapType = MKMapTypeStandard;
+        
+        MKCoordinateRegion region = { {0.0, 0.0} , { 0.0, 0.0} };
+        
+        region.center.latitude = [resLat intValue];
+        region.center.longitude = [resLong intValue];
+        region.span.latitudeDelta = 0.01f;
+        region.span.longitudeDelta = 0.01f;
+        [self.myMapView setRegion:region];
+
+        MapPin *ann = [[MapPin alloc] init];
+        ann.title = resTitle;
+        ann.subtitle = resLocation;
+        ann.coordinate = region.center;
+        [self.myMapView addAnnotation:ann];
+        [self.myMapView selectAnnotation:ann animated:YES];
+    }];
+    
     [[self.oDirectionsButton layer] setBorderWidth:1.3f];
     [[self.oDirectionsButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     
@@ -29,25 +63,6 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
-    
-    self.myMapView.mapType = MKMapTypeStandard;
-    
-    MKCoordinateRegion region = { {0.0, 0.0} , { 0.0, 0.0} };
-    
-    region.center.latitude = 39.271866;
-    region.center.longitude = -76.732559;
-    region.span.latitudeDelta = 0.01f;
-    region.span.longitudeDelta = 0.01f;
-    [self.myMapView setRegion:region];
-    
-    
-    MapPin *ann = [[MapPin alloc] init];
-    ann.title = @"Cape Up Bar & Restaurant";
-    ann.subtitle = @"Catonsville, MD";
-    ann.coordinate = region.center;
-    [self.myMapView addAnnotation:ann];
-    [self.myMapView selectAnnotation:ann animated:YES];
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -61,13 +76,6 @@
     self.navigationController.navigationBar.translucent = NO;
 }
 
-
-- (IBAction)toHereDirections:(id)sender {
-    
-    NSString *urlString = @"http://maps.apple.com/maps?daddr=39.271866,-76.732559";
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
-    
-}
 
 - (IBAction)toHere {
     

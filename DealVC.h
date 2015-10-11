@@ -12,6 +12,9 @@
     NSTimer *timer;
 }
 
+// Index that User Selected
+@property (strong, nonatomic) NSArray *indexArray;
+
 // Strings
 @property (strong, nonatomic) NSString *stringImage;
 @property (strong, nonatomic) NSString *stringDescription;

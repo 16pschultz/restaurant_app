@@ -5,6 +5,7 @@
 #import "MenuTVC.h"
 #import "ItemVC.h"
 #import <QuartzCore/CALayer.h>
+#import <Parse/Parse.h>
 
 NSString *const kItem = @"item";
 NSString *const kPrice = @"price";
@@ -23,128 +24,6 @@ NSString *const kDescription = @"description";
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
-    self.breakfastItemsArray = @[@{kItem: @"Southern Pancakes w butter",
-                                   kPrice: @"5.99",
-                                   kImage: @"Club_San_RA.jpg",
-                                   kDescription: @"Oooh dawgy! Our Southern style pancakes tastes like the ones your mama made back home!",
-                                  },
-                                 @{kItem: @"Egg Sandwich w bacon",
-                                   kPrice: @"4.99",
-                                   kImage: @"Club_San_RA.jpg",
-                                   kDescription: @"Egg-celence in a Sandwich! Toppings include: Bacon, sausage, peppers, and fried onions",
-                                   },
-                                 @{kItem: @"Scrambled Eggs w bacon",
-                                   kPrice: @"4.99",
-                                   kImage: @"Club_San_RA.jpg",
-                                   kDescription: @"This is egg-zactly what your stomach needs to wake up to!",
-                                   },
-                                 @{kItem: @"Waffles w butter",
-                                   kPrice: @"5.99",
-                                   kImage: @"Club_San_RA.jpg",
-                                   kDescription: @"Our waffles are crispy on the outside and soft on the inside, oh yeah I said it!",
-                                   },
-                                ];
-    
-    self.lunchItemsArray = @[@{kItem: @"Club Sandwich w fries/chips",
-                               kPrice: @"6.99",
-                               kImage: @"Club_San_RA.jpg",
-                               kDescription: @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!",
-                               },
-                             @{kItem: @"Cheeseburger w fries/chips",
-                               kPrice: @"8.99",
-                               kImage: @"burger_RA.jpg",
-                               kDescription: @"Our juicy burgers our cooked to perfection leaving you wanting more. Each of our burgers made with Kobe Beef topped with your choice of cheese: American, Cheddar, Swiss, and Provalone",
-                               },
-                             @{kItem: @"Grilled Cheese Sandwich w fries/chips",
-                               kPrice: @"5.99",
-                               kImage: @"grilled_cheese_RA.jpg",
-                               kDescription: @"Now this is cheesy! All of our Grilled Cheese Sandwich's are cooked to a golden crisp that will just give you the right crunch!Toppings? The choice is yours! With up to three toppings per sandwich. Toppings include: Bacon, Chicken, Beef, Pepperoni, Tomatoes, Ham, and Steak. Addition toppings: $1.49 each",
-                               },
-                             @{kItem: @"Club Sandwich w fries/chips",
-                               kPrice: @"6.99",
-                               kImage: @"Club_San_RA.jpg",
-                               kDescription: @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!",
-                               },
-                             @{kItem: @"Cheeseburger w fries/chips",
-                               kPrice: @"8.99",
-                               kImage: @"burger_RA.jpg",
-                               kDescription: @"Our juicy burgers our cooked to perfection leaving you wanting more. Each of our burgers made with Kobe Beef topped with your choice of cheese: American, Cheddar, Swiss, and Provalone",
-                               },
-                             @{kItem: @"Grilled Cheese Sandwich w fries/chips",
-                               kPrice: @"5.99",
-                               kImage: @"grilled_cheese_RA.jpg",
-                               kDescription: @"Now this is cheesy! All of our Grilled Cheese Sandwich's are cooked to a golden crisp that will just give you the right crunch!Toppings? The choice is yours! With up to three toppings per sandwich. Toppings include: Bacon, Chicken, Beef, Pepperoni, Tomatoes, Ham, and Steak. Addition toppings: $1.49 each",
-                               },
-                             ];
-    
-    self.dinnerItemsArray = @[@{kItem: @"Club Sandwich w fries/chips",
-                               kPrice: @"6.99",
-                               kImage: @"Club_San_RA.jpg",
-                               kDescription: @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!",
-                               },
-                             @{kItem: @"Cheeseburger w fries/chips",
-                               kPrice: @"8.99",
-                               kImage: @"burger_RA.jpg",
-                               kDescription: @"Our juicy burgers our cooked to perfection leaving you wanting more. Each of our burgers made with Kobe Beef topped with your choice of cheese: American, Cheddar, Swiss, and Provalone",
-                               },
-                             @{kItem: @"Grilled Cheese Sandwich w fries/chips",
-                               kPrice: @"5.99",
-                               kImage: @"grilled_cheese_RA.jpg",
-                               kDescription: @"Now this is cheesy! All of our Grilled Cheese Sandwich's are cooked to a golden crisp that will just give you the right crunch!Toppings? The choice is yours! With up to three toppings per sandwich. Toppings include: Bacon, Chicken, Beef, Pepperoni, Tomatoes, Ham, and Steak. Addition toppings: $1.49 each",
-                               },
-                             @{kItem: @"Club Sandwich w fries/chips",
-                               kPrice: @"6.99",
-                               kImage: @"Club_San_RA.jpg",
-                               kDescription: @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!",
-                               },
-                             @{kItem: @"Cheeseburger w fries/chips",
-                               kPrice: @"8.99",
-                               kImage: @"burger_RA.jpg",
-                               kDescription: @"Our juicy burgers our cooked to perfection leaving you wanting more. Each of our burgers made with Kobe Beef topped with your choice of cheese: American, Cheddar, Swiss, and Provalone",
-                               },
-                             @{kItem: @"Grilled Cheese Sandwich w fries/chips",
-                               kPrice: @"5.99",
-                               kImage: @"grilled_cheese_RA.jpg",
-                               kDescription: @"Now this is cheesy! All of our Grilled Cheese Sandwich's are cooked to a golden crisp that will just give you the right crunch!Toppings? The choice is yours! With up to three toppings per sandwich. Toppings include: Bacon, Chicken, Beef, Pepperoni, Tomatoes, Ham, and Steak. Addition toppings: $1.49 each",
-                               },
-                             @{kItem: @"Club Sandwich w fries/chips",
-                               kPrice: @"6.99",
-                               kImage: @"Club_San_RA.jpg",
-                               kDescription: @"Our flavorful Club Sandwich offers a variety of tastes combined into one gorgeous looking and great tasting sandwich!",
-                               },
-                             @{kItem: @"Cheeseburger w fries/chips",
-                               kPrice: @"8.99",
-                               kImage: @"burger_RA.jpg",
-                               kDescription: @"Our juicy burgers our cooked to perfection leaving you wanting more. Each of our burgers made with Kobe Beef topped with your choice of cheese: American, Cheddar, Swiss, and Provalone",
-                               },
-                             @{kItem: @"Grilled Cheese Sandwich w fries/chips",
-                               kPrice: @"5.99",
-                               kImage: @"grilled_cheese_RA.jpg",
-                               kDescription: @"Now this is cheesy! All of our Grilled Cheese Sandwich's are cooked to a golden crisp that will just give you the right crunch!Toppings? The choice is yours! With up to three toppings per sandwich. Toppings include: Bacon, Chicken, Beef, Pepperoni, Tomatoes, Ham, and Steak. Addition toppings: $1.49 each",
-                               },
-                             ];
-    
-    self.dessertItemsArray = @[@{kItem: @"Cheesecake",
-                                   kPrice: @"4.99",
-                                   kImage: @"Club_San_RA.jpg",
-                                   kDescription: @"I'll have you know that our cheesecake will turn you into one",
-                                   },
-                                 @{kItem: @"Ice Cream Sundae",
-                                   kPrice: @"5.99",
-                                   kImage: @"Club_San_RA.jpg",
-                                   kDescription: @"Even if it aint Sunday, you gotta have our Sundae!",
-                                   },
-                                 @{kItem: @"Ice Cream & Chocolate",
-                                   kPrice: @"3.99",
-                                   kImage: @"Club_San_RA.jpg",
-                                   kDescription: @"Baseball scoop-ice cream? And chocolate on the side? It's already ordered!",
-                                   },
-                                 @{kItem: @"Deep Fried French Fries",
-                                   kPrice: @"4.50",
-                                   kImage: @"Club_San_RA.jpg",
-                                   kDescription: @"You like French Fries? Oh yeah..we know. That's why we deep fried em!",
-                                   },
-                                 ];
     
     self.menuArray = [NSArray arrayWithObjects:self.breakfastItemsArray, self.lunchItemsArray, self.dinnerItemsArray, self.dessertItemsArray, nil];
 }
@@ -186,7 +65,20 @@ NSString *const kDescription = @"description";
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    
+    PFQuery *query = [PFUser query];
+    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resMenu, NSError *error) {
+        
+        
+        self.breakfastItemsArray = [resMenu objectForKey:@"breakfastMenu"];
+        
+        self.lunchItemsArray = [resMenu objectForKey:@"lunchMenu"];
+        
+        self.dinnerItemsArray = [resMenu objectForKey:@"dinnerMenu"];
+        
+        self.dessertItemsArray = [resMenu objectForKey:@"dessertMenu"];
+        
+        
+    }];
 //    NSDictionary *menuItems = [self.lunchItemsArray objectAtIndex:indexPath.row];
     
     // Item Name

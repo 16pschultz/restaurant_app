@@ -14,8 +14,6 @@
 
 @property (nonatomic, retain) IBOutlet MKMapView *myMapView;
 
-- (IBAction)toHereDirections:(id)sender;
-
 - (IBAction)toHere;
 
 

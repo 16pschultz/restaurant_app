@@ -26,37 +26,25 @@ NSString *const kNumber = @"number";
     [[self.tableViewRewards layer] setBorderWidth:1.5f];
     [[self.tableViewRewards layer] setBorderColor:[UIColor redColor].CGColor];
     
-    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
 //    self.tableViewRewards.layer.cornerRadius = 7;
 //    self.tableViewRewards.layer.masksToBounds = YES;
-    
-    NSDictionary *rewardOne = @{kReward: @"10% off entire meal",
-                                kPoints: @"2 Points",
-                                kNumber: @2,
-                                };
-    
-    NSDictionary *rewardTwo = @{kReward: @"One FREE Dessert",
-                                kPoints: @"4 Points",
-                                kNumber: @4,
-                                };
-    
-    NSDictionary *rewardThree = @{kReward: @"One FREE Appetiser",
-                                  kPoints: @"6 Points",
-                                  kNumber: @6,
-                                };
 
-    self.rewardsArray = [NSArray arrayWithObjects:
-                           
-                           rewardOne,
-                           rewardTwo,
-                           rewardThree,
-                         
-                           nil];
-
+    self.rewardsArray = @[@{kReward: @"10% off entire meal",
+                           kPoints: @"2 Points",
+                           kNumber: @2,
+                           },
+                          @{kReward: @"One FREE Dessert",
+                            kPoints: @"4 Points",
+                            kNumber: @4,
+                            },
+                          @{kReward: @"One FREE Appetiser",
+                            kPoints: @"6 Points",
+                            kNumber: @6,
+                            }];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
