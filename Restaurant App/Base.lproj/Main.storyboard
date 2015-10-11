@@ -637,6 +637,12 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="buttonAppDeals" destination="DNE-mc-sJc" id="6fL-Bs-nGc"/>
+                        <outlet property="buttonCall" destination="YfQ-U3-wRQ" id="TUD-WS-uJZ"/>
+                        <outlet property="buttonDirections" destination="jRZ-I1-Bfj" id="qjo-xE-SPx"/>
+                        <outlet property="buttonMenu" destination="6SX-tZ-ohd" id="emA-Xh-a86"/>
+                        <outlet property="buttonRewards" destination="meF-vU-puP" id="3qo-YA-FIJ"/>
+                        <outlet property="buttonScan" destination="xCp-zF-7r4" id="BoP-c0-blr"/>
                         <outlet property="outletSignInButton" destination="pA1-gd-syN" id="319-di-xfo"/>
                         <outlet property="outletSignOutButton" destination="evY-bc-nd0" id="wvD-pC-sWm"/>
                         <segue destination="1WX-cz-hpN" kind="push" identifier="showLogin" id="187-15-vPx"/>

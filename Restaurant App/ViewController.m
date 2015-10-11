@@ -10,12 +10,16 @@
 #import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
 
+NSString *const kRedBC = @"redBC";
+NSString *const kWhiteBC = @"whiteBC";
+
+
 @interface ViewController ()
 
 @end
 
-#define TAG_DEV 1
-#define TAG_DONATE 2
+#define TAG_CALL 1
+#define TAG_LOGIN 2
 
 @implementation ViewController
 
@@ -23,7 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
+    
+    [self queryForBC];
 }
 
 
@@ -44,7 +49,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
-    
+
     [self.navigationController.navigationBar setHidden:YES];
 }
 
@@ -57,23 +62,29 @@
 -(void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex {
     
+    PFQuery *query = [PFUser query];
+    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resNum, NSError *error) {
+        
+    NSNumber *telNum = [resNum objectForKey:@"phoneNum"];
+    
     if (alertView.cancelButtonIndex == buttonIndex){
         // Do cancel
         
-    } else if (alertView.tag == TAG_DEV) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel:4107473748"]];
+    } else if (alertView.tag == TAG_CALL) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", telNum]]];
         
-    } else if (alertView.tag == TAG_DONATE){
+    } else if (alertView.tag == TAG_LOGIN){
         [PFUser logOut];
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
+    }];
 }
 
 - (IBAction)MakePhoneCall:(id)sender {
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Call" message:@"Call Cape Up B&R?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Call", nil];
     
-    alertView.tag = TAG_DEV;
+    alertView.tag = TAG_CALL;
     [alertView show];
 
 }
@@ -84,7 +95,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Log Out" message:@"Are you sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
 
-    alertView.tag = TAG_DONATE;
+    alertView.tag = TAG_LOGIN;
     [alertView show];
 
 }
@@ -152,5 +163,53 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     }
 }
 
+- (void) queryForBC {
+    
+    PFQuery *query = [PFUser query];
+    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *colors, NSError *error) {
+        
+        NSArray *colorArray1;
+        NSArray *colorArray2;
+        
+        colorArray1 = [colors objectForKey:@"colorOne"];
+        colorArray2 = [colors objectForKey:@"colorTwo"];
+        
+        NSNumber *color_one1 = colorArray1[0];
+        NSNumber *color_one2 = colorArray1[1];
+        NSNumber *color_one3 = colorArray1[2];
+        
+        NSNumber *color_two1 = colorArray2[0];
+        NSNumber *color_two2 = colorArray2[1];
+        NSNumber *color_two3 = colorArray2[2];
+        
+        
+        int c1_1 = color_one1.intValue;
+        int c1_2 = color_one2.intValue;
+        int c1_3 = color_one3.intValue;
+        
+        int c2_1 = color_two1.intValue;
+        int c2_2 = color_two2.intValue;
+        int c2_3 = color_two3.intValue;
+        
+        
+        UIColor *clr1 = [UIColor colorWithRed:c1_1/255.0f
+                                        green:c1_2/255.0f
+                                         blue:c1_3/255.0f alpha:1];
+        
+        UIColor *clr2 = [UIColor colorWithRed:c2_1/255.0f
+                                        green:c2_2/255.0f
+                                         blue:c2_3/255.0f alpha:1];
+        
+        
+        self.buttonMenu.backgroundColor = clr1;
+        self.buttonScan.backgroundColor = clr1;
+        self.buttonRewards.backgroundColor = clr1;
+        
+        self.buttonAppDeals.backgroundColor = clr2;
+        self.buttonDirections.backgroundColor = clr2;
+        self.buttonCall.backgroundColor = clr2;
+        
+    }];
+}
 
 @end

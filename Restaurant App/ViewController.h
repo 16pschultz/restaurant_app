@@ -25,5 +25,14 @@
 - (IBAction)rewardsButton;
 - (IBAction)scanButton;
 
+
+@property (strong, nonatomic) IBOutlet UIButton *buttonMenu;
+@property (strong, nonatomic) IBOutlet UIButton *buttonAppDeals;
+@property (strong, nonatomic) IBOutlet UIButton *buttonDirections;
+@property (strong, nonatomic) IBOutlet UIButton *buttonScan;
+@property (strong, nonatomic) IBOutlet UIButton *buttonRewards;
+@property (strong, nonatomic) IBOutlet UIButton *buttonCall;
+
+
 @end
 
