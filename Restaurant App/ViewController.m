@@ -165,8 +165,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 - (void) queryForBC {
     
-    PFQuery *query = [PFUser query];
-    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *colors, NSError *error) {
+    PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
+    [query getObjectInBackgroundWithId:@"YKmC6oO7FD" block:^(PFObject *colors, NSError *error) {
         
         NSArray *colorArray1;
         NSArray *colorArray2;

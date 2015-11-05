@@ -20,12 +20,22 @@ NSString *const kDescription = @"description";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.currentRestaurantId = @"YKmC6oO7FD";
+    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
+    [self queryMenuItems];
     
-    self.menuArray = [NSArray arrayWithObjects:self.breakfastItemsArray, self.lunchItemsArray, self.dinnerItemsArray, self.dessertItemsArray, nil];
+    NSLog(@"%@", self.breakfastItemsArray);
+    
+    self.breakfastItemsArray = [NSMutableArray new];
+    self.lunchItemsArray = [NSMutableArray new];
+    self.dinnerItemsArray = [NSMutableArray new];
+    self.dessertItemsArray = [NSMutableArray new];
+    
+    self.menuArray = [NSMutableArray arrayWithObjects:self.breakfastItemsArray, self.lunchItemsArray, self.dinnerItemsArray, self.dessertItemsArray, nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -39,8 +49,44 @@ NSString *const kDescription = @"description";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+- (void) queryMenuItems{
+    PFQuery *query = [PFQuery queryWithClassName:@"MenuItem"];
+    [query whereKey:@"restaurantId" equalTo:self.currentRestaurantId];
+    [query orderByAscending:@"menuType"];
+    
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        for (PFObject *menuItem in objects) {
+            
+            NSNumber * switchNumber = menuItem[@"menuType"];
+            
+            int switchInt = switchNumber.intValue;
+            
+            switch (switchInt) {
+                case 0:
+                    [self.breakfastItemsArray addObject:menuItem];
+                    break;
+                case 1:
+                    [self.lunchItemsArray addObject:menuItem];
+                    break;
+                case 2:
+                    [self.dinnerItemsArray addObject:menuItem];
+                    break;
+                case 3:
+                    [self.dessertItemsArray addObject:menuItem];
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        [self.tableView reloadData];
+        
+    }];
+    
+}
 
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -58,6 +104,7 @@ NSString *const kDescription = @"description";
 
     NSArray *secTitlesArray = @[@"Breakfast", @"Lunch", @"Dinner", @"Dessert"];
     return [secTitlesArray objectAtIndex:section];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -65,35 +112,20 @@ NSString *const kDescription = @"description";
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    PFQuery *query = [PFUser query];
-    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resMenu, NSError *error) {
-        
-        
-        self.breakfastItemsArray = [resMenu objectForKey:@"breakfastMenu"];
-        
-        self.lunchItemsArray = [resMenu objectForKey:@"lunchMenu"];
-        
-        self.dinnerItemsArray = [resMenu objectForKey:@"dinnerMenu"];
-        
-        self.dessertItemsArray = [resMenu objectForKey:@"dessertMenu"];
-        
-        
-    }];
-//    NSDictionary *menuItems = [self.lunchItemsArray objectAtIndex:indexPath.row];
     
     // Item Name
-    cell.textLabel.text = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:kItem];
+    cell.textLabel.text = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"];
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont fontWithName:@"Noteworthy" size:17];
     
     // Item Price
-    cell.detailTextLabel.text = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:kPrice];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"$%@",[[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"price"]];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
-    // Item Image
-    self.stringPlaceholder = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:kImage];
-    cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
+//    // Item Image
+//    self.stringPlaceholder = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:kImage];
+//    cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
     
     // Cell and Background Attributes
     cell.backgroundColor = [UIColor whiteColor];
@@ -128,10 +160,10 @@ NSString *const kDescription = @"description";
         
         ItemVC *itemVC = (ItemVC *)segue.destinationViewController;
         
-        itemVC.stringItemName = [menuItems objectForKey:kItem];
-        itemVC.stringPrice = [menuItems objectForKey:kPrice];
-        itemVC.stringImage = [menuItems objectForKey:kImage];
-        itemVC.stringDescription = [menuItems objectForKey:kDescription];
+        itemVC.stringItemName = [menuItems objectForKey:@"item"];
+        itemVC.stringPrice = [menuItems objectForKey:@"price"];
+//        itemVC.stringImage = [menuItems objectForKey:kImage];
+//        itemVC.stringDescription = [menuItems objectForKey:kDescription];
     }
     
 }
