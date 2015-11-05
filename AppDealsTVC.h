@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DealVC.h"
+#import <QuartzCore/CALayer.h>
+#import <Parse/Parse.h>
 
 @interface AppDealsTVC : UITableViewController {
     NSInteger rows;
 }
 
-@property (nonatomic, retain) NSArray *dealList;
+@property (nonatomic, retain) NSArray *dealListArray;
 
 @property (nonatomic, retain) NSString *dealTitle;
 @property (nonatomic, retain) NSString *dealDiscount;
@@ -23,3 +26,4 @@
 
 
 @end
+
