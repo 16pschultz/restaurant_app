@@ -21,26 +21,8 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
-    //Here you want to make a parse query to load all "Deal" objects into local array
     
-    //self.currentRestaurantId = self.restaurantList[5].objectId
-    PFQuery *query = [PFQuery queryWithClassName:@"Deal"];
-    
-//    [query whereKey:@"restaurantId" equalTo:self.currentRestaurantId];
-
-    [query orderByAscending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        self.dealListArray = objects;
-        [self.tableView reloadData];
-    }];
-    
-    
-//    PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        int numRestaurants = objects.count;
-//    }];
-
-
+    [self queryForDeals];
 }
 
 
@@ -48,7 +30,14 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     
+    // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
+    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
+    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+    self.navigationController.navigationBar.translucent = NO;
+    
     [self.tableView reloadData];
 }
 
@@ -89,8 +78,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"dd/MM/yy"];
     
-    cell.detailTextLabel.text = [formatter stringFromDate:date];
-    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@       Expires %@",[self.dealListArray objectAtIndex:indexPath.row][@"runTime"],[formatter stringFromDate:date]];
     
 //    cell.detailTextLabel.text = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
@@ -106,13 +94,6 @@
     // Cell and Background Attributes
     cell.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    // Navigation Bar Attibutes
-    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    self.navigationController.navigationBar.translucent = NO;
     
     // TableView Separator
     [self.tableView setSeparatorColor:[UIColor redColor]];
@@ -142,5 +123,15 @@
     }
 }
 
+- (void) queryForDeals {
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Deal"];
+    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
+    [query orderByAscending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        self.dealListArray = objects;
+        [self.tableView reloadData];
+    }];
+}
 
 @end

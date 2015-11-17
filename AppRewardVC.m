@@ -33,7 +33,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void) viewWillAppear:(BOOL)animated {
+    
+    // Navigation Bar Attibutes
+    [self.navigationController.navigationBar setHidden:NO];
+    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
+    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+    self.navigationController.navigationBar.translucent = NO;
+}
 
 - (IBAction)redeemButton:(id)sender {
     

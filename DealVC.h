@@ -12,6 +12,10 @@
     NSTimer *timer;
 }
 
+@property (strong, nonatomic) NSString *resObjectId;
+@property (strong, nonatomic) UIColor  *resColorOne;
+@property (strong, nonatomic) UIColor  *resColorTwo;
+
 // Index that User Selected
 @property (strong, nonatomic) NSArray *indexArray;
 

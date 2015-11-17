@@ -24,11 +24,18 @@
     
     self.outletImage.image = [UIImage imageNamed:self.stringImage];
     self.outletDescription.text = self.stringDescription;
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     
+    // Navigation Bar Attibutes
+    [self.navigationController.navigationBar setHidden:NO];
+    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
+    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+    self.navigationController.navigationBar.translucent = NO;
+        
     self.outletDescription = [[UILabel alloc] initWithFrame:CGRectMake(16, 325, 288, 202)];
     self.outletDescription.numberOfLines = 0; // This will wrap text in new line
     [self.outletDescription sizeToFit];

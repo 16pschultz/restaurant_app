@@ -10,6 +10,9 @@
 
 @interface RewardsVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) NSString *resObjectId;
+@property (strong, nonatomic) UIColor  *resColorOne;
+@property (strong, nonatomic) UIColor  *resColorTwo;
 
 @property (strong, nonatomic) IBOutlet UITableView *tableViewRewards;
 

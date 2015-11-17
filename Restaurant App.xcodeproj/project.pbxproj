@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D000F8C51BF43279004A78B5 /* RestaurantViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D000F8C41BF43279004A78B5 /* RestaurantViewCell.m */; };
+		D000F8C81BF4333F004A78B5 /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D000F8C71BF4333F004A78B5 /* MainMenu.m */; };
 		D00AEF8A1B33695D00D004D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D00AEF891B33695D00D004D2 /* main.m */; };
 		D00AEF8D1B33695D00D004D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D00AEF8C1B33695D00D004D2 /* AppDelegate.m */; };
 		D00AEF901B33695D00D004D2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00AEF8F1B33695D00D004D2 /* ViewController.m */; };
@@ -55,6 +57,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D000F8C31BF43279004A78B5 /* RestaurantViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestaurantViewCell.h; path = ../RestaurantViewCell.h; sourceTree = "<group>"; };
+		D000F8C41BF43279004A78B5 /* RestaurantViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestaurantViewCell.m; path = ../RestaurantViewCell.m; sourceTree = "<group>"; };
+		D000F8C61BF4333F004A78B5 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenu.h; path = ../MainMenu.h; sourceTree = "<group>"; };
+		D000F8C71BF4333F004A78B5 /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainMenu.m; path = ../MainMenu.m; sourceTree = "<group>"; };
 		D00AEF841B33695D00D004D2 /* Restaurant App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Restaurant App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00AEF881B33695D00D004D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D00AEF891B33695D00D004D2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -166,34 +172,20 @@
 		D00AEF861B33695D00D004D2 /* Restaurant App */ = {
 			isa = PBXGroup;
 			children = (
-				D0CAA9CF1B727C5B009421D9 /* MapPin.h */,
-				D0CAA9D01B727C5B009421D9 /* MapPin.m */,
-				D0CAA9CC1B727C34009421D9 /* MapVC.h */,
-				D0CAA9CD1B727C34009421D9 /* MapVC.m */,
-				D058A7D71B6848AC0097997C /* LostPsswrdVC.h */,
-				D058A7D81B6848AC0097997C /* LostPsswrdVC.m */,
-				D023BAD11B5D5BEC001E1920 /* LoginVC.h */,
-				D023BAD21B5D5BEC001E1920 /* LoginVC.m */,
-				D023BACE1B5D5688001E1920 /* SignUpVC.h */,
-				D023BACF1B5D5688001E1920 /* SignUpVC.m */,
-				D07657B21B8120550069ED9D /* AppRewardVC.h */,
-				D07657B31B8120550069ED9D /* AppRewardVC.m */,
-				D0E341F71B61DE90004E4BD4 /* RewardsVC.h */,
-				D0E341F81B61DE90004E4BD4 /* RewardsVC.m */,
-				D058A7D41B6846E20097997C /* DealVC.h */,
-				D058A7D51B6846E20097997C /* DealVC.m */,
-				D0103D691B66D51C00722E9A /* AppDealsTVC.h */,
-				D0103D6A1B66D51C00722E9A /* AppDealsTVC.m */,
-				D01F19511B55789E0030EE37 /* MenuTVC.h */,
-				D01F19521B55789E0030EE37 /* MenuTVC.m */,
-				D01F19541B5579210030EE37 /* ItemVC.h */,
-				D01F19551B5579210030EE37 /* ItemVC.m */,
-				D0103D631B66C77800722E9A /* QRCodeVC.h */,
-				D0103D641B66C77800722E9A /* QRCodeVC.m */,
+				D0205D7B1BEADEC60075C815 /* QR Code */,
+				D0205D7A1BEADEB90075C815 /* Menu */,
+				D0205D791BEADE9B0075C815 /* Deals */,
+				D0205D781BEADE8C0075C815 /* Rewards */,
+				D0205D771BEADE790075C815 /* User */,
+				D0205D761BEADE6D0075C815 /* Location */,
 				D00AEF8B1B33695D00D004D2 /* AppDelegate.h */,
 				D00AEF8C1B33695D00D004D2 /* AppDelegate.m */,
 				D00AEF8E1B33695D00D004D2 /* ViewController.h */,
 				D00AEF8F1B33695D00D004D2 /* ViewController.m */,
+				D000F8C61BF4333F004A78B5 /* MainMenu.h */,
+				D000F8C71BF4333F004A78B5 /* MainMenu.m */,
+				D000F8C31BF43279004A78B5 /* RestaurantViewCell.h */,
+				D000F8C41BF43279004A78B5 /* RestaurantViewCell.m */,
 				D00AEF911B33695D00D004D2 /* Main.storyboard */,
 				D00AEF941B33695D00D004D2 /* Images.xcassets */,
 				D00AEF961B33695D00D004D2 /* LaunchScreen.xib */,
@@ -226,6 +218,72 @@
 				D00AEFA21B33695D00D004D2 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D0205D761BEADE6D0075C815 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				D0CAA9CF1B727C5B009421D9 /* MapPin.h */,
+				D0CAA9D01B727C5B009421D9 /* MapPin.m */,
+				D0CAA9CC1B727C34009421D9 /* MapVC.h */,
+				D0CAA9CD1B727C34009421D9 /* MapVC.m */,
+			);
+			name = Location;
+			sourceTree = "<group>";
+		};
+		D0205D771BEADE790075C815 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				D058A7D71B6848AC0097997C /* LostPsswrdVC.h */,
+				D058A7D81B6848AC0097997C /* LostPsswrdVC.m */,
+				D023BAD11B5D5BEC001E1920 /* LoginVC.h */,
+				D023BAD21B5D5BEC001E1920 /* LoginVC.m */,
+				D023BACE1B5D5688001E1920 /* SignUpVC.h */,
+				D023BACF1B5D5688001E1920 /* SignUpVC.m */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
+		D0205D781BEADE8C0075C815 /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				D07657B21B8120550069ED9D /* AppRewardVC.h */,
+				D07657B31B8120550069ED9D /* AppRewardVC.m */,
+				D0E341F71B61DE90004E4BD4 /* RewardsVC.h */,
+				D0E341F81B61DE90004E4BD4 /* RewardsVC.m */,
+			);
+			name = Rewards;
+			sourceTree = "<group>";
+		};
+		D0205D791BEADE9B0075C815 /* Deals */ = {
+			isa = PBXGroup;
+			children = (
+				D058A7D41B6846E20097997C /* DealVC.h */,
+				D058A7D51B6846E20097997C /* DealVC.m */,
+				D0103D691B66D51C00722E9A /* AppDealsTVC.h */,
+				D0103D6A1B66D51C00722E9A /* AppDealsTVC.m */,
+			);
+			name = Deals;
+			sourceTree = "<group>";
+		};
+		D0205D7A1BEADEB90075C815 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				D01F19511B55789E0030EE37 /* MenuTVC.h */,
+				D01F19521B55789E0030EE37 /* MenuTVC.m */,
+				D01F19541B5579210030EE37 /* ItemVC.h */,
+				D01F19551B5579210030EE37 /* ItemVC.m */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		D0205D7B1BEADEC60075C815 /* QR Code */ = {
+			isa = PBXGroup;
+			children = (
+				D0103D631B66C77800722E9A /* QRCodeVC.h */,
+				D0103D641B66C77800722E9A /* QRCodeVC.m */,
+			);
+			name = "QR Code";
 			sourceTree = "<group>";
 		};
 		D023BAF41B5D8480001E1920 /* Frameworks */ = {
@@ -300,6 +358,7 @@
 				TargetAttributes = {
 					D00AEF831B33695D00D004D2 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = H2EKG79K44;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -358,7 +417,9 @@
 			files = (
 				D023BAD01B5D5688001E1920 /* SignUpVC.m in Sources */,
 				D0103D651B66C77800722E9A /* QRCodeVC.m in Sources */,
+				D000F8C81BF4333F004A78B5 /* MainMenu.m in Sources */,
 				D00AEF901B33695D00D004D2 /* ViewController.m in Sources */,
+				D000F8C51BF43279004A78B5 /* RestaurantViewCell.m in Sources */,
 				D0103D6B1B66D51C00722E9A /* AppDealsTVC.m in Sources */,
 				D00AEF8D1B33695D00D004D2 /* AppDelegate.m in Sources */,
 				D01F19531B55789E0030EE37 /* MenuTVC.m in Sources */,
@@ -454,6 +515,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "arm64 armv7 armv7s armv6";
 			};
 			name = Debug;
 		};
@@ -474,6 +536,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Peter Schultz (T4CV75F6D4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Peter Schultz (T4CV75F6D4)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -491,6 +554,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7 armv7s armv6";
 			};
 			name = Release;
 		};
@@ -498,6 +562,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/Peter/Downloads/parse-library-1",
@@ -507,6 +573,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "CU.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -514,6 +581,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/Peter/Downloads/parse-library-1",
@@ -523,6 +592,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "CU.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -543,6 +613,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "CU.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Restaurant App.app/Restaurant App";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -559,6 +630,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "CU.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Restaurant App.app/Restaurant App";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
