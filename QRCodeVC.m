@@ -53,13 +53,12 @@
     [[self.viewPreview layer] setBorderWidth:1.5f];
     [[self.viewPreview layer] setBorderColor:[UIColor whiteColor].CGColor];
     
-    [self.navigationController.navigationBar setHidden:NO];
-    
     // Navigation Bar Attibutes
-    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setHidden:NO];
+    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
+    self.navigationController.navigationBar.tintColor = self.resColorOne;
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
     self.navigationController.navigationBar.translucent = NO;
 
     

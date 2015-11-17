@@ -10,6 +10,10 @@
 
 @interface AppRewardVC : UIViewController
 
+@property (strong, nonatomic) NSString *resObjectId;
+@property (strong, nonatomic) UIColor  *resColorOne;
+@property (strong, nonatomic) UIColor  *resColorTwo;
+
 @property (nonatomic, retain) NSNumber *point2Redeem;
 @property (nonatomic, retain) NSString *rewardDescription;
 @property (nonatomic, retain) NSString *rewardCost;

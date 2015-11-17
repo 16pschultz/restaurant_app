@@ -15,8 +15,12 @@
     NSInteger rows;
 }
 
-@property (nonatomic, retain) NSArray *dealListArray;
+// All Restaurant Data
+@property (strong, nonatomic) NSString *resObjectId;
+@property (strong, nonatomic) UIColor  *resColorOne;
+@property (strong, nonatomic) UIColor  *resColorTwo;
 
+@property (nonatomic, retain) NSArray *dealListArray;
 @property (nonatomic, retain) NSString *dealTitle;
 @property (nonatomic, retain) NSString *dealDiscount;
 @property (nonatomic, retain) NSString *dealDescription;

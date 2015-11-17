@@ -13,8 +13,11 @@
 @interface QRCodeVC : UIViewController <AVCaptureMetadataOutputObjectsDelegate> {
     
     NSTimer *timer;
-
 }
+
+@property (strong, nonatomic) NSString *resObjectId;
+@property (strong, nonatomic) UIColor  *resColorOne;
+@property (strong, nonatomic) UIColor  *resColorTwo;
 
 @property (strong, nonatomic) IBOutlet UIView *viewPreview;
 @property (strong, nonatomic) IBOutlet UIImageView *imageCheckmark;

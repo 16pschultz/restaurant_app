@@ -7,6 +7,13 @@
 //
 
 #import "ViewController.h"
+
+#import "AppDealsTVC.h"
+#import "MenuTVC.h"
+#import "RewardsVC.h"
+#import "MapVC.h"
+#import "QRCodeVC.h"
+
 #import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
 
@@ -24,11 +31,11 @@ NSString *const kWhiteBC = @"whiteBC";
 @implementation ViewController
 
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self queryForBC];
+    [self makeColor];
+    [self reloadInputViews];
 }
 
 
@@ -49,8 +56,22 @@ NSString *const kWhiteBC = @"whiteBC";
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
-
-    [self.navigationController.navigationBar setHidden:YES];
+    
+    [self.navigationController.navigationBar setHidden:NO];
+    // Navigation Bar Attibutes
+    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
+    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+    self.navigationController.navigationBar.translucent = NO;
+    
+    self.buttonMenu.backgroundColor = self.resColorOne;
+    self.buttonScan.backgroundColor = self.resColorOne;
+    self.buttonRewards.backgroundColor = self.resColorOne;
+    
+    self.buttonAppDeals.backgroundColor = self.resColorTwo;
+    self.buttonDirections.backgroundColor = self.resColorTwo;
+    self.buttonCall.backgroundColor = self.resColorTwo;
 }
 
 
@@ -65,7 +86,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     PFQuery *query = [PFUser query];
     [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resNum, NSError *error) {
         
-    NSNumber *telNum = [resNum objectForKey:@"phoneNum"];
+    NSNumber *telNum = self.resPhoneNum;
     
     if (alertView.cancelButtonIndex == buttonIndex){
         // Do cancel
@@ -82,11 +103,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 - (IBAction)MakePhoneCall:(id)sender {
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Call" message:@"Call Cape Up B&R?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Call", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Call" message:[NSString stringWithFormat:@"Call %@?", self.resName] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Call", nil];
     
     alertView.tag = TAG_CALL;
     [alertView show];
-
 }
 
 
@@ -163,24 +183,63 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     }
 }
 
-- (void) queryForBC {
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
-    [query getObjectInBackgroundWithId:@"YKmC6oO7FD" block:^(PFObject *colors, NSError *error) {
+    if ([segue.identifier isEqualToString:@"showAppDeals"]) {
         
-        NSArray *colorArray1;
-        NSArray *colorArray2;
+        AppDealsTVC *appDealsTVC = (AppDealsTVC *)segue.destinationViewController;        
+        appDealsTVC.resObjectId = self.resObjectId;
+        appDealsTVC.resColorOne = self.resColorOne;
+        appDealsTVC.resColorTwo = self.resColorTwo;
+    }
+    
+    if ([segue.identifier isEqualToString:@"showMenu"]) {
         
-        colorArray1 = [colors objectForKey:@"colorOne"];
-        colorArray2 = [colors objectForKey:@"colorTwo"];
+        MenuTVC *menuTVC = (MenuTVC *)segue.destinationViewController;
+        menuTVC.resObjectId = self.resObjectId;
+        menuTVC.resColorOne = self.resColorOne;
+        menuTVC.resColorTwo = self.resColorTwo;
+    }
+    
+    if ([segue.identifier isEqualToString:@"showDirections"]) {
         
-        NSNumber *color_one1 = colorArray1[0];
-        NSNumber *color_one2 = colorArray1[1];
-        NSNumber *color_one3 = colorArray1[2];
+        MapVC *mapVC = (MapVC *)segue.destinationViewController;
+        mapVC.resObjectId = self.resObjectId;
+        mapVC.resColorOne = self.resColorOne;
+        mapVC.resColorTwo = self.resColorTwo;
+        mapVC.resLatitude = self.resLatitude;
+        mapVC.resLongitude = self.resLongitude;
+    }
+    
+    if ([segue.identifier isEqualToString:@"showRewards"]) {
         
-        NSNumber *color_two1 = colorArray2[0];
-        NSNumber *color_two2 = colorArray2[1];
-        NSNumber *color_two3 = colorArray2[2];
+        RewardsVC *rewardsVC = (RewardsVC *)segue.destinationViewController;
+        rewardsVC.resObjectId = self.resObjectId;
+        rewardsVC.resColorOne = self.resColorOne;
+        rewardsVC.resColorTwo = self.resColorTwo;
+    }
+    
+    if ([segue.identifier isEqualToString:@"showScan"]) {
+        
+        QRCodeVC *qrCodeVC = (QRCodeVC *)segue.destinationViewController;
+        qrCodeVC.resObjectId = self.resObjectId;
+        qrCodeVC.resColorOne = self.resColorOne;
+        qrCodeVC.resColorTwo = self.resColorTwo;
+    }
+}
+
+
+- (void) makeColor {
+
+        // Restaurant Colors
+        NSNumber *color_one1 = self.colorArray1[0];
+        NSNumber *color_one2 = self.colorArray1[1];
+        NSNumber *color_one3 = self.colorArray1[2];
+        
+        NSNumber *color_two1 = self.colorArray2[0];
+        NSNumber *color_two2 = self.colorArray2[1];
+        NSNumber *color_two3 = self.colorArray2[2];
         
         
         int c1_1 = color_one1.intValue;
@@ -192,24 +251,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         int c2_3 = color_two3.intValue;
         
         
-        UIColor *clr1 = [UIColor colorWithRed:c1_1/255.0f
-                                        green:c1_2/255.0f
-                                         blue:c1_3/255.0f alpha:1];
+        self.resColorOne = [UIColor colorWithRed:c1_1/255.0f
+                                           green:c1_2/255.0f
+                                            blue:c1_3/255.0f alpha:1];
         
-        UIColor *clr2 = [UIColor colorWithRed:c2_1/255.0f
-                                        green:c2_2/255.0f
-                                         blue:c2_3/255.0f alpha:1];
-        
-        
-        self.buttonMenu.backgroundColor = clr1;
-        self.buttonScan.backgroundColor = clr1;
-        self.buttonRewards.backgroundColor = clr1;
-        
-        self.buttonAppDeals.backgroundColor = clr2;
-        self.buttonDirections.backgroundColor = clr2;
-        self.buttonCall.backgroundColor = clr2;
-        
-    }];
+        self.resColorTwo = [UIColor colorWithRed:c2_1/255.0f
+                                           green:c2_2/255.0f
+                                            blue:c2_3/255.0f alpha:1];
 }
 
 @end

@@ -46,19 +46,20 @@
         region.span.longitudeDelta = 0.01f;
         [self.myMapView setRegion:region];
 
-        MapPin *ann = [[MapPin alloc] init];
-        ann.title = resTitle;
-        ann.subtitle = resLocation;
-        ann.coordinate = region.center;
-        [self.myMapView addAnnotation:ann];
-        [self.myMapView selectAnnotation:ann animated:YES];
+        MapPin *pin = [[MapPin alloc] init];
+        pin.title = resTitle;
+        pin.subtitle = resLocation;
+        pin.coordinate = region.center;
+        [self.myMapView addAnnotation:pin];
+        [self.myMapView selectAnnotation:pin animated:YES];
     }];
     
+    self.oDirectionsButton.backgroundColor = self.resColorTwo;
     [[self.oDirectionsButton layer] setBorderWidth:1.3f];
-    [[self.oDirectionsButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    [[self.oDirectionsButton layer] setBorderColor:self.resColorOne.CGColor];
     
     [[self.myMapView layer] setBorderWidth:2.5f];
-    [[self.myMapView layer] setBorderColor:[UIColor redColor].CGColor];
+    [[self.myMapView layer] setBorderColor:self.resColorTwo.CGColor];
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
@@ -69,10 +70,10 @@
     
     [self.navigationController.navigationBar setHidden:NO];
     // Navigation Bar Attibutes
-    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
+    self.navigationController.navigationBar.tintColor = self.resColorOne;
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
     self.navigationController.navigationBar.translucent = NO;
 }
 
@@ -94,7 +95,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == [alertView cancelButtonIndex]){
     // Cancel was Tapped
     }else{
-        NSString *urlString = @"http://maps.apple.com/maps?daddr=39.271866,-76.732559";
+        NSString *urlString = [NSString stringWithFormat:@"http://maps.apple.com/maps?daddr=%@,%@", self.resLatitude,self.resLongitude];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
     }
 }

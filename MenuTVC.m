@@ -7,11 +7,6 @@
 #import <QuartzCore/CALayer.h>
 #import <Parse/Parse.h>
 
-NSString *const kItem = @"item";
-NSString *const kPrice = @"price";
-NSString *const kImage = @"image";
-NSString *const kDescription = @"description";
-
 @interface MenuTVC ()
 @end
 
@@ -20,28 +15,33 @@ NSString *const kDescription = @"description";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.currentRestaurantId = @"YKmC6oO7FD";
-    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
     [self queryMenuItems];
-    
-    NSLog(@"%@", self.breakfastItemsArray);
-    
+        
     self.breakfastItemsArray = [NSMutableArray new];
     self.lunchItemsArray = [NSMutableArray new];
     self.dinnerItemsArray = [NSMutableArray new];
     self.dessertItemsArray = [NSMutableArray new];
+    self.secTitlesArray = [NSMutableArray new];
     
     self.menuArray = [NSMutableArray arrayWithObjects:self.breakfastItemsArray, self.lunchItemsArray, self.dinnerItemsArray, self.dessertItemsArray, nil];
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     
+    // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
+    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
+    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+    self.navigationController.navigationBar.translucent = NO;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,15 +51,13 @@ NSString *const kDescription = @"description";
 
 - (void) queryMenuItems{
     PFQuery *query = [PFQuery queryWithClassName:@"MenuItem"];
-    [query whereKey:@"restaurantId" equalTo:self.currentRestaurantId];
+    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
     [query orderByAscending:@"menuType"];
-    
     
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         for (PFObject *menuItem in objects) {
             
-            NSNumber * switchNumber = menuItem[@"menuType"];
-            
+            NSNumber *switchNumber = menuItem[@"menuType"];
             int switchInt = switchNumber.intValue;
             
             switch (switchInt) {
@@ -79,18 +77,32 @@ NSString *const kDescription = @"description";
                     break;
             }
         }
-        
         [self.tableView reloadData];
-        
     }];
     
 }
+
+//- (void) queryMealTypes {
+//    
+//    PFQuery *query = [PFQuery queryWithClassName:@"MenuItem"];
+//    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
+//    [query orderByAscending:@"menuType"];
+//    
+//    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//        
+//        self.resMenuItems = objects;
+//
+//        [self.tableView reloadData];
+//    }];
+//
+//}
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return [self.menuArray count];
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -102,8 +114,9 @@ NSString *const kDescription = @"description";
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
-    NSArray *secTitlesArray = @[@"Breakfast", @"Lunch", @"Dinner", @"Dessert"];
-    return [secTitlesArray objectAtIndex:section];
+    NSArray *secArray = @[@"Breakfast", @"Lunch", @"Dinner", @"Dessert"];
+    return [secArray objectAtIndex:section];
+//    return [self.secTitlesArray objectAtIndex:section];
     
 }
 
@@ -128,18 +141,11 @@ NSString *const kDescription = @"description";
 //    cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
     
     // Cell and Background Attributes
-    cell.backgroundColor = [UIColor whiteColor];
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    // Navigation Bar Attibutes
-    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    self.navigationController.navigationBar.translucent = NO;
+    cell.backgroundColor = self.resColorOne;
+    self.view.backgroundColor = self.resColorOne;
     
     // TableView Separator
-    [self.tableView setSeparatorColor:[UIColor redColor]];
+    [self.tableView setSeparatorColor:self.resColorTwo];
     
     // Rounded Image
     CALayer *cellImageLayer = cell.imageView.layer;
@@ -147,6 +153,7 @@ NSString *const kDescription = @"description";
     [cellImageLayer setMasksToBounds:YES];
     
     return cell;
+    
 }
 
 
@@ -156,14 +163,12 @@ NSString *const kDescription = @"description";
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         
-        NSDictionary *menuItems = [[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        
         ItemVC *itemVC = (ItemVC *)segue.destinationViewController;
         
-        itemVC.stringItemName = [menuItems objectForKey:@"item"];
-        itemVC.stringPrice = [menuItems objectForKey:@"price"];
-//        itemVC.stringImage = [menuItems objectForKey:kImage];
-//        itemVC.stringDescription = [menuItems objectForKey:kDescription];
+        NSLog(@"%@", [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"]);
+        itemVC.stringItemName = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"];
+        itemVC.stringPrice = [NSString stringWithFormat:@"$%@",[[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"price"]];
+        
     }
     
 }

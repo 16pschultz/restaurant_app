@@ -10,6 +10,21 @@
 
 @interface ViewController : UIViewController
 
+@property (strong, nonatomic) NSArray *restaurantObjects;
+
+// All Restaurant Data
+@property (strong, nonatomic) NSString *resObjectId;
+@property (strong, nonatomic) NSString *resName;
+@property (strong, nonatomic) NSString *resLocation;
+@property (strong, nonatomic) NSNumber *resPhoneNum;
+@property (strong, nonatomic) NSNumber *resLongitude;
+@property (strong, nonatomic) NSNumber *resLatitude;
+@property (strong, nonatomic) NSArray  *colorArray1;
+@property (strong, nonatomic) NSArray  *colorArray2;
+@property (strong, nonatomic) UIColor  *resColorOne;
+@property (strong, nonatomic) UIColor  *resColorTwo;
+
+
 - (IBAction)MakePhoneCall:(id)sender;
 
 @property (strong, nonatomic) IBOutlet UIButton *outletSignOutButton;

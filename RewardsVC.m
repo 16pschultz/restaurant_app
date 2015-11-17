@@ -50,7 +50,13 @@ NSString *const kNumber = @"number";
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     
-    [self.tableViewRewards reloadData];
+    // Navigation Bar Attibutes
+    [self.navigationController.navigationBar setHidden:NO];
+    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
+    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+    self.navigationController.navigationBar.translucent = NO;
     
     // Presenting the User's points and not letting it equal less than 0 if any bug occurs.
     NSNumber *currentPoints = [PFUser currentUser][@"Points"];
@@ -68,20 +74,14 @@ NSString *const kNumber = @"number";
         }];
         
         self.userPoints.text = [NSString stringWithFormat:@"Your Points: %@", currentPoints];
+        [self.tableViewRewards reloadData];
     } else {
         
         self.userPoints.text = [NSString stringWithFormat:@"Your Points: %@", currentPoints];
+        [self.tableViewRewards reloadData];
     }
     //
-    
-    [self.navigationController.navigationBar setHidden:NO];
-    
-    // Navigation Bar Attibutes
-    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    self.navigationController.navigationBar.translucent = NO;
+    [self.tableViewRewards reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,13 +133,6 @@ NSString *const kNumber = @"number";
     cell.detailTextLabel.text = [rewardItems objectForKey:kPoints];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
-    
-    // Navigation Bar Attibutes
-    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    self.navigationController.navigationBar.translucent = NO;
     
 //     TableView Separator
     [self.tableViewRewards setSeparatorColor:[UIColor darkGrayColor]];
