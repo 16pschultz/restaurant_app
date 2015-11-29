@@ -91,8 +91,7 @@
         viewC.resLongitude = [self.restaurantObjects objectAtIndex:indexPath.row][@"longitude"];
         viewC.resLatitude =  [self.restaurantObjects objectAtIndex:indexPath.row][@"latitude"];
         viewC.resPhoneNum =  [self.restaurantObjects objectAtIndex:indexPath.row][@"phoneNum"];
-        viewC.colorArray1 =  [self.restaurantObjects objectAtIndex:indexPath.row][@"colorOne"];
-        viewC.colorArray2 =  [self.restaurantObjects objectAtIndex:indexPath.row][@"colorTwo"];
+        viewC.stringColor =  [self.restaurantObjects objectAtIndex:indexPath.row][@"color"];
     }
 }
 

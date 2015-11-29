@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController
 
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 @property (strong, nonatomic) NSArray *restaurantObjects;
 
 // All Restaurant Data
@@ -19,10 +21,8 @@
 @property (strong, nonatomic) NSNumber *resPhoneNum;
 @property (strong, nonatomic) NSNumber *resLongitude;
 @property (strong, nonatomic) NSNumber *resLatitude;
-@property (strong, nonatomic) NSArray  *colorArray1;
-@property (strong, nonatomic) NSArray  *colorArray2;
-@property (strong, nonatomic) UIColor  *resColorOne;
-@property (strong, nonatomic) UIColor  *resColorTwo;
+@property (strong, nonatomic) NSString *stringColor;
+@property (strong, nonatomic) UIColor  *resColor;
 
 
 - (IBAction)MakePhoneCall:(id)sender;
@@ -47,6 +47,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *buttonScan;
 @property (strong, nonatomic) IBOutlet UIButton *buttonRewards;
 @property (strong, nonatomic) IBOutlet UIButton *buttonCall;
+@property (strong, nonatomic) IBOutlet UILabel *labelResName;
 
 
 @end

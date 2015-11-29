@@ -18,22 +18,22 @@
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
-    self.outletItemName.text = self.stringItemName;
-    self.outletPrice.text = [NSString stringWithFormat:@"$%@",self.stringPrice];
-    
-    
-    self.outletImage.image = [UIImage imageNamed:self.stringImage];
-    self.outletDescription.text = self.stringDescription;
+//    self.outletItemName.text = self.stringItemName;
+//    self.outletPrice.text = [NSString stringWithFormat:@"$%@",self.stringPrice];
+//    
+//    
+//    self.outletImage.image = [UIImage imageNamed:self.stringImage];
+//    self.outletDescription.text = self.stringDescription;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
-    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
-    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    self.navigationController.navigationBar.barTintColor = self.resColor;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
         
     self.outletDescription = [[UILabel alloc] initWithFrame:CGRectMake(16, 325, 288, 202)];
