@@ -13,8 +13,7 @@
 @interface MapVC : UIViewController <UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSString *resObjectId;
-@property (strong, nonatomic) UIColor  *resColorOne;
-@property (strong, nonatomic) UIColor  *resColorTwo;
+@property (strong, nonatomic) UIColor  *resColor;
 
 @property (strong, nonatomic) NSNumber *resLongitude;
 @property (strong, nonatomic) NSNumber *resLatitude;

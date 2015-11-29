@@ -17,8 +17,7 @@
 
 // All Restaurant Data
 @property (strong, nonatomic) NSString *resObjectId;
-@property (strong, nonatomic) UIColor  *resColorOne;
-@property (strong, nonatomic) UIColor  *resColorTwo;
+@property (strong, nonatomic) UIColor  *resColor;
 
 @property (nonatomic, retain) NSArray *dealListArray;
 @property (nonatomic, retain) NSString *dealTitle;

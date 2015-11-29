@@ -19,7 +19,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *outletDescription;
 
 @property (strong, nonatomic) NSString *resObjectId;
-@property (strong, nonatomic) UIColor  *resColorOne;
-@property (strong, nonatomic) UIColor  *resColorTwo;
+@property (strong, nonatomic) UIColor  *resColor;
 
 @end

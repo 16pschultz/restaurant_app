@@ -23,6 +23,7 @@
     }
     
     [self queryForDeals];
+    [self.tableView reloadData];
 }
 
 
@@ -32,10 +33,10 @@
     
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
-    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
-    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    self.navigationController.navigationBar.barTintColor = self.resColor;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
     
     [self.tableView reloadData];
@@ -79,16 +80,14 @@
     [formatter setDateFormat:@"dd/MM/yy"];
     
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@       Expires %@",[self.dealListArray objectAtIndex:indexPath.row][@"runTime"],[formatter stringFromDate:date]];
-    
-//    cell.detailTextLabel.text = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
-    cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
     // Item Image
     self.stringPlaceholder = [self.dealListArray objectAtIndex:indexPath.row][@"image"];
     cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
     [cell.imageView.layer setBorderWidth:1.4f];
-    [cell.imageView.layer setBorderColor:[UIColor redColor].CGColor];
+    [cell.imageView.layer setBorderColor:self.resColor.CGColor];
     
     
     // Cell and Background Attributes
@@ -96,7 +95,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     // TableView Separator
-    [self.tableView setSeparatorColor:[UIColor redColor]];
+    [self.tableView setSeparatorColor:self.resColor];
     
     // Rounded Image
     CALayer *cellImageLayer = cell.imageView.layer;
@@ -104,7 +103,6 @@
     [cellImageLayer setMasksToBounds:YES];
     
     return cell;
-
 }
 
 
@@ -119,7 +117,7 @@
         dealVC.stringImage = [self.dealListArray objectAtIndex:indexPath.row][@"image"];
         dealVC.stringDescription = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
         dealVC.stringDiscount = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
-
+        dealVC.resColor = self.resColor;
     }
 }
 

@@ -10,10 +10,6 @@
 #import <Parse/Parse.h>
 #import "AppRewardVC.h"
 
-NSString *const kReward = @"reward";
-NSString *const kPoints = @"points";
-NSString *const kNumber = @"number";
-
 @interface RewardsVC ()
 
 @end
@@ -23,65 +19,29 @@ NSString *const kNumber = @"number";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[self.tableViewRewards layer] setBorderWidth:1.5f];
-    [[self.tableViewRewards layer] setBorderColor:[UIColor redColor].CGColor];
-    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
-//    self.tableViewRewards.layer.cornerRadius = 7;
-//    self.tableViewRewards.layer.masksToBounds = YES;
-
-    self.rewardsArray = @[@{kReward: @"10% off entire meal",
-                           kPoints: @"2 Points",
-                           kNumber: @2,
-                           },
-                          @{kReward: @"One FREE Dessert",
-                            kPoints: @"4 Points",
-                            kNumber: @4,
-                            },
-                          @{kReward: @"One FREE Appetiser",
-                            kPoints: @"6 Points",
-                            kNumber: @6,
-                            }];
+    [self queryForRewards];
+    [self pointsForReward];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     
+    [[self.tableViewRewards layer] setBorderWidth:1.5f];
+    [[self.tableViewRewards layer] setBorderColor:self.resColor.CGColor];
+    
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
-    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
-    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    self.navigationController.navigationBar.barTintColor = self.resColor;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
-    
-    // Presenting the User's points and not letting it equal less than 0 if any bug occurs.
-    NSNumber *currentPoints = [PFUser currentUser][@"Points"];
-    int usersPoints = currentPoints.intValue;
-    NSLog(@"%@",currentPoints);
-    
-    if (usersPoints < 0) {
-        
-        currentPoints = @0;
-        [[PFUser currentUser] setValue:@0 forKey:@"Points"];
-        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
-                NSLog(@"The object has been saved.");
-            }
-        }];
-        
-        self.userPoints.text = [NSString stringWithFormat:@"Your Points: %@", currentPoints];
-        [self.tableViewRewards reloadData];
-    } else {
-        
-        self.userPoints.text = [NSString stringWithFormat:@"Your Points: %@", currentPoints];
-        [self.tableViewRewards reloadData];
-    }
-    //
-    [self.tableViewRewards reloadData];
+    self.tableViewRewards.layer.cornerRadius = 7;
+    self.tableViewRewards.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,8 +58,6 @@ NSString *const kNumber = @"number";
     // Return the number of rows in the section.
     
     return [self.rewardsArray count];
-    
-    // Count, seen above, means it “counts” the amount of objects in the array, finds 3 (for example), and displays 3 cells
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -107,11 +65,7 @@ NSString *const kNumber = @"number";
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    NSDictionary *rewardItems = [self.rewardsArray objectAtIndex:indexPath.row];
-    
-    NSNumber *currentPoints = [PFUser currentUser][@"Points"];
-    
-    if (currentPoints < [rewardItems valueForKey:kNumber]) {
+    if (self.userPoints < [self.rewardsArray objectAtIndex:indexPath.row][@"cost"]) {
         
         cell.userInteractionEnabled = NO;
         cell.textLabel.enabled = NO;
@@ -125,21 +79,20 @@ NSString *const kNumber = @"number";
     }
     
     // Item Name
-    cell.textLabel.text = [rewardItems objectForKey:kReward];
+    cell.textLabel.text = [self.rewardsArray objectAtIndex:indexPath.row][@"reward"];
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont fontWithName:@"Noteworthy" size:17];
     
     // Item Price
-    cell.detailTextLabel.text = [rewardItems objectForKey:kPoints];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ Points", [self.rewardsArray objectAtIndex:indexPath.row][@"cost"]];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
 //     TableView Separator
-    [self.tableViewRewards setSeparatorColor:[UIColor darkGrayColor]];
+    [self.tableViewRewards setSeparatorColor:self.resColor];
     
     return cell;
 }
-
 
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -147,14 +100,37 @@ NSString *const kNumber = @"number";
     if ([segue.identifier isEqualToString:@"showAppReward"]) {
         
         NSIndexPath *indexPath = [self.tableViewRewards indexPathForSelectedRow];
-        NSDictionary *rewardItems = [self.rewardsArray objectAtIndex:indexPath.row];
         
         AppRewardVC *appRewardVC = (AppRewardVC *)segue.destinationViewController;
         
-        appRewardVC.point2Redeem = [rewardItems valueForKey:kNumber];
-        appRewardVC.rewardDescription = [rewardItems objectForKey:kReward];
-        appRewardVC.rewardCost = [rewardItems objectForKey:kPoints];
+        appRewardVC.rewardDescription = [self.rewardsArray objectAtIndex:indexPath.row][@"reward"];
+        appRewardVC.rewardCost = [self.rewardsArray objectAtIndex:indexPath.row][@"cost"];
     }
 }
+
+- (void) pointsForReward {
+
+    PFQuery *query = [PFUser query];
+    [query getObjectInBackgroundWithId:[PFUser currentUser].objectId block:^(PFObject *userInfo, NSError *error) {
+        
+        self.userPoints = [userInfo objectForKey:@"points"];
+        self.userName = [userInfo objectForKey:@"username"];
+        self.currentUserPoints.text = [NSString stringWithFormat:@"Your Points: %@", self.userPoints];
+        [self.tableViewRewards reloadData];
+    }];
+}
+
+- (void) queryForRewards {
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Reward"];
+    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
+    [query orderByAscending:@"cost"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        self.rewardsArray = objects;
+        [self.tableViewRewards reloadData];
+    }];
+}
+
+
 
 @end

@@ -36,10 +36,10 @@
     
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
-    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
-    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    self.navigationController.navigationBar.barTintColor = self.resColor;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
     
 }
@@ -141,11 +141,11 @@
 //    cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
     
     // Cell and Background Attributes
-    cell.backgroundColor = self.resColorOne;
-    self.view.backgroundColor = self.resColorOne;
+    cell.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     // TableView Separator
-    [self.tableView setSeparatorColor:self.resColorTwo];
+    [self.tableView setSeparatorColor:self.resColor];
     
     // Rounded Image
     CALayer *cellImageLayer = cell.imageView.layer;

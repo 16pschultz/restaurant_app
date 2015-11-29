@@ -18,16 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    NSLog(@"%@", self.indexArray);
-
+    
     self.time = 120;
-    
-    [[self.dealImage layer] setBorderWidth:0.7f];
-    [[self.dealImage layer] setBorderColor:[UIColor whiteColor].CGColor];
-    
-    [[self.oRedeemButton layer] setBorderWidth:1.0f];
-    [[self.oRedeemButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     self.dealImage.image = [UIImage imageNamed:self.stringImage];
     self.dealDescription.text = self.stringDescription;
@@ -35,6 +27,17 @@
     self.dealDDiscount.text = self.stringDiscount;
     self.dealTitle.text = self.stringDescription;
 }
+
+
+- (void) viewWillAppear:(BOOL)animated {
+    
+    [[self.dealImage layer] setBorderWidth:0.7f];
+    [[self.dealImage layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    [[self.oRedeemButton layer] setBorderWidth:1.0f];
+    [[self.oRedeemButton layer] setBorderColor:self.resColor.CGColor];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

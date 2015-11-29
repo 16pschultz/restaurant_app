@@ -10,15 +10,21 @@
 
 @interface RewardsVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) NSString *resObjectId;
-@property (strong, nonatomic) UIColor  *resColorOne;
-@property (strong, nonatomic) UIColor  *resColorTwo;
+// User
+@property (strong, nonatomic) NSNumber *userPoints;
+@property (strong, nonatomic) NSString *userName;
 
+// Restaurant Info
+@property (strong, nonatomic) NSString *resObjectId;
+@property (strong, nonatomic) UIColor  *resColor;
+
+
+// TableView
 @property (strong, nonatomic) IBOutlet UITableView *tableViewRewards;
 
 @property (strong, nonatomic) NSArray *rewardsArray;
 @property (strong, nonatomic) NSString *myPlaceHolder;
 
-@property (strong, nonatomic) IBOutlet UILabel *userPoints;
+@property (strong, nonatomic) IBOutlet UILabel *currentUserPoints;
 
 @end

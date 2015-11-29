@@ -13,11 +13,7 @@
 }
 
 @property (strong, nonatomic) NSString *resObjectId;
-@property (strong, nonatomic) UIColor  *resColorOne;
-@property (strong, nonatomic) UIColor  *resColorTwo;
-
-// Index that User Selected
-@property (strong, nonatomic) NSArray *indexArray;
+@property (strong, nonatomic) UIColor  *resColor;
 
 // Strings
 @property (strong, nonatomic) NSString *stringImage;
@@ -28,7 +24,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *dealImage;
 @property (strong, nonatomic) IBOutlet UILabel *dealDescription;
 @property (strong, nonatomic) IBOutlet UILabel *dealDiscount;
-@property (weak, nonatomic) IBOutlet UIButton *oRedeemButton;
+@property (strong, nonatomic) IBOutlet UIButton *oRedeemButton;
 
 
 

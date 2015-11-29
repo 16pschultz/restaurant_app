@@ -54,12 +54,12 @@
         [self.myMapView selectAnnotation:pin animated:YES];
     }];
     
-    self.oDirectionsButton.backgroundColor = self.resColorTwo;
+    self.oDirectionsButton.backgroundColor = self.resColor;
     [[self.oDirectionsButton layer] setBorderWidth:1.3f];
-    [[self.oDirectionsButton layer] setBorderColor:self.resColorOne.CGColor];
+    [[self.oDirectionsButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     [[self.myMapView layer] setBorderWidth:2.5f];
-    [[self.myMapView layer] setBorderColor:self.resColorTwo.CGColor];
+    [[self.myMapView layer] setBorderColor:self.resColor.CGColor];
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
@@ -70,10 +70,10 @@
     
     [self.navigationController.navigationBar setHidden:NO];
     // Navigation Bar Attibutes
-    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
-    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    self.navigationController.navigationBar.barTintColor = self.resColor;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
 }
 

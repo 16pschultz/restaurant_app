@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 
+#import <UIKit/UIKit.h>
+
 #import "AppDealsTVC.h"
 #import "MenuTVC.h"
 #import "RewardsVC.h"
@@ -34,7 +36,7 @@ NSString *const kWhiteBC = @"whiteBC";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self makeColor];
+    [self convHex];
     [self reloadInputViews];
 }
 
@@ -59,19 +61,23 @@ NSString *const kWhiteBC = @"whiteBC";
     
     [self.navigationController.navigationBar setHidden:NO];
     // Navigation Bar Attibutes
-    self.navigationController.navigationBar.barTintColor = self.resColorTwo;
-    self.navigationController.navigationBar.tintColor = self.resColorOne;
+    self.navigationController.navigationBar.barTintColor = self.resColor;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.resColorOne}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
     
-    self.buttonMenu.backgroundColor = self.resColorOne;
-    self.buttonScan.backgroundColor = self.resColorOne;
-    self.buttonRewards.backgroundColor = self.resColorOne;
+    self.buttonMenu.backgroundColor = [UIColor whiteColor];
+    self.buttonScan.backgroundColor = [UIColor whiteColor];
+    self.buttonRewards.backgroundColor = [UIColor whiteColor];
     
-    self.buttonAppDeals.backgroundColor = self.resColorTwo;
-    self.buttonDirections.backgroundColor = self.resColorTwo;
-    self.buttonCall.backgroundColor = self.resColorTwo;
+    self.buttonAppDeals.backgroundColor = self.resColor;
+    [self.buttonAppDeals.imageView setImage:[UIImage imageNamed:@"appDealsIcon.png"]];
+    [self.buttonAppDeals.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    self.buttonDirections.backgroundColor = self.resColor;
+    self.buttonCall.backgroundColor = self.resColor;
+    
+    self.labelResName.text = self.resName;
 }
 
 
@@ -190,24 +196,21 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         
         AppDealsTVC *appDealsTVC = (AppDealsTVC *)segue.destinationViewController;        
         appDealsTVC.resObjectId = self.resObjectId;
-        appDealsTVC.resColorOne = self.resColorOne;
-        appDealsTVC.resColorTwo = self.resColorTwo;
+        appDealsTVC.resColor = self.resColor;
     }
     
     if ([segue.identifier isEqualToString:@"showMenu"]) {
         
         MenuTVC *menuTVC = (MenuTVC *)segue.destinationViewController;
         menuTVC.resObjectId = self.resObjectId;
-        menuTVC.resColorOne = self.resColorOne;
-        menuTVC.resColorTwo = self.resColorTwo;
+        menuTVC.resColor = self.resColor;
     }
     
     if ([segue.identifier isEqualToString:@"showDirections"]) {
         
         MapVC *mapVC = (MapVC *)segue.destinationViewController;
         mapVC.resObjectId = self.resObjectId;
-        mapVC.resColorOne = self.resColorOne;
-        mapVC.resColorTwo = self.resColorTwo;
+        mapVC.resColor = self.resColor;
         mapVC.resLatitude = self.resLatitude;
         mapVC.resLongitude = self.resLongitude;
     }
@@ -216,48 +219,24 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         
         RewardsVC *rewardsVC = (RewardsVC *)segue.destinationViewController;
         rewardsVC.resObjectId = self.resObjectId;
-        rewardsVC.resColorOne = self.resColorOne;
-        rewardsVC.resColorTwo = self.resColorTwo;
+        rewardsVC.resColor = self.resColor;
     }
     
     if ([segue.identifier isEqualToString:@"showScan"]) {
         
         QRCodeVC *qrCodeVC = (QRCodeVC *)segue.destinationViewController;
         qrCodeVC.resObjectId = self.resObjectId;
-        qrCodeVC.resColorOne = self.resColorOne;
-        qrCodeVC.resColorTwo = self.resColorTwo;
+        qrCodeVC.resColor = self.resColor;
     }
 }
 
-
-- (void) makeColor {
-
-        // Restaurant Colors
-        NSNumber *color_one1 = self.colorArray1[0];
-        NSNumber *color_one2 = self.colorArray1[1];
-        NSNumber *color_one3 = self.colorArray1[2];
-        
-        NSNumber *color_two1 = self.colorArray2[0];
-        NSNumber *color_two2 = self.colorArray2[1];
-        NSNumber *color_two3 = self.colorArray2[2];
-        
-        
-        int c1_1 = color_one1.intValue;
-        int c1_2 = color_one2.intValue;
-        int c1_3 = color_one3.intValue;
-        
-        int c2_1 = color_two1.intValue;
-        int c2_2 = color_two2.intValue;
-        int c2_3 = color_two3.intValue;
-        
-        
-        self.resColorOne = [UIColor colorWithRed:c1_1/255.0f
-                                           green:c1_2/255.0f
-                                            blue:c1_3/255.0f alpha:1];
-        
-        self.resColorTwo = [UIColor colorWithRed:c2_1/255.0f
-                                           green:c2_2/255.0f
-                                            blue:c2_3/255.0f alpha:1];
+- (void) convHex {
+    
+    unsigned result = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:self.stringColor];
+    [scanner setScanLocation:1]; // bypass '#' character
+    [scanner scanHexInt:&result];
+    self.resColor = UIColorFromRGB(result);
 }
 
 @end
