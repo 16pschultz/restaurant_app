@@ -22,6 +22,8 @@
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
+    self.imageFiles = [NSMutableArray new];
+    
     [self queryForDeals];
     [self.tableView reloadData];
 }
@@ -84,8 +86,15 @@
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
     // Item Image
-    self.stringPlaceholder = [self.dealListArray objectAtIndex:indexPath.row][@"image"];
-    cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
+    
+    PFFile *imageFile = [self.dealListArray objectAtIndex:indexPath.row][@"image"];
+    [imageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error) {
+            [self.imageFiles addObject:imageData];
+            [self.tableView reloadData];
+        }
+    }];    
+    
     [cell.imageView.layer setBorderWidth:1.4f];
     [cell.imageView.layer setBorderColor:self.resColor.CGColor];
     
@@ -114,10 +123,17 @@
         
         DealVC *dealVC = (DealVC *)segue.destinationViewController;
         
-        dealVC.stringImage = [self.dealListArray objectAtIndex:indexPath.row][@"image"];
-        dealVC.stringDescription = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
-        dealVC.stringDiscount = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
+//        dealVC.stringImage = [self.dealListArray objectAtIndex:indexPath.row][@"image"];
+        dealVC.stringDeal = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
+        dealVC.stringRuntime = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
+        dealVC.stringExpiration = [self.dealListArray objectAtIndex:indexPath.row][@"expirationDate"];
         dealVC.resColor = self.resColor;
+        
+        if ([self.dealListArray objectAtIndex:indexPath.row][@"image"] == NULL) {
+            dealVC.option = 1;
+        } else {
+            dealVC.option = 2;
+        }
     }
 }
 
@@ -128,8 +144,11 @@
     [query orderByAscending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         self.dealListArray = objects;
+        
         [self.tableView reloadData];
     }];
 }
+
+
 
 @end
