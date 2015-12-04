@@ -19,6 +19,8 @@
 @property (strong, nonatomic) NSString *resObjectId;
 @property (strong, nonatomic) UIColor  *resColor;
 
+@property (nonatomic, retain) NSMutableArray *imageFiles;
+
 @property (nonatomic, retain) NSArray *dealListArray;
 @property (nonatomic, retain) NSString *dealTitle;
 @property (nonatomic, retain) NSString *dealDiscount;

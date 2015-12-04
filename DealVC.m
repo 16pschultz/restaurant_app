@@ -21,21 +21,36 @@
     
     self.time = 120;
     
-    self.dealImage.image = [UIImage imageNamed:self.stringImage];
-    self.dealDescription.text = self.stringDescription;
-    self.dealDiscount.text = self.stringDiscount;
-    self.dealDDiscount.text = self.stringDiscount;
-    self.dealTitle.text = self.stringDescription;
+//    self.oImage.image = [UIImage imageNamed:self.stringImage];
+    self.oDeal.text = self.stringDeal;
+    self.oRuntime.text = self.stringRuntime;
+    self.oExpiration.text = self.stringExpiration;
 }
 
 
 - (void) viewWillAppear:(BOOL)animated {
     
-    [[self.dealImage layer] setBorderWidth:0.7f];
-    [[self.dealImage layer] setBorderColor:[UIColor whiteColor].CGColor];
+    if (self.option == 1) {
+        self.viewNoImage.hidden = NO;
+        self.viewYesImage.hidden = YES;
+    } else {
+        self.viewYesImage.hidden = NO;
+        self.viewNoImage.hidden = YES;
+    }
+    
+//    [[self.oImage layer] setBorderWidth:0.7f];
+//    [[self.oImage layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     [[self.oRedeemButton layer] setBorderWidth:1.0f];
     [[self.oRedeemButton layer] setBorderColor:self.resColor.CGColor];
+    
+    // Navigation Bar Attibutes
+    [self.navigationController.navigationBar setHidden:NO];
+    self.navigationController.navigationBar.barTintColor = self.resColor;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 
@@ -64,14 +79,6 @@
                                           otherButtonTitles:@"Yes", nil];
     [alert show];
     
-//    [[PFUser currentUser] removeObjectsInArray:[1] forKey:@"Deals";
-//    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//        if (succeeded) {
-//            NSLog(@"The object has been saved.");
-//        } else {
-//            [self.navigationController popViewControllerAnimated:YES];
-//        }
-//    }];
 
 }
 

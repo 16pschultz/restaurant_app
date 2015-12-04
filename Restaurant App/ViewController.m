@@ -19,9 +19,6 @@
 #import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
 
-NSString *const kRedBC = @"redBC";
-NSString *const kWhiteBC = @"whiteBC";
-
 
 @interface ViewController ()
 
@@ -234,7 +231,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     unsigned result = 0;
     NSScanner *scanner = [NSScanner scannerWithString:self.stringColor];
-    [scanner setScanLocation:1]; // bypass '#' character
+    [scanner setScanLocation:1];
     [scanner scanHexInt:&result];
     self.resColor = UIColorFromRGB(result);
 }

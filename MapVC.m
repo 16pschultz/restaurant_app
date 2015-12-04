@@ -95,8 +95,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == [alertView cancelButtonIndex]){
     // Cancel was Tapped
     }else{
-        NSString *urlString = [NSString stringWithFormat:@"http://maps.apple.com/maps?daddr=%@,%@", self.resLatitude,self.resLongitude];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+        
+        NSString* addr = [NSString stringWithFormat:@"http://maps.google.com/maps?daddr=%@,%@,%@&saddr=Current Location&directionsmode=driving",@"1402 Forest Glen Ct.",@"Catonsville",@"Maryland"];
+        NSURL* url = [[NSURL alloc] initWithString:[addr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [[UIApplication sharedApplication] openURL:url];
+        
+//        
+//        NSString *urlString = [NSString stringWithFormat:@"http://maps.apple.com/maps?daddr=%@,%@", self.resLatitude,self.resLongitude];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
     }
 }
 
