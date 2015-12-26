@@ -24,19 +24,12 @@
 //    self.oImage.image = [UIImage imageNamed:self.stringImage];
     self.oDeal.text = self.stringDeal;
     self.oRuntime.text = self.stringRuntime;
-    self.oExpiration.text = self.stringExpiration;
+//    self.oExpiration.text = self.stringExpiration;
+    NSLog(@"%@", self.stringExpiration);
 }
 
 
 - (void) viewWillAppear:(BOOL)animated {
-    
-    if (self.option == 1) {
-        self.viewNoImage.hidden = NO;
-        self.viewYesImage.hidden = YES;
-    } else {
-        self.viewYesImage.hidden = NO;
-        self.viewNoImage.hidden = YES;
-    }
     
 //    [[self.oImage layer] setBorderWidth:0.7f];
 //    [[self.oImage layer] setBorderColor:[UIColor whiteColor].CGColor];

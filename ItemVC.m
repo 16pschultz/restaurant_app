@@ -18,12 +18,12 @@
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     
-//    self.outletItemName.text = self.stringItemName;
-//    self.outletPrice.text = [NSString stringWithFormat:@"$%@",self.stringPrice];
-//    
-//    
-//    self.outletImage.image = [UIImage imageNamed:self.stringImage];
-//    self.outletDescription.text = self.stringDescription;
+    self.outletItemName.text = self.stringItemName;
+    self.outletPrice.text = [NSString stringWithFormat:@"%@",self.stringPrice];
+    
+    
+    self.outletImage.image = [UIImage imageNamed:self.stringImage];
+    self.outletDescription.text = self.stringDescription;
 }
 
 - (void) viewWillAppear:(BOOL)animated {

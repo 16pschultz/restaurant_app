@@ -115,25 +115,38 @@
 }
 
 
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self.dealListArray objectAtIndex:indexPath.row][@"image"] == NULL) {
+        
+        [self performSegueWithIdentifier:@"showDeal" sender:self];
+    } else {
+        
+        [self performSegueWithIdentifier:@"showDealWPic" sender:self];
+    }
+    
+}
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([segue.identifier isEqualToString:@"showDeal"]) {
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+
+        NSDate *date = [self.dealListArray objectAtIndex:indexPath.row][@"expirationDate"];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"dd/MM/yy"];
         
         DealVC *dealVC = (DealVC *)segue.destinationViewController;
         
 //        dealVC.stringImage = [self.dealListArray objectAtIndex:indexPath.row][@"image"];
         dealVC.stringDeal = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
         dealVC.stringRuntime = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
-        dealVC.stringExpiration = [self.dealListArray objectAtIndex:indexPath.row][@"expirationDate"];
+        NSString *myDate = [NSString stringWithFormat:@"%@",[formatter stringFromDate:date]];
+        dealVC.stringExpiration = myDate;
         dealVC.resColor = self.resColor;
         
-        if ([self.dealListArray objectAtIndex:indexPath.row][@"image"] == NULL) {
-            dealVC.option = 1;
-        } else {
-            dealVC.option = 2;
-        }
     }
 }
 
