@@ -12,8 +12,6 @@
     NSTimer *timer;
 }
 
-@property (nonatomic, assign) int option;
-
 @property (strong, nonatomic) NSString *resObjectId;
 @property (strong, nonatomic) UIColor  *resColor;
 
@@ -32,10 +30,6 @@
 
 
 @property (strong, nonatomic) IBOutlet UIButton *oRedeemButton;
-
-// Two Views depending if Image is NULL
-@property (strong, nonatomic) IBOutlet UIView *viewNoImage;
-@property (strong, nonatomic) IBOutlet UIView *viewYesImage;
 
 // View after Redeeming
 @property (weak, nonatomic) IBOutlet UIView *outletViewRedeeming;

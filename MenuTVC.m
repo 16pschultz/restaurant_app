@@ -27,8 +27,6 @@
     self.dessertItemsArray = [NSMutableArray new];
     self.secTitlesArray = [NSMutableArray new];
     
-    self.menuArray = [NSMutableArray arrayWithObjects:self.breakfastItemsArray, self.lunchItemsArray, self.dinnerItemsArray, self.dessertItemsArray, nil];
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -47,39 +45,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void) queryMenuItems{
-    PFQuery *query = [PFQuery queryWithClassName:@"MenuItem"];
-    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
-    [query orderByAscending:@"menuType"];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        for (PFObject *menuItem in objects) {
-            
-            NSNumber *switchNumber = menuItem[@"menuType"];
-            int switchInt = switchNumber.intValue;
-            
-            switch (switchInt) {
-                case 0:
-                    [self.breakfastItemsArray addObject:menuItem];
-                    break;
-                case 1:
-                    [self.lunchItemsArray addObject:menuItem];
-                    break;
-                case 2:
-                    [self.dinnerItemsArray addObject:menuItem];
-                    break;
-                case 3:
-                    [self.dessertItemsArray addObject:menuItem];
-                    break;
-                default:
-                    break;
-            }
-        }
-        [self.tableView reloadData];
-    }];
-    
 }
 
 //- (void) queryMealTypes {
@@ -156,6 +121,17 @@
     
 }
 
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self.breakfastItemsArray objectAtIndex:indexPath.row][@"image"] == NULL) {
+        
+        [self performSegueWithIdentifier:@"showItem" sender:self];
+    } else {
+        
+        [self performSegueWithIdentifier:@"showItemWPic" sender:self];
+    }
+    
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
@@ -168,10 +144,55 @@
         NSLog(@"%@", [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"]);
         itemVC.stringItemName = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"];
         itemVC.stringPrice = [NSString stringWithFormat:@"$%@",[[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"price"]];
-        
     }
     
+    if ([segue.identifier isEqualToString:@"showItemWPic"]) {
+        
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        
+        ItemVC *itemVC = (ItemVC *)segue.destinationViewController;
+        
+        NSLog(@"%@", [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"]);
+        itemVC.stringItemName = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"];
+        itemVC.stringPrice = [NSString stringWithFormat:@"$%@",[[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"price"]];
+    }
 }
+
+- (void) queryMenuItems{
+    PFQuery *query = [PFQuery queryWithClassName:@"MenuItem"];
+    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
+    [query orderByAscending:@"menuType"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        for (PFObject *menuItem in objects) {
+            
+            NSNumber *switchNumber = menuItem[@"menuType"];
+            int switchInt = switchNumber.intValue;
+            
+            switch (switchInt) {
+                case 0:
+                    [self.breakfastItemsArray addObject:menuItem];
+                    break;
+                case 1:
+                    [self.lunchItemsArray addObject:menuItem];
+                    break;
+                case 2:
+                    [self.dinnerItemsArray addObject:menuItem];
+                    break;
+                case 3:
+                    [self.dessertItemsArray addObject:menuItem];
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        self.menuArray = [NSMutableArray arrayWithObjects:self.breakfastItemsArray, self.lunchItemsArray, self.dinnerItemsArray, self.dessertItemsArray, nil];
+        [self.tableView reloadData];
+    }];
+    
+}
+
 
 @end
 
