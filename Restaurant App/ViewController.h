@@ -14,6 +14,9 @@
 
 @property (strong, nonatomic) NSArray *restaurantObjects;
 
+@property (strong, nonatomic) NSData *picData;
+
+
 // All Restaurant Data
 @property (strong, nonatomic) NSString *resObjectId;
 @property (strong, nonatomic) NSString *resName;
@@ -22,31 +25,23 @@
 @property (strong, nonatomic) NSNumber *resLongitude;
 @property (strong, nonatomic) NSNumber *resLatitude;
 @property (strong, nonatomic) NSString *stringColor;
+@property (strong, nonatomic) NSString *colorShade;
 @property (strong, nonatomic) UIColor  *resColor;
-
+@property (strong, nonatomic) UIColor  *offSetColor;
 
 - (IBAction)MakePhoneCall:(id)sender;
-
-@property (strong, nonatomic) IBOutlet UIButton *outletSignOutButton;
-@property (strong, nonatomic) IBOutlet UIButton *outletSignInButton;
-
-- (IBAction)SignOutButton;
-- (IBAction)SignInButton;
 
 - (IBAction)menuButton;
 - (IBAction)directionsButton;
 
 - (IBAction)appDealsButton;
-- (IBAction)rewardsButton;
-- (IBAction)scanButton;
 
 
 @property (strong, nonatomic) IBOutlet UIButton *buttonMenu;
 @property (strong, nonatomic) IBOutlet UIButton *buttonAppDeals;
 @property (strong, nonatomic) IBOutlet UIButton *buttonDirections;
-@property (strong, nonatomic) IBOutlet UIButton *buttonScan;
-@property (strong, nonatomic) IBOutlet UIButton *buttonRewards;
 @property (strong, nonatomic) IBOutlet UIButton *buttonCall;
+
 @property (strong, nonatomic) IBOutlet UILabel *labelResName;
 
 

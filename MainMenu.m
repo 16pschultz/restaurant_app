@@ -16,14 +16,22 @@
 
 @end
 
+#define TAG_LOGIN 1
+
 @implementation MainMenu
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
     [self queryForRestaurantData];
+    [self nearestRestaurant];
+    [self queryResLogos];
+    
     self.restaurantColView.delegate = self;
     self.restaurantColView.dataSource = self;
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,6 +44,16 @@
     
     [self.navigationController.navigationBar setHidden:YES];
 
+    if ([PFUser currentUser]) {
+        
+        [self.outletSignInButton setHidden:YES];
+        [self.outletSignOutButton setHidden:NO];
+        
+    } else if (![PFUser currentUser]) {
+        
+        [self.outletSignInButton setHidden:NO];
+        [self.outletSignOutButton setHidden:YES];
+    }
 }
 
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -50,13 +68,21 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+        
     RestaurantViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"restaurantCell" forIndexPath:indexPath];
         
     cell.layer.masksToBounds = YES;
     cell.layer.cornerRadius = 7;
     
-    NSNumber *resName = [self.restaurantObjects objectAtIndex:indexPath.row][@"name"];
-    cell.labelForRestaurant.text = [NSString stringWithFormat:@"%@", resName];
+    cell.labelForRestaurant.text = [self.restaurantObjects objectAtIndex:indexPath.row][@"name"];
+    
+    cell.restaurantImage.image = [UIImage imageWithData:self.picData];
+    
+/*
+    cell.restaurantImage.image = [UIImage imageWithData:[self.restaurantLogoData objectAtIndex:indexPath.row]];
+*/
+    
+//    cell.restaurantImage.image = [self.restaurantLogos objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -92,8 +118,43 @@
         viewC.resLatitude =  [self.restaurantObjects objectAtIndex:indexPath.row][@"latitude"];
         viewC.resPhoneNum =  [self.restaurantObjects objectAtIndex:indexPath.row][@"phoneNum"];
         viewC.stringColor =  [self.restaurantObjects objectAtIndex:indexPath.row][@"color"];
+        viewC.colorShade =   [self.restaurantObjects objectAtIndex:indexPath.row][@"colorShade"];
     }
 }
+
+-(void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    PFQuery *query = [PFUser query];
+    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resNum, NSError *error) {
+        
+        
+        if (alertView.cancelButtonIndex == buttonIndex){
+            // Do cancel
+            
+        } else if (alertView.tag == TAG_LOGIN){
+            [PFUser logOut];
+            [self performSegueWithIdentifier:@"showLogin" sender:self];
+        }
+    }];
+}
+
+- (IBAction)SignOutButton {
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Log Out" message:@"Are you sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+    
+    alertView.tag = TAG_LOGIN;
+    [alertView show];
+    
+}
+
+
+- (IBAction)SignInButton {
+    
+    [self performSegueWithIdentifier:@"showLogin" sender:self];
+    
+}
+
 
 - (void) queryForRestaurantData {
     
@@ -105,6 +166,63 @@
         
         [self.restaurantColView reloadData];
     }];
+    
 }
+
+- (void) queryResLogos {
+    
+    PFObject *restaurant = [PFObject objectWithClassName:@"Restaurant"];
+    PFFile *resLogo = restaurant[@"logo"];
+    [resLogo getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error) {
+//            [self.restaurantLogoData addObject:imageData];
+            self.picData = imageData;
+            NSLog(@"%@", self.picData);
+        } else if (error) {
+            NSLog(@"There was an error");
+        }
+        [self.restaurantColView reloadData];
+    }];
+    
+    
+
+/*
+    for (int i = 0; i < self.restaurantObjects.count; i++) {
+        
+        NSData *imageData = [[self.restaurantObjects objectAtIndex:i] objectForKey:@""];
+        UIImage *resLogo = [UIImage imageWithData:imageData];
+        
+        [self.restaurantLogos addObject:resLogo];
+        
+        NSLog(@"Queried %d logos", i);
+    }
+ */
+}
+
+
+- (void) nearestRestaurant {
+    
+    
+    NSArray *addressArray = @[@"805 Frederick Road, Baltimore, Maryland", @"726 Frederick Rd, Catonsville, Maryland", @"829 Frederick Rd, Catonsville, Maryland"];
+    
+    for (NSString *address in addressArray) {
+        
+        // Code found on StackOverFlow
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+        [geocoder geocodeAddressString:address completionHandler:^(NSArray* placemarks, NSError* error){
+            for (CLPlacemark* aPlacemark in placemarks)
+            {
+                // Process the placemark.
+                NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
+                NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
+                NSLog(@"%@", latDest1);
+                NSLog(@"%@", lngDest1);
+            }
+        }];
+    }
+}
+
+
+
 
 @end

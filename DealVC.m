@@ -24,8 +24,7 @@
 //    self.oImage.image = [UIImage imageNamed:self.stringImage];
     self.oDeal.text = self.stringDeal;
     self.oRuntime.text = self.stringRuntime;
-//    self.oExpiration.text = self.stringExpiration;
-    NSLog(@"%@", self.stringExpiration);
+    self.oExpiration.text = self.stringExpiration;
 }
 
 
@@ -34,13 +33,14 @@
 //    [[self.oImage layer] setBorderWidth:0.7f];
 //    [[self.oImage layer] setBorderColor:[UIColor whiteColor].CGColor];
     
-    [[self.oRedeemButton layer] setBorderWidth:1.0f];
+    [self.oRedeemButton setTitleColor:self.offSetColor forState:UIControlStateNormal];
+    [[self.oRedeemButton layer] setBorderWidth:3.0f];
     [[self.oRedeemButton layer] setBorderColor:self.resColor.CGColor];
     
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.barTintColor = self.resColor;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = self.offSetColor;
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
@@ -94,7 +94,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
         
         [self.oRedeemButton setBackgroundColor:[UIColor colorWithRed:25/255.0 green:191/255.0 blue:0/255.0 alpha:1]];
         [self.oRedeemButton setTitle:@"Redeemed!" forState:UIControlStateNormal];
-        [self.oRedeemButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.oRedeemButton setTitleColor:self.offSetColor forState:UIControlStateNormal];
         [self.oRedeemButton setEnabled:NO];
         
         [[self.oRedeemButton layer] setBorderWidth:1.0f];

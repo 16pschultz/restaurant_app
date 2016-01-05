@@ -25,13 +25,24 @@
 @end
 
 #define TAG_CALL 1
-#define TAG_LOGIN 2
 
 @implementation ViewController
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    PFObject *restaurant = [PFObject objectWithClassName:@"Restaurant"];
+    PFFile *resLogo = restaurant[@"logo"];
+    [resLogo getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error) {
+
+            self.picData = imageData;
+            NSLog(@"%@", self.picData);
+        } else if (error) {
+            NSLog(@"There was an error");
+        }
+    }];
     
     [self convHex];
     [self reloadInputViews];
@@ -40,39 +51,48 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     
-    if ([PFUser currentUser]) {
-        
-        [self.outletSignInButton setHidden:YES];
-        [self.outletSignOutButton setHidden:NO];
-        
-    } else if (![PFUser currentUser]) {
-        
-        [self.outletSignInButton setHidden:NO];
-        [self.outletSignOutButton setHidden:YES];
-    }
 }
 
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     
+    if (self.colorShade == NULL) {
+        self.offSetColor = [UIColor whiteColor];
+        
+        
+    } else {
+        self.offSetColor = [UIColor darkGrayColor];
+        
+        [self.buttonMenu setBackgroundImage:[UIImage imageNamed: @"menuPic_2.png"] forState:UIControlStateNormal];
+        [self.buttonDirections setBackgroundImage:[UIImage imageNamed: @"directionsPic_2.png"] forState:UIControlStateNormal];
+        [self.buttonCall setBackgroundImage:[UIImage imageNamed: @"call_2.png"] forState:UIControlStateNormal];
+    }
+    
+    
     [self.navigationController.navigationBar setHidden:NO];
     // Navigation Bar Attibutes
     self.navigationController.navigationBar.barTintColor = self.resColor;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = self.offSetColor;
     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.offSetColor}];
     self.navigationController.navigationBar.translucent = NO;
     
-    self.buttonMenu.backgroundColor = [UIColor whiteColor];
-    self.buttonScan.backgroundColor = [UIColor whiteColor];
-    self.buttonRewards.backgroundColor = [UIColor whiteColor];
-    
-    self.buttonAppDeals.backgroundColor = self.resColor;
-    [self.buttonAppDeals.imageView setImage:[UIImage imageNamed:@"appDealsIcon.png"]];
-    [self.buttonAppDeals.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    self.buttonMenu.backgroundColor = self.resColor;
     self.buttonDirections.backgroundColor = self.resColor;
     self.buttonCall.backgroundColor = self.resColor;
+    
+    [[self.buttonAppDeals layer] setBorderWidth:4.5f];
+    [[self.buttonAppDeals layer] setBorderColor:self.resColor.CGColor];
+    
+    [[self.buttonMenu layer] setBorderWidth:4.5f];
+    [[self.buttonMenu layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    [[self.buttonDirections layer] setBorderWidth:4.5f];
+    [[self.buttonDirections layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    [[self.buttonCall layer] setBorderWidth:4.5f];
+    [[self.buttonCall layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     self.labelResName.text = self.resName;
 }
@@ -96,10 +116,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         
     } else if (alertView.tag == TAG_CALL) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", telNum]]];
-        
-    } else if (alertView.tag == TAG_LOGIN){
-        [PFUser logOut];
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
     }];
 }
@@ -110,24 +126,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     alertView.tag = TAG_CALL;
     [alertView show];
-}
-
-
-
-- (IBAction)SignOutButton {
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Log Out" message:@"Are you sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-
-    alertView.tag = TAG_LOGIN;
-    [alertView show];
-
-}
-
-
-- (IBAction)SignInButton {
-    
-    [self performSegueWithIdentifier:@"showLogin" sender:self];
-
 }
 
 
@@ -160,33 +158,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
 
 
-- (IBAction)rewardsButton {
-    
-    if (![PFUser currentUser]) {
-        
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
-        
-    } else if ([PFUser currentUser]) {
-        
-        // Launch Rewards Page
-        [self performSegueWithIdentifier:@"showRewards" sender:self];
-    }
-}
-
-- (IBAction)scanButton {
-    
-    if (![PFUser currentUser]) {
-        
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
-        
-    } else if ([PFUser currentUser]) {
-        
-        // Launch Scan Page
-        [self performSegueWithIdentifier:@"showScan" sender:self];
-    }
-}
-
-
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([segue.identifier isEqualToString:@"showAppDeals"]) {
@@ -194,6 +165,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         AppDealsTVC *appDealsTVC = (AppDealsTVC *)segue.destinationViewController;        
         appDealsTVC.resObjectId = self.resObjectId;
         appDealsTVC.resColor = self.resColor;
+        appDealsTVC.offSetColor = self.offSetColor;
     }
     
     if ([segue.identifier isEqualToString:@"showMenu"]) {
@@ -201,6 +173,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         MenuTVC *menuTVC = (MenuTVC *)segue.destinationViewController;
         menuTVC.resObjectId = self.resObjectId;
         menuTVC.resColor = self.resColor;
+        menuTVC.offSetColor = self.offSetColor;
     }
     
     if ([segue.identifier isEqualToString:@"showDirections"]) {
@@ -210,20 +183,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         mapVC.resColor = self.resColor;
         mapVC.resLatitude = self.resLatitude;
         mapVC.resLongitude = self.resLongitude;
-    }
-    
-    if ([segue.identifier isEqualToString:@"showRewards"]) {
-        
-        RewardsVC *rewardsVC = (RewardsVC *)segue.destinationViewController;
-        rewardsVC.resObjectId = self.resObjectId;
-        rewardsVC.resColor = self.resColor;
-    }
-    
-    if ([segue.identifier isEqualToString:@"showScan"]) {
-        
-        QRCodeVC *qrCodeVC = (QRCodeVC *)segue.destinationViewController;
-        qrCodeVC.resObjectId = self.resObjectId;
-        qrCodeVC.resColor = self.resColor;
+        mapVC.offSetColor = self.offSetColor;
     }
 }
 

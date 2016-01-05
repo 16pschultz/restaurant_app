@@ -36,7 +36,7 @@
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.barTintColor = self.resColor;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = self.offSetColor;
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
@@ -79,7 +79,7 @@
     
     NSDate *date = [self.dealListArray objectAtIndex:indexPath.row][@"expirationDate"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd/MM/yy"];
+    [formatter setDateFormat:@"MM-dd-yy"];
     
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@       Expires %@",[self.dealListArray objectAtIndex:indexPath.row][@"runTime"],[formatter stringFromDate:date]];
         cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
@@ -136,7 +136,7 @@
 
         NSDate *date = [self.dealListArray objectAtIndex:indexPath.row][@"expirationDate"];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"dd/MM/yy"];
+        [formatter setDateFormat:@"MM/dd/yy"];
         
         DealVC *dealVC = (DealVC *)segue.destinationViewController;
         
@@ -144,7 +144,8 @@
         dealVC.stringDeal = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
         dealVC.stringRuntime = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
         NSString *myDate = [NSString stringWithFormat:@"%@",[formatter stringFromDate:date]];
-        dealVC.stringExpiration = myDate;
+        NSLog(@"%@", myDate);
+        dealVC.stringExpiration = [NSString stringWithFormat:@"Expires: %@",myDate];
         dealVC.resColor = self.resColor;
         
     }
