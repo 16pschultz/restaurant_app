@@ -18,6 +18,7 @@
 // All Restaurant Data
 @property (strong, nonatomic) NSString *resObjectId;
 @property (strong, nonatomic) UIColor  *resColor;
+@property (strong, nonatomic) UIColor  *offSetColor;
 
 @property (nonatomic, retain) NSMutableArray *imageFiles;
 

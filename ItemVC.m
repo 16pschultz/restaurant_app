@@ -31,7 +31,7 @@
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.barTintColor = self.resColor;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = self.offSetColor;
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;

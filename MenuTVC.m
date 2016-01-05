@@ -35,7 +35,7 @@
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.barTintColor = self.resColor;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = self.offSetColor;
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
@@ -90,6 +90,11 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    if ([[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row][@"description"] == NULL) {
+
+        cell.userInteractionEnabled = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     // Item Name
     cell.textLabel.text = [[[self.menuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"];
@@ -164,6 +169,7 @@
     [query orderByAscending:@"menuType"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
         for (PFObject *menuItem in objects) {
             
             NSNumber *switchNumber = menuItem[@"menuType"];

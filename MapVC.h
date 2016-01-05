@@ -14,6 +14,7 @@
 
 @property (strong, nonatomic) NSString *resObjectId;
 @property (strong, nonatomic) UIColor  *resColor;
+@property (strong, nonatomic) UIColor  *offSetColor;
 
 @property (strong, nonatomic) NSNumber *resLongitude;
 @property (strong, nonatomic) NSNumber *resLatitude;
