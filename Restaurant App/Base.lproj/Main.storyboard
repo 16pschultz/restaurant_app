@@ -669,15 +669,55 @@
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="GkI-wD-bCu"/>
-                        <viewControllerLayoutGuide type="bottom" id="d3m-FL-xkb"/>
+                        <viewControllerLayoutGuide type="top" id="QeT-3R-Koi"/>
+                        <viewControllerLayoutGuide type="bottom" id="nnP-2d-Xf6"/>
                     </layoutGuides>
-                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="6Wq-3k-Bbm">
+                    <view key="view" contentMode="scaleToFill" id="Cvb-8f-WeN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jRZ-I1-Bfj">
-                                <rect key="frame" x="38" y="376" width="100" height="100"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RZa-va-Iqh">
+                                <rect key="frame" x="25" y="223" width="271" height="256"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="XIS-mK-avX" detailTextLabel="87X-zf-YAT" rowHeight="84" style="IBUITableViewCellStyleSubtitle" id="3FI-Ax-2Xr">
+                                        <rect key="frame" x="0.0" y="28" width="271" height="84"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3FI-Ax-2Xr" id="r1Z-Hr-6kj">
+                                            <rect key="frame" x="0.0" y="0.0" width="271" height="83.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XIS-mK-avX">
+                                                    <rect key="frame" x="15" y="26" width="31.5" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="87X-zf-YAT">
+                                                    <rect key="frame" x="15" y="45.5" width="30.5" height="13.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="7"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="g65-iy-nja"/>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="9UC-uZ-ebX"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzg-X1-9Ej">
+                                <rect key="frame" x="25" y="99" width="85" height="85"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="25"/>
                                 <state key="normal" backgroundImage="directionsPic">
@@ -695,11 +735,11 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="directionsButton" destination="vXZ-lx-hvc" eventType="touchUpInside" id="vsu-Bw-Qd2"/>
+                                    <action selector="directionsButton" destination="vXZ-lx-hvc" eventType="touchUpInside" id="kw2-9I-8ci"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6SX-tZ-ohd">
-                                <rect key="frame" x="110" y="85" width="100" height="100"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQE-nh-Xat">
+                                <rect key="frame" x="118" y="84" width="85" height="85"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="25"/>
                                 <state key="normal" backgroundImage="menuPic">
@@ -717,11 +757,11 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="menuButton" destination="vXZ-lx-hvc" eventType="touchUpInside" id="JXR-0I-ZA9"/>
+                                    <action selector="menuButton" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oco-i3-TBE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YfQ-U3-wRQ">
-                                <rect key="frame" x="182" y="376" width="100" height="100"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkc-6Z-8wg">
+                                <rect key="frame" x="211" y="99" width="85" height="85"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="25"/>
                                 <state key="normal" backgroundImage="call">
@@ -739,11 +779,11 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="MakePhoneCall:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="KsD-JC-ZH2"/>
+                                    <action selector="MakePhoneCall:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="IHA-Lo-T41"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DNE-mc-sJc">
-                                <rect key="frame" x="98" y="221" width="125" height="125"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kjG-sn-E3B">
+                                <rect key="frame" x="269" y="46" width="37" height="37"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="26"/>
                                 <state key="normal" title="Deals">
@@ -761,45 +801,51 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="appDealsButton" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Cqb-RB-aEl"/>
+                                    <action selector="appDealsButton" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Z8B-bc-nag"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Menu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vdp-X5-BQE">
-                                <rect key="frame" x="145" y="187" width="30" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Menu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hey-fv-b9Z">
+                                <rect key="frame" x="145" y="177" width="30" height="23"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Directions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gm2-H5-wAm">
-                                <rect key="frame" x="62" y="484" width="53" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Directions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lA0-W6-4PI">
+                                <rect key="frame" x="41" y="192" width="53" height="23"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Call" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zGY-W9-wW0">
-                                <rect key="frame" x="222" y="484" width="20" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Call" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QG6-z4-88a">
+                                <rect key="frame" x="243" y="192" width="20" height="23"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Restaurant Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hak-fH-zSv">
-                                <rect key="frame" x="8" y="0.0" width="304" height="68"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Restaurant Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJf-9u-VSr">
+                                <rect key="frame" x="8" y="8" width="304" height="68"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Deals" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mTD-Ea-GjO">
+                                <rect key="frame" x="145" y="487" width="30" height="23"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    </scrollView>
+                        <color key="backgroundColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
                     <navigationItem key="navigationItem" id="ESj-c5-TmD"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="buttonAppDeals" destination="DNE-mc-sJc" id="6fL-Bs-nGc"/>
-                        <outlet property="buttonCall" destination="YfQ-U3-wRQ" id="TUD-WS-uJZ"/>
-                        <outlet property="buttonDirections" destination="jRZ-I1-Bfj" id="qjo-xE-SPx"/>
-                        <outlet property="buttonMenu" destination="6SX-tZ-ohd" id="emA-Xh-a86"/>
-                        <outlet property="labelResName" destination="hak-fH-zSv" id="yqH-7P-6pT"/>
+                        <outlet property="buttonCall" destination="Nkc-6Z-8wg" id="Ncj-zk-EfQ"/>
+                        <outlet property="buttonDirections" destination="Hzg-X1-9Ej" id="JRC-UB-rTW"/>
+                        <outlet property="buttonMenu" destination="cQE-nh-Xat" id="oaW-zi-miK"/>
+                        <outlet property="labelResName" destination="FJf-9u-VSr" id="xD0-JI-4Fa"/>
+                        <outlet property="tvDeal" destination="RZa-va-Iqh" id="QGf-U3-9Ud"/>
                         <segue destination="EaN-CI-tRg" kind="push" identifier="showAppDeals" id="KkN-h1-koF"/>
                         <segue destination="Mqv-jZ-cFJ" kind="push" identifier="showMenu" id="BAm-Wq-kzw"/>
                         <segue destination="1fD-gr-Q6F" kind="push" identifier="showDirections" id="RGL-Dh-4Pt"/>
@@ -1029,6 +1075,6 @@
         <image name="menuPic" width="360" height="360"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kdr-BX-E5O"/>
+        <segue reference="KsH-1F-cX1"/>
     </inferredMetricsTieBreakers>
 </document>
