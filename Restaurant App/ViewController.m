@@ -58,6 +58,14 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     
+    self.viewRedeeming.hidden = YES;
+    
+    [[self.viewRedeeming layer] setBorderWidth:3.5f];
+    [[self.viewRedeeming layer] setBorderColor:self.resColor.CGColor];
+    
+    [[self.oRedeem layer] setBorderWidth:2.5f];
+    [[self.oRedeem layer] setBorderColor:self.resColor.CGColor];
+    
     [[self.tvDeal layer] setBorderWidth:3.5f];
     [[self.tvDeal layer] setBorderColor:self.resColor.CGColor];
     
@@ -170,14 +178,26 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self.dealListArray objectAtIndex:indexPath.row][@"image"] == NULL) {
+    if (![PFUser currentUser]) {
         
-        [self performSegueWithIdentifier:@"showDeal" sender:self];
-    } else {
+        self.viewRedeeming.hidden = NO;
+        self.oDeal.text = @"Must be logged in to Redeem";
+        self.oRuntime.hidden = YES;
+        self.oExpiration.hidden = YES;
+        self.oRedeem.hidden = YES;
+        self.messageRedeem.hidden = YES;
         
-        [self performSegueWithIdentifier:@"showDealWPic" sender:self];
+    } else if ([PFUser currentUser]) {
+        
+        self.viewRedeeming.hidden = NO;
+        self.oDeal.text = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
+        self.oRuntime.text = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
+        
+        NSDate *date = [self.dealListArray objectAtIndex:indexPath.row][@"expirationDate"];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MM-dd-yy"];
+        self.oExpiration.text = [NSString stringWithFormat:@"Expires %@", [formatter stringFromDate:date]];
     }
-    
 }
 
 
@@ -306,6 +326,30 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     [scanner setScanLocation:1];
     [scanner scanHexInt:&result];
     self.resColor = UIColorFromRGB(result);
+}
+
+- (IBAction)dismissRedeeming {
+    
+    self.viewRedeeming.hidden = YES;
+    [self.oRedeem setBackgroundColor:[UIColor whiteColor]];
+    [self.oRedeem setTitle:@"Redeemed" forState:UIControlStateNormal];
+    [self.oRedeem setEnabled:YES];
+}
+
+- (IBAction)redeemButton {
+    
+    NSIndexPath *indexPath = [self.tvDeal indexPathForSelectedRow];
+    
+    [self.oRedeem setBackgroundColor:[UIColor greenColor]];
+    [self.oRedeem setTitle:@"Redeemed!" forState:UIControlStateNormal];
+    [self.oRedeem setEnabled:NO];
+    
+    self.oDeal.text = @"COUNTDOWN";
+    self.oRuntime.text = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
+    self.oExpiration.text = @"Show to waiter when Redeeming";
+    
+    [self queryForDeals];
+    [self.tvDeal reloadData];
 }
 
 @end

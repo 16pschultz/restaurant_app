@@ -21,13 +21,16 @@
 @property (nonatomic, retain) NSMutableArray *imageFiles;
 
 @property (nonatomic, retain) NSArray *dealListArray;
-@property (nonatomic, retain) NSString *dealTitle;
-@property (nonatomic, retain) NSString *dealDiscount;
-@property (nonatomic, retain) NSString *dealDescription;
-@property (nonatomic, retain) NSString *stringPlaceholder;
 
-@property (nonatomic, retain) NSDictionary *dealsDic;
-
+// Redeem View
+@property (strong, nonatomic) IBOutlet UIView *viewRedeeming;
+@property (strong, nonatomic) IBOutlet UILabel *oDeal;
+@property (strong, nonatomic) IBOutlet UILabel *oRuntime;
+@property (strong, nonatomic) IBOutlet UILabel *oExpiration;
+- (IBAction)dismissRedeeming;
+@property (weak, nonatomic) IBOutlet UIButton *oRedeem;
+- (IBAction)redeemButton;
+@property (weak, nonatomic) IBOutlet UILabel *messageRedeem;
 
 
 // All Restaurant Data
@@ -46,7 +49,6 @@
 
 - (IBAction)menuButton;
 - (IBAction)directionsButton;
-
 - (IBAction)appDealsButton;
 
 

@@ -10,6 +10,11 @@
 
 @interface MainMenu : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
+// Locations
+@property (strong, nonatomic) NSMutableArray *locationArray;
+
+
+
 
 @property (strong, nonatomic) NSData *picData;
 
