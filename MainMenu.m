@@ -162,7 +162,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     [query orderByAscending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         self.restaurantObjects = objects;
-        NSLog(@"%@", self.restaurantObjects);
         
         [self.restaurantColView reloadData];
     }];
@@ -177,9 +176,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         if (!error) {
 //            [self.restaurantLogoData addObject:imageData];
             self.picData = imageData;
-            NSLog(@"%@", self.picData);
+
         } else if (error) {
-            NSLog(@"There was an error");
+
         }
         [self.restaurantColView reloadData];
     }];
@@ -215,9 +214,25 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                 // Process the placemark.
                 NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
                 NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
-                NSLog(@"%@", latDest1);
-                NSLog(@"%@", lngDest1);
+                
+                double lat = latDest1.doubleValue;
+                double longtd = lngDest1.doubleValue;
+                CLLocation *location = [[CLLocation alloc] initWithLatitude:lat longitude:longtd];
+                
+                [self.locationArray addObject:location];
+
+                NSLog(@"%@", self.locationArray);
+
+//                NSLog(@"%@", latDest1);
+//                NSLog(@"%@", lngDest1);
             }
+            
+            NSLog(@"%@", self.locationArray);
+
+            
+            CLLocationDistance distance = [[self.locationArray objectAtIndex:0] distanceFromLocation:[self.locationArray objectAtIndex:1]]; //CLLocationDistance is a double
+            
+//            NSLog(@"%f", distance);
         }];
     }
 }
