@@ -25,6 +25,8 @@
 @end
 
 #define TAG_CALL 1
+#define TAG_REDEEM 2
+#define TAG_XOUT 3
 
 @implementation ViewController
 
@@ -44,9 +46,15 @@
 //        }
 //    }];
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tvDeal addSubview:refreshControl];
+    [refreshControl setTintColor:[UIColor darkGrayColor]];
+
+    self.time = 180;
+    
     [self convHex];
     [self queryForDeals];
-    
 }
 
 
@@ -150,6 +158,7 @@
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
     
+    self.resLogo.image = [UIImage imageWithData:self.picData];
 //    // Item Image
 //    
 //    PFFile *imageFile = [self.dealListArray objectAtIndex:indexPath.row][@"image"];
@@ -198,27 +207,6 @@
         [formatter setDateFormat:@"MM-dd-yy"];
         self.oExpiration.text = [NSString stringWithFormat:@"Expires %@", [formatter stringFromDate:date]];
     }
-}
-
-
-
-
-
--(void)alertView:(UIAlertView *)alertView
-clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    PFQuery *query = [PFUser query];
-    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resNum, NSError *error) {
-        
-    NSNumber *telNum = self.resPhoneNum;
-    
-    if (alertView.cancelButtonIndex == buttonIndex){
-        // Do cancel
-        
-    } else if (alertView.tag == TAG_CALL) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", telNum]]];
-    }
-    }];
 }
 
 - (IBAction)MakePhoneCall:(id)sender {
@@ -319,6 +307,122 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     }];
 }
 
+-(void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
+    [query getObjectInBackgroundWithId:self.resObjectId block:^(PFObject *resNum, NSError *error) {
+        
+        NSNumber *telNum = self.resPhoneNum;
+        
+        if (alertView.cancelButtonIndex == buttonIndex){
+            // Do cancel
+            
+        } else if (alertView.tag == TAG_CALL) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", telNum]]];
+            
+        } else if (alertView.tag == TAG_REDEEM) {
+            
+            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+            
+            NSIndexPath *indexPath = [self.tvDeal indexPathForSelectedRow];
+            
+            [self.oRedeem setTitle:@"Redeemed!" forState:UIControlStateNormal];
+            [self.oRedeem setBackgroundColor:[UIColor greenColor]];
+            [self.oRedeem setEnabled:NO];
+            
+            self.oRuntime.text = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
+            self.oExpiration.text = @"Show to waiter when Redeeming";
+            
+            [self usedDealsCounter];
+            
+            [self queryForDeals];
+            [self.tvDeal reloadData];
+            
+        } else if (alertView.tag == TAG_XOUT) {
+            
+            NSLog(@"Is this code even running?");
+            [self.viewRedeeming setHidden:YES];
+            [self.oRedeem setBackgroundColor:[UIColor whiteColor]];
+            [self.oRedeem setTitle:@"Redeem" forState:UIControlStateNormal];
+            [self.oRedeem setEnabled:YES];
+            [timer invalidate];
+            self.time = 120;
+        }
+    }];
+}
+
+- (void)countdown {
+    
+    self.time -= 1;
+    
+    self.seconds = self.time % 60;
+    self.minutes = (self.time - self.seconds) / 60;
+    self.oDeal.text = [NSString stringWithFormat:@"%d:%.2d", self.minutes, self.seconds];
+    
+    NSString *padZero = @"";
+    
+    if(self.seconds < 10) padZero = @"0";
+    
+    self.oDeal.text = [NSString stringWithFormat:@"%i:%@%i", self.minutes , padZero, self.seconds];
+    
+    if (self.time == 0) {
+        
+        [timer invalidate];
+        [self queryForDeals];
+        [self.tvDeal reloadData];
+        self.viewRedeeming.hidden = YES;
+    }
+}
+
+- (IBAction)redeemButton {
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Redeem?"
+                                                        message:@"Deal will be removed when redeemed"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Yes", nil];
+    
+    alertView.tag = TAG_REDEEM;
+    [alertView show];
+}
+
+- (IBAction)dismissRedeeming {
+    
+    if ([self.oRedeem.titleLabel.text isEqual: @"Redeemed!"]) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you Sure?"
+                                                            message:@"Has your waiter reviewed this"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Yes", nil];
+        
+        alertView.tag = TAG_XOUT;
+        [alertView show];
+
+    } else {
+            
+        self.viewRedeeming.hidden = YES;
+        [self.oRedeem setBackgroundColor:[UIColor whiteColor]];
+        [self.oRedeem setTitle:@"Redeem" forState:UIControlStateNormal];
+        [self.oRedeem setEnabled:YES];
+        [timer invalidate];
+        self.time = 180;
+    }
+
+}
+
+- (void) usedDealsCounter {
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
+    [query getObjectInBackgroundWithId:self.resObjectId block:^(PFObject *dealsUsed, NSError *error) {
+
+        [dealsUsed incrementKey:@"dealsUsed" byAmount:[NSNumber numberWithInt:1]];
+        [dealsUsed saveInBackground];
+    }];
+}
+
+
 - (void) convHex {
     
     unsigned result = 0;
@@ -328,28 +432,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     self.resColor = UIColorFromRGB(result);
 }
 
-- (IBAction)dismissRedeeming {
-    
-    self.viewRedeeming.hidden = YES;
-    [self.oRedeem setBackgroundColor:[UIColor whiteColor]];
-    [self.oRedeem setTitle:@"Redeemed" forState:UIControlStateNormal];
-    [self.oRedeem setEnabled:YES];
-}
-
-- (IBAction)redeemButton {
-    
-    NSIndexPath *indexPath = [self.tvDeal indexPathForSelectedRow];
-    
-    [self.oRedeem setBackgroundColor:[UIColor greenColor]];
-    [self.oRedeem setTitle:@"Redeemed!" forState:UIControlStateNormal];
-    [self.oRedeem setEnabled:NO];
-    
-    self.oDeal.text = @"COUNTDOWN";
-    self.oRuntime.text = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
-    self.oExpiration.text = @"Show to waiter when Redeeming";
+- (void)refresh:(UIRefreshControl *)refreshControl {
     
     [self queryForDeals];
     [self.tvDeal reloadData];
+    [refreshControl endRefreshing];
 }
 
 @end

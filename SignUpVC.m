@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[self.oSignUpButton layer] setBorderWidth:0.7f];
+    [[self.oSignUpButton layer] setBorderWidth:1.0f];
     [[self.oSignUpButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
@@ -56,7 +56,6 @@
         newUser.username = self.stringUsername;
         newUser.password = self.stringPassword;
         newUser.email = self.stringEmail;
-        [newUser setObject:@0 forKey:@"Points"];
         
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
