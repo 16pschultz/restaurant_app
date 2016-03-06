@@ -11,6 +11,7 @@
 #import "MainMenu.h"
 #import "RestaurantViewCell.h"
 #import "ViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface MainMenu ()
 
@@ -24,14 +25,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self queryForRestaurantData];
-    [self nearestRestaurant];
-    [self queryResLogos];
+    self.locationArray = [[NSMutableArray alloc] init];
+    self.restaurantObjects = [[NSMutableArray alloc] init];
+    self.distancesArray = [[NSMutableArray alloc] init];
+    self.resAddressArray = [[NSMutableArray alloc] init];
     
     self.restaurantColView.delegate = self;
     self.restaurantColView.dataSource = self;
     
+    [self queryForRestaurantData];
+    [self addingLocations];
+//    [self nearestRestaurant];
+    [self sortArrays];
     
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:)
+                forControlEvents:UIControlEventValueChanged];
+    [self.restaurantColView addSubview:refreshControl];
+    [refreshControl setTintColor:[UIColor whiteColor]];
+    self.restaurantColView.alwaysBounceVertical = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,22 +81,21 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-        
     RestaurantViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"restaurantCell" forIndexPath:indexPath];
         
     cell.layer.masksToBounds = YES;
     cell.layer.cornerRadius = 7;
     
+     [self sortArrays];
     cell.labelForRestaurant.text = [self.restaurantObjects objectAtIndex:indexPath.row][@"name"];
     
-    cell.restaurantImage.image = [UIImage imageWithData:self.picData];
-    
-/*
-    cell.restaurantImage.image = [UIImage imageWithData:[self.restaurantLogoData objectAtIndex:indexPath.row]];
-*/
-    
-//    cell.restaurantImage.image = [self.restaurantLogos objectAtIndex:indexPath.row];
-    
+    PFFile *resLogo = [self.restaurantObjects objectAtIndex:indexPath.row][@"logo"];
+    [resLogo getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error) {
+            cell.restaurantImage.image = [UIImage imageWithData:imageData];
+        }
+    }];
+
     return cell;
 }
 
@@ -111,6 +123,14 @@
         NSIndexPath *indexPath = (NSIndexPath *)sender;
         ViewController *viewC = (ViewController *)segue.destinationViewController;
         
+        PFFile *resLogo = [self.restaurantObjects objectAtIndex:indexPath.row][@"logo"];
+        [resLogo getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+            if (!error) {
+                viewC.picData = imageData;
+            }
+        }];
+        
+        viewC.resDealsUsed = [self.restaurantObjects objectAtIndex:indexPath.row][@"dealsUsed"];
         viewC.resObjectId =  [[self.restaurantObjects objectAtIndex:indexPath.row]objectId];
         viewC.resName =      [self.restaurantObjects objectAtIndex:indexPath.row][@"name"];
         viewC.resLocation =  [self.restaurantObjects objectAtIndex:indexPath.row][@"resLocation"];
@@ -161,83 +181,129 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
     [query orderByAscending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        self.restaurantObjects = objects;
+        for (NSObject *resObj in objects) {
+            NSLog(@"%@", resObj);
+            [self.restaurantObjects addObject:resObj];
+        }
         
-        [self.restaurantColView reloadData];
-    }];
-    
-}
-
-- (void) queryResLogos {
-    
-    PFObject *restaurant = [PFObject objectWithClassName:@"Restaurant"];
-    PFFile *resLogo = restaurant[@"logo"];
-    [resLogo getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-        if (!error) {
-//            [self.restaurantLogoData addObject:imageData];
-            self.picData = imageData;
-
-        } else if (error) {
-
+        // Adding addresses to array
+        for (int i = 0; i < self.restaurantObjects.count; i++) {
+            NSString *address = [[self.restaurantObjects objectAtIndex:i] objectForKey:@"address"];
+            [self.resAddressArray addObject:address];
+            NSLog(@"%@", address);
         }
         [self.restaurantColView reloadData];
     }];
-    
-    
+}
 
-/*
-    for (int i = 0; i < self.restaurantObjects.count; i++) {
+
+- (void) addingLocations {
+    
+    NSString *userAddress = @"1402 Forest Glen Court, Catonsville, Maryland";
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    
+    [geocoder geocodeAddressString:userAddress completionHandler:^(NSArray* placemarks, NSError* error){
+        for (CLPlacemark* aPlacemark in placemarks)
+        {
+            // Processing the placemark
+            NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
+            NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
+            
+            CGFloat lat = latDest1.floatValue;
+            CGFloat longtd = lngDest1.floatValue;
+            
+            self.userLocation = [[CLLocation alloc] initWithLatitude:lat longitude:longtd];
+        }
+    }];
+    
+    
+    NSArray *addressArray = @[@"1402 Forest Glen Court, Catonsville, Maryland", @"6480 Dobbin Center Way, Columbia, Maryland", @"829 Frederick Rd, Catonsville, Maryland", @"805 Frederick Rd, Catonsville, Maryland"];
+    
+    // self.resAddressArray
+    for (NSString *address in addressArray) {
         
-        NSData *imageData = [[self.restaurantObjects objectAtIndex:i] objectForKey:@""];
-        UIImage *resLogo = [UIImage imageWithData:imageData];
-        
-        [self.restaurantLogos addObject:resLogo];
-        
-        NSLog(@"Queried %d logos", i);
+         CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+        [geocoder geocodeAddressString:address completionHandler:^(NSArray* placemarks, NSError* error){
+            for (CLPlacemark* aPlacemark in placemarks)
+            {
+                // Processing the placemark
+                NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
+                NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
+                
+                CGFloat lat = latDest1.floatValue;
+                CGFloat longtd = lngDest1.floatValue;
+                
+                CLLocation *location = [[CLLocation alloc] initWithLatitude:lat longitude:longtd];
+                
+                [self.locationArray addObject:location];
+                NSLog(@"%@", location);
+            }
+        }];
     }
- */
+    
+    NSLog(@"%@", self.locationArray);
+    
+    if (self.locationArray.count > 0) {
+        for (int i = 0; i < self.locationArray.count; i++) {
+            
+            CLLocationDistance distance = [self.userLocation distanceFromLocation:self.locationArray[i]];
+            int a = (int)distance;
+            NSLog(@"%i", a);
+            [self.distancesArray addObject:[NSNumber numberWithInt:a]];
+        }
+    }
 }
 
 
 - (void) nearestRestaurant {
     
+    NSLog(@"%@", self.locationArray);
     
-    NSArray *addressArray = @[@"805 Frederick Road, Baltimore, Maryland", @"726 Frederick Rd, Catonsville, Maryland", @"829 Frederick Rd, Catonsville, Maryland"];
-    
-    for (NSString *address in addressArray) {
+    for (int i = 0; i < self.locationArray.count; i++) {
         
-        // Code found on StackOverFlow
-        CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-        [geocoder geocodeAddressString:address completionHandler:^(NSArray* placemarks, NSError* error){
-            for (CLPlacemark* aPlacemark in placemarks)
-            {
-                // Process the placemark.
-                NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
-                NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
-                
-                double lat = latDest1.doubleValue;
-                double longtd = lngDest1.doubleValue;
-                CLLocation *location = [[CLLocation alloc] initWithLatitude:lat longitude:longtd];
-                
-                [self.locationArray addObject:location];
-
-                NSLog(@"%@", self.locationArray);
-
-//                NSLog(@"%@", latDest1);
-//                NSLog(@"%@", lngDest1);
-            }
-            
-            NSLog(@"%@", self.locationArray);
-
-            
-            CLLocationDistance distance = [[self.locationArray objectAtIndex:0] distanceFromLocation:[self.locationArray objectAtIndex:1]]; //CLLocationDistance is a double
-            
-//            NSLog(@"%f", distance);
-        }];
+        CLLocationDistance distance = [self.userLocation distanceFromLocation:self.locationArray[i]];
+        int a = (int)distance;
+        NSLog(@"%i", a);
+        [self.distancesArray addObject:[NSNumber numberWithInt:a]];
     }
 }
 
+- (void) sortArrays {
+    
+    NSLog(@"%@", self.distancesArray);
+    
+    for (int i = self.distancesArray.count-2; i >= 0; i--) {
+        NSLog(@"%i", i);
+        NSLog(@"%@", [self.distancesArray objectAtIndex:i]);
+        NSLog(@"%@", self.distancesArray);
+        
+        NSLog(@"%@", self.restaurantObjects);
+        for (int j = 0; j <= i; j++) {
+            
+            if (self.distancesArray[j+1] < self.distancesArray[j]) {
+                NSLog(@"%@ is less than %@",self.distancesArray[j+1], self.distancesArray[j]);
+                id temp = self.distancesArray[j];
+                self.distancesArray[j] = self.distancesArray[j+1];
+                self.distancesArray[j+1] = temp;
+                // Sorting Restaurants by distance
+                self.restaurantObjects[j] = self.restaurantObjects[j+1];
+                self.restaurantObjects[j+1] = temp;
+            }
+        }
+    }
+    NSLog(@"%@", self.restaurantObjects);
 
+    for (int i = 0; i < self.distancesArray.count; i++) {
+        
+         NSLog(@"%@", self.distancesArray[i]);
+    }
+}
 
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    
+    [self queryForRestaurantData];
+    [self.restaurantColView reloadData];
+    [refreshControl endRefreshing];
+}
 
 @end

@@ -7,6 +7,13 @@
 
 @interface MenuTVC : UITableViewController
 
+// Cell
+@property (strong, nonatomic) IBOutlet UILabel *labelItem;
+@property (strong, nonatomic) IBOutlet UILabel *labelPrice;
+@property (strong, nonatomic) IBOutlet UILabel *labelDescription;
+
+
+
 @property (strong, nonatomic) NSArray *resMenuItems;
 @property (strong, nonatomic) NSMutableArray *menuArray;
 @property (strong, nonatomic) NSMutableArray *secTitlesArray;
@@ -20,6 +27,11 @@
 @property (strong, nonatomic) UIColor  *offSetColor;
 
 @property (strong, nonatomic) NSString *stringPlaceholder;
+
+
+
+@property (strong, nonatomic) NSIndexPath *expandedIndexPath;
+
 
 
 @end

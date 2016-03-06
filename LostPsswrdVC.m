@@ -21,7 +21,7 @@
 
     self.outletEmailTF.delegate = self;
     
-    [[self.oSendButton layer] setBorderWidth:0.7f];
+    [[self.oSendButton layer] setBorderWidth:1.0f];
     [[self.oSendButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {

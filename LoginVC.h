@@ -6,8 +6,6 @@
 
 @interface LoginVC : UIViewController <UITextFieldDelegate>
 
-@property (strong, nonatomic) NSArray *dealListArray;
-
 //Text Field Properties
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;

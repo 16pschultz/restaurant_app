@@ -126,16 +126,28 @@
     
 }
 
+
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    [tableView beginUpdates];
     
-    if ([self.breakfastItemsArray objectAtIndex:indexPath.row][@"image"] == NULL) {
+    if ([indexPath compare:self.expandedIndexPath] == NSOrderedSame) {
         
-        [self performSegueWithIdentifier:@"showItem" sender:self];
+        self.expandedIndexPath = nil;
     } else {
         
-        [self performSegueWithIdentifier:@"showItemWPic" sender:self];
+        self.expandedIndexPath = indexPath;
     }
     
+    [tableView endUpdates];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([indexPath compare:self.expandedIndexPath] == NSOrderedSame) {
+        return 140.0;
+    }
+    return 70.0;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

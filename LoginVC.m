@@ -20,45 +20,10 @@ NSString *const kDDescription = @"ddescription";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.dealListArray = @[@{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now 5.25",
-                             kDImage: @"Club_San_RA.jpg",
-                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
-                             },
-                           @{kDeal: @"Grilled Cheese",
-                             kDiscount: @"FREE (Tues/Thurs only)",
-                             kDImage: @"grilled_cheese_RA.jpg",
-                             kDDescription: @"This is cheesy! And free-y!",
-                             },
-                           @{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now 5.25",
-                             kDImage: @"Club_San_RA.jpg",
-                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
-                             },
-                           @{kDeal: @"Grilled Cheese",
-                             kDiscount: @"FREE (Tues/Thurs only)",
-                             kDImage: @"grilled_cheese_RA.jpg",
-                             kDDescription: @"This is cheesy! And free-y!",
-                             },
-                           @{kDeal: @"25% off Club Sandwich",
-                             kDiscount: @"now 5.25",
-                             kDImage: @"Club_San_RA.jpg",
-                             kDDescription: @"Get 25% off our flavorful Club Sandwich!",
-                             },
-                           @{kDeal: @"Grilled Cheese",
-                             kDiscount: @"FREE (Tues/Thurs only)",
-                             kDImage: @"grilled_cheese_RA.jpg",
-                             kDDescription: @"This is cheesy! And free-y!",
-                             },
-                           ];
-    
-    [[self.oLogInButton layer] setBorderWidth:0.7f];
+    [[self.oLogInButton layer] setBorderWidth:1.0f];
     [[self.oLogInButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     
-    
-    
     self.usernameField.frame = CGRectMake (32, 172, 257, 50);
-    
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
@@ -95,17 +60,6 @@ NSString *const kDDescription = @"ddescription";
                                         block:^(PFUser *user, NSError *error) {
                                             
                                             if (user) {
-                                                
-                                                PFUser *deals = [PFUser currentUser];
-                                                [deals setObject:self.dealListArray forKey:@"Deals"];
-                                                
-                                                [deals saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                                    if (succeeded) {
-                                                        NSLog(@"The object has been saved.");
-                                                    } else {
-                                                        NSLog(@"// There was a problem");
-                                                    }
-                                                }];
                                                 
                                                 [self.navigationController popToRootViewControllerAnimated:YES];
                                                 

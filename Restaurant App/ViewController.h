@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+    NSTimer *timer;
+}
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 @property (strong, nonatomic) NSArray *restaurantObjects;
+@property (strong, nonatomic) IBOutlet UIImageView *resLogo;
 
 @property (strong, nonatomic) NSData *picData;
 
@@ -33,7 +36,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *messageRedeem;
 
 
+// Timer after Redeeming
+@property (nonatomic, assign) int time;
+@property (nonatomic, assign) int minutes;
+@property (nonatomic, assign) int seconds;
+
 // All Restaurant Data
+@property (strong, nonatomic) NSObject *resDealsUsed;
 @property (strong, nonatomic) NSString *resObjectId;
 @property (strong, nonatomic) NSString *resName;
 @property (strong, nonatomic) NSString *resLocation;

@@ -91,13 +91,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
         
         self.navigationItem.hidesBackButton = YES;
         self.outletViewRedeeming.hidden = NO;
-        
-        [self.oRedeemButton setBackgroundColor:[UIColor colorWithRed:25/255.0 green:191/255.0 blue:0/255.0 alpha:1]];
+
         [self.oRedeemButton setTitle:@"Redeemed!" forState:UIControlStateNormal];
-        [self.oRedeemButton setTitleColor:self.offSetColor forState:UIControlStateNormal];
+        [self.oRedeemButton setBackgroundColor:[UIColor greenColor]];
         [self.oRedeemButton setEnabled:NO];
         
-        [[self.oRedeemButton layer] setBorderWidth:1.0f];
         [[self.oRedeemButton layer] setBorderColor:[UIColor whiteColor].CGColor];
         
     }

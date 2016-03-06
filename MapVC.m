@@ -21,34 +21,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    PFQuery *query = [PFUser query];
+    PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
     [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resDetails, NSError *error) {
-        
-        NSString *resTitle;
-        resTitle = [resDetails objectForKey:@"restaurantName"];
-        
-        NSString *resLocation;
-        resLocation = [resDetails objectForKey:@"restaurantLocation"];
-
-        NSNumber *resLong;
-        resLong = [resDetails objectForKey:@"longitude"];
-        
-        NSNumber *resLat;
-        resLat = [resDetails objectForKey:@"latitude"];
 
         self.myMapView.mapType = MKMapTypeStandard;
         
         MKCoordinateRegion region = { {0.0, 0.0} , { 0.0, 0.0} };
         
-        region.center.latitude = [resLat intValue];
-        region.center.longitude = [resLong intValue];
+        region.center.latitude = [[resDetails objectForKey:@"latitude"] intValue];
+        region.center.longitude = [[resDetails objectForKey:@"longitude"] intValue];
         region.span.latitudeDelta = 0.01f;
         region.span.longitudeDelta = 0.01f;
         [self.myMapView setRegion:region];
 
         MapPin *pin = [[MapPin alloc] init];
-        pin.title = resTitle;
-        pin.subtitle = resLocation;
+        pin.title = [resDetails objectForKey:@"restaurantName"];
+        pin.subtitle = [resDetails objectForKey:@"restaurantLocation"];
         pin.coordinate = region.center;
         [self.myMapView addAnnotation:pin];
         [self.myMapView selectAnnotation:pin animated:YES];

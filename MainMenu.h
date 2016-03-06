@@ -11,17 +11,15 @@
 @interface MainMenu : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 // Locations
+@property (strong, nonatomic) NSMutableArray *resAddressArray;
 @property (strong, nonatomic) NSMutableArray *locationArray;
-
-
+@property (strong, nonatomic) CLLocation *userLocation;
+@property (strong, nonatomic) NSMutableArray *distancesArray;
 
 
 @property (strong, nonatomic) NSData *picData;
 
-
-@property (strong, nonatomic) NSArray *restaurantObjects;
-
-@property (strong, nonatomic) NSMutableArray *restaurantLogoData;
+@property (strong, nonatomic) NSMutableArray *restaurantObjects;
 
 @property NSUInteger *numOfAddresses;
 
