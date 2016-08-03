@@ -13,14 +13,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelDescription;
 
 
+@property (strong, nonatomic) NSArray *mealTypesArray;
+@property (strong, nonatomic) NSMutableArray *completeMenuArray;
 
-@property (strong, nonatomic) NSArray *resMenuItems;
-@property (strong, nonatomic) NSMutableArray *menuArray;
-@property (strong, nonatomic) NSMutableArray *secTitlesArray;
-@property (strong, nonatomic) NSMutableArray *breakfastItemsArray;
-@property (strong, nonatomic) NSMutableArray *lunchItemsArray;
-@property (strong, nonatomic) NSMutableArray *dinnerItemsArray;
-@property (strong, nonatomic) NSMutableArray *dessertItemsArray;
+
 
 @property (strong, nonatomic) NSString *resObjectId;
 @property (strong, nonatomic) UIColor  *resColor;

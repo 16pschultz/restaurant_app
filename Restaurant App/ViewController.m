@@ -55,6 +55,7 @@
     
     [self convHex];
     [self queryForDeals];
+    [self queryMealType];
 }
 
 
@@ -263,6 +264,7 @@
         menuTVC.resObjectId = self.resObjectId;
         menuTVC.resColor = self.resColor;
         menuTVC.offSetColor = self.offSetColor;
+        menuTVC.mealTypesArray = self.mealTypesArray;
     }
     
     if ([segue.identifier isEqualToString:@"showDirections"]) {
@@ -437,6 +439,20 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     [self queryForDeals];
     [self.tvDeal reloadData];
     [refreshControl endRefreshing];
+}
+
+- (void) queryMealType {
+
+    PFQuery *query = [PFQuery queryWithClassName:@"MealType"];
+    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
+    [query orderByAscending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+
+        self.mealTypesArray = objects;
+        NSLog(@"/////////////****   %@", self.mealTypesArray);
+
+    }];
+
 }
 
 @end

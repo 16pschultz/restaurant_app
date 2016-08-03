@@ -8,6 +8,7 @@
 
 
 #import "MapVC.h"
+#import "MapPin.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
 
