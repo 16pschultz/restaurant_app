@@ -13,11 +13,22 @@
 #import "ViewController.h"
 #import <CoreLocation/CoreLocation.h>
 
+#import "Annotation.h"
+
 @interface MainMenu ()
 
 @end
 
 #define TAG_LOGIN 1
+
+// Towson Coordinates
+#define TOWSONLONG -76.607109
+#define TOWSONLAT 39.393623
+
+// Span
+
+#define THESPAN 0.025F
+
 
 @implementation MainMenu
 
@@ -26,17 +37,16 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     self.locationArray = [[NSMutableArray alloc] init];
-    self.restaurantObjects = [[NSMutableArray alloc] init];
+    self.restaurantInfo = [[NSMutableArray alloc] init];
     self.distancesArray = [[NSMutableArray alloc] init];
     self.resAddressArray = [[NSMutableArray alloc] init];
     
     self.restaurantColView.delegate = self;
     self.restaurantColView.dataSource = self;
     
-    [self queryForRestaurantData];
-    [self addingLocations];
+//    [self addingLocations];
 //    [self nearestRestaurant];
-    [self sortArrays];
+//    [self sortArrays];
     
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -45,6 +55,26 @@
     [self.restaurantColView addSubview:refreshControl];
     [refreshControl setTintColor:[UIColor whiteColor]];
     self.restaurantColView.alwaysBounceVertical = YES;
+    
+    [self queryForRestaurantData];
+
+//    [self settingMapView];
+    
+    [self.restaurantColView reloadData];
+    
+    /*
+    CLLocationCoordinate2D towsonLocation;
+    towsonLocation.latitude = TOWSONLAT;
+    towsonLocation.longitude = TOWSONLONG;
+    
+    Annotation *myAnnotation = [Annotation alloc];
+    myAnnotation.coordinate = towsonLocation;
+    myAnnotation.title = @"Towson University";
+    myAnnotation.subTitle = @"Home of the Tigers";
+    
+    [self.mapView addAnnotation:myAnnotation];
+    [self.mapView selectAnnotation:myAnnotation animated:YES];
+    */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,13 +89,13 @@
 
     if ([PFUser currentUser]) {
         
-        [self.outletSignInButton setHidden:YES];
-        [self.outletSignOutButton setHidden:NO];
+//        [self.outletSignInButton setHidden:YES];
+//        [self.outletSignOutButton setHidden:NO];
         
     } else if (![PFUser currentUser]) {
         
-        [self.outletSignInButton setHidden:NO];
-        [self.outletSignOutButton setHidden:YES];
+//        [self.outletSignInButton setHidden:NO];
+//        [self.outletSignOutButton setHidden:YES];
     }
 }
 
@@ -76,7 +106,7 @@
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return [self.restaurantObjects count];
+    return [self.restaurantInfo count];
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -87,9 +117,9 @@
     cell.layer.cornerRadius = 7;
     
      [self sortArrays];
-    cell.labelForRestaurant.text = [self.restaurantObjects objectAtIndex:indexPath.row][@"name"];
+    cell.labelForRestaurant.text = [self.restaurantInfo objectAtIndex:indexPath.row][@"name"];
     
-    PFFile *resLogo = [self.restaurantObjects objectAtIndex:indexPath.row][@"logo"];
+    PFFile *resLogo = [self.restaurantInfo objectAtIndex:indexPath.row][@"logo"];
     [resLogo getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error) {
             cell.restaurantImage.image = [UIImage imageWithData:imageData];
@@ -123,22 +153,23 @@
         NSIndexPath *indexPath = (NSIndexPath *)sender;
         ViewController *viewC = (ViewController *)segue.destinationViewController;
         
-        PFFile *resLogo = [self.restaurantObjects objectAtIndex:indexPath.row][@"logo"];
+        PFFile *resLogo = [self.restaurantInfo objectAtIndex:indexPath.row][@"logo"];
         [resLogo getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
             if (!error) {
                 viewC.picData = imageData;
             }
         }];
+
         
-        viewC.resDealsUsed = [self.restaurantObjects objectAtIndex:indexPath.row][@"dealsUsed"];
-        viewC.resObjectId =  [[self.restaurantObjects objectAtIndex:indexPath.row]objectId];
-        viewC.resName =      [self.restaurantObjects objectAtIndex:indexPath.row][@"name"];
-        viewC.resLocation =  [self.restaurantObjects objectAtIndex:indexPath.row][@"resLocation"];
-        viewC.resLongitude = [self.restaurantObjects objectAtIndex:indexPath.row][@"longitude"];
-        viewC.resLatitude =  [self.restaurantObjects objectAtIndex:indexPath.row][@"latitude"];
-        viewC.resPhoneNum =  [self.restaurantObjects objectAtIndex:indexPath.row][@"phoneNum"];
-        viewC.stringColor =  [self.restaurantObjects objectAtIndex:indexPath.row][@"color"];
-        viewC.colorShade =   [self.restaurantObjects objectAtIndex:indexPath.row][@"colorShade"];
+        viewC.resDealsUsed = [self.restaurantInfo objectAtIndex:indexPath.row][@"dealsUsed"];
+        viewC.resObjectId =  [[self.restaurantInfo objectAtIndex:indexPath.row]objectId];
+        viewC.resName =      [self.restaurantInfo objectAtIndex:indexPath.row][@"name"];
+        viewC.resLocation =  [self.restaurantInfo objectAtIndex:indexPath.row][@"resLocation"];
+        viewC.resLongitude = [[self.restaurantInfo objectAtIndex:indexPath.row] objectForKey:@"longitude"];
+        viewC.resLatitude =  [[self.restaurantInfo objectAtIndex:indexPath.row] objectForKey:@"latitude"];
+        viewC.resPhoneNum =  [self.restaurantInfo objectAtIndex:indexPath.row][@"phoneNum"];
+        viewC.stringColor =  [self.restaurantInfo objectAtIndex:indexPath.row][@"color"];
+        viewC.colorShade =   [self.restaurantInfo objectAtIndex:indexPath.row][@"colorShade"];
     }
 }
 
@@ -159,20 +190,16 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     }];
 }
 
-- (IBAction)SignOutButton {
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Log Out" message:@"Are you sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-    
-    alertView.tag = TAG_LOGIN;
-    [alertView show];
-    
-}
-
 
 - (IBAction)SignInButton {
     
-    [self performSegueWithIdentifier:@"showLogin" sender:self];
-    
+    // If user is signed in
+    if ([PFUser currentUser]) {
+   
+    } else {
+        
+        [self performSegueWithIdentifier:@"showLogin" sender:self];
+    }
 }
 
 
@@ -181,79 +208,163 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
     [query orderByAscending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        for (NSObject *resObj in objects) {
-            NSLog(@"%@", resObj);
-            [self.restaurantObjects addObject:resObj];
-        }
         
-        // Adding addresses to array
-        for (int i = 0; i < self.restaurantObjects.count; i++) {
-            NSString *address = [[self.restaurantObjects objectAtIndex:i] objectForKey:@"address"];
-            [self.resAddressArray addObject:address];
-            NSLog(@"%@", address);
-        }
-        [self.restaurantColView reloadData];
+        self.restaurantInfo = objects;
+        
+//        for (NSObject *resObj in objects) {
+//            NSLog(@"%@", resObj);
+//            [self.restaurantInfo addObject:resObj];
+//        }
+        
+        [self addAnnotations];
+
+//        [self.restaurantColView reloadData];
     }];
 }
 
 
-- (void) addingLocations {
+- (void) settingMapView {
     
-    NSString *userAddress = @"1402 Forest Glen Court, Catonsville, Maryland";
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    NSArray *addressArray = @[@"408 York Rd, Towson, MD 21286", @"7800 York Rd Towson, MD  21204 United States"];
     
-    [geocoder geocodeAddressString:userAddress completionHandler:^(NSArray* placemarks, NSError* error){
-        for (CLPlacemark* aPlacemark in placemarks)
-        {
-            // Processing the placemark
-            NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
-            NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
-            
-            CGFloat lat = latDest1.floatValue;
-            CGFloat longtd = lngDest1.floatValue;
-            
-            self.userLocation = [[CLLocation alloc] initWithLatitude:lat longitude:longtd];
-        }
-    }];
+    NSMutableArray *locationsArray = [[NSMutableArray alloc] init];
     
-    
-    NSArray *addressArray = @[@"1402 Forest Glen Court, Catonsville, Maryland", @"6480 Dobbin Center Way, Columbia, Maryland", @"829 Frederick Rd, Catonsville, Maryland", @"805 Frederick Rd, Catonsville, Maryland"];
-    
-    // self.resAddressArray
     for (NSString *address in addressArray) {
         
-         CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init];
         [geocoder geocodeAddressString:address completionHandler:^(NSArray* placemarks, NSError* error){
             for (CLPlacemark* aPlacemark in placemarks)
             {
-                // Processing the placemark
-                NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
-                NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
+                Annotation *myAnn = [[Annotation alloc] init];
+
+                double latitude = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude].doubleValue;
+                double longitude = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude].doubleValue;
                 
-                CGFloat lat = latDest1.floatValue;
-                CGFloat longtd = lngDest1.floatValue;
+                CLLocationCoordinate2D location;
+                location.latitude = latitude;
+                location.longitude = longitude;
+
+                myAnn.coordinate = location;
                 
-                CLLocation *location = [[CLLocation alloc] initWithLatitude:lat longitude:longtd];
-                
-                [self.locationArray addObject:location];
-                NSLog(@"%@", location);
+                [locationsArray addObject:myAnn];
             }
         }];
     }
     
-    NSLog(@"%@", self.locationArray);
     
-    if (self.locationArray.count > 0) {
-        for (int i = 0; i < self.locationArray.count; i++) {
-            
-            CLLocationDistance distance = [self.userLocation distanceFromLocation:self.locationArray[i]];
-            int a = (int)distance;
-            NSLog(@"%i", a);
-            [self.distancesArray addObject:[NSNumber numberWithInt:a]];
-        }
-    }
+    //    NSMutableArray *locations = [[NSMutableArray alloc] init];
+    //    CLLocationCoordinate2D location;
+    //    Annotation *myAnn;
+    //
+    //    // Bill Bateman's Annotation
+    //    myAnn = [[Annotation alloc]init];
+    //    location.latitude = BILLBATE_LAT;
+    //    location.longitude = BILLBATE_LONG;
+    //    myAnn.coordinate = location;
+    //    myAnn.title = @"Bill Bateman's";
+    //    [locations addObject:myAnn];
+    
+    
+    // Creating region
+    MKCoordinateRegion myRegion;
+    
+    // Center
+    CLLocationCoordinate2D center;
+    center.latitude = TOWSONLAT;
+    center.longitude = TOWSONLONG;
+    
+    // The Span
+    MKCoordinateSpan span;
+    span.latitudeDelta = THESPAN;
+    span.longitudeDelta = THESPAN;
+    
+    myRegion.center = center;
+    myRegion.span = span;
+    
+    [self.mapView setRegion:myRegion animated:YES];
+    
+    [self.mapView addAnnotations:locationsArray];
+    
+    
+    
+    
+    
+//    NSLog(@"%@", self.locationArray);
+//    
+//    if (self.locationArray.count > 0) {
+//        for (int i = 0; i < self.locationArray.count; i++) {
+//            
+//            CLLocationDistance distance = [self.userLocation distanceFromLocation:self.locationArray[i]];
+//            int a = (int)distance;
+//            NSLog(@"%i", a);
+//            [self.distancesArray addObject:[NSNumber numberWithInt:a]];
+//        }
+//    }
 }
 
+- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(nonnull id<MKAnnotation>)annotation {
+    
+    MKPinAnnotationView *myPin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"hl"];
+
+    myPin.pinColor = MKPinAnnotationColorPurple;
+    
+    return myPin;
+}
+
+- (void) addAnnotations {
+    
+    // Creating region
+    MKCoordinateRegion myRegion;
+    
+    // Center
+    CLLocationCoordinate2D center;
+    center.latitude = TOWSONLAT;
+    center.longitude = TOWSONLONG;
+    
+    // The Span
+    MKCoordinateSpan span;
+    span.latitudeDelta = THESPAN;
+    span.longitudeDelta = THESPAN;
+    
+    myRegion.center = center;
+    myRegion.span = span;
+    
+    [self.mapView setRegion:myRegion animated:YES];
+    
+    
+    // Annotation
+    
+    NSMutableArray *locations = [[NSMutableArray alloc] init];
+    CLLocationCoordinate2D location;
+    Annotation *myAnn;
+    
+    
+    for (int i = 0; i < [self.restaurantInfo count]; i++) {
+        
+        myAnn = [[Annotation alloc]init];
+        double latitude = [NSString stringWithFormat:@"%@",[[self.restaurantInfo objectAtIndex:i] objectForKey:@"latitude"]].doubleValue;
+        double longitude = [NSString stringWithFormat:@"%@",[[self.restaurantInfo objectAtIndex:i] objectForKey:@"longitude"]].doubleValue;
+        location.latitude = latitude;
+        location.longitude = longitude;
+        myAnn.coordinate = location;
+        myAnn.title = [[self.restaurantInfo objectAtIndex:i] objectForKey:@"name"];
+        [locations addObject:myAnn];
+    }
+    
+    
+
+//    // Towson's Annotation
+//    myAnn = [[Annotation alloc]init];
+//    location.latitude = TOWSONLAT;
+//    location.longitude = TOWSONLONG;
+//    myAnn.coordinate = location;
+//    myAnn.title = @"Towson University";
+//    [locations addObject:myAnn];
+    
+    [self.mapView addAnnotations:locations];
+//    [self.mapView selectAnnotation:myAnn animated:YES];
+    [self.restaurantColView reloadData];
+}
 
 - (void) nearestRestaurant {
     
@@ -277,7 +388,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         NSLog(@"%@", [self.distancesArray objectAtIndex:i]);
         NSLog(@"%@", self.distancesArray);
         
-        NSLog(@"%@", self.restaurantObjects);
+        NSLog(@"%@", self.restaurantInfo);
         for (int j = 0; j <= i; j++) {
             
             if (self.distancesArray[j+1] < self.distancesArray[j]) {
@@ -286,18 +397,19 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                 self.distancesArray[j] = self.distancesArray[j+1];
                 self.distancesArray[j+1] = temp;
                 // Sorting Restaurants by distance
-                self.restaurantObjects[j] = self.restaurantObjects[j+1];
-                self.restaurantObjects[j+1] = temp;
+//                self.restaurantInfo[j] = self.restaurantInfo[j+1];
+//                self.restaurantInfo[j+1] = temp;
             }
         }
     }
-    NSLog(@"%@", self.restaurantObjects);
+    NSLog(@"%@", self.restaurantInfo);
 
     for (int i = 0; i < self.distancesArray.count; i++) {
         
          NSLog(@"%@", self.distancesArray[i]);
     }
 }
+
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
     

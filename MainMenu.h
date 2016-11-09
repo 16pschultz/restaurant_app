@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
+
 
 @interface MainMenu : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -17,9 +19,17 @@
 @property (strong, nonatomic) NSMutableArray *distancesArray;
 
 
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
+
+
+
+
 @property (strong, nonatomic) NSData *picData;
 
 @property (strong, nonatomic) NSMutableArray *restaurantObjects;
+
+@property (strong, nonatomic) NSArray *restaurantInfo;
+
 
 @property NSUInteger *numOfAddresses;
 
@@ -27,11 +37,8 @@
 
 //@property (strong, nonatomic) IBOutlet UILabel *labelForRestaurant;
 
-
-@property (strong, nonatomic) IBOutlet UIButton *outletSignOutButton;
 @property (strong, nonatomic) IBOutlet UIButton *outletSignInButton;
 
-- (IBAction)SignOutButton;
 - (IBAction)SignInButton;
 
 
