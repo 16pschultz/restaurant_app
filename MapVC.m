@@ -11,7 +11,11 @@
 #import "MapPin.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
+#import <CoreLocation/CoreLocation.h>
+#import "Annotation.h"
 
+#define TOWSONLONG -76.607109
+#define TOWSONLAT 39.393623
 
 @interface MapVC ()
 
@@ -22,26 +26,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Restaurant"];
-    [query getObjectInBackgroundWithId:[[PFUser currentUser]objectId] block:^(PFObject *resDetails, NSError *error) {
+    
+    self.hoursLabel.text = [NSString stringWithFormat:@"Mon-Fri\t\t10am-10pm\nSat\t\t9am-2am\nSun\t\t9am-10pm\n\nRemember, kids eat FREE!"];
+    
+    
+    
+    // Creating region
+    MKCoordinateRegion myRegion;
+    
+    // Center
+    CLLocationCoordinate2D center;
+    center.latitude = self.resLatitude.doubleValue;
+    center.longitude = self.resLongitude.doubleValue;
+    
+    // The Span
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.01;
+    span.longitudeDelta = 0.01;
+    
+    myRegion.center = center;
+    myRegion.span = span;
+    
+    CLLocationCoordinate2D location;
+    Annotation *myAnn = [[Annotation alloc]init];
 
-        self.myMapView.mapType = MKMapTypeStandard;
-        
-        MKCoordinateRegion region = { {0.0, 0.0} , { 0.0, 0.0} };
-        
-        region.center.latitude = [[resDetails objectForKey:@"latitude"] intValue];
-        region.center.longitude = [[resDetails objectForKey:@"longitude"] intValue];
-        region.span.latitudeDelta = 0.01f;
-        region.span.longitudeDelta = 0.01f;
-        [self.myMapView setRegion:region];
+    location.latitude = self.resLatitude.doubleValue;
+    location.longitude = self.resLongitude.doubleValue;
+    myAnn.coordinate = location;
+    myAnn.title = self.resName;
+    
+    [self.myMapView setRegion:myRegion animated:YES];
+    [self.myMapView addAnnotation:myAnn];
+    [self.myMapView selectAnnotation:myAnn animated:YES];
 
-        MapPin *pin = [[MapPin alloc] init];
-        pin.title = [resDetails objectForKey:@"restaurantName"];
-        pin.subtitle = [resDetails objectForKey:@"restaurantLocation"];
-        pin.coordinate = region.center;
-        [self.myMapView addAnnotation:pin];
-        [self.myMapView selectAnnotation:pin animated:YES];
-    }];
     
     self.oDirectionsButton.backgroundColor = self.resColor;
     [[self.oDirectionsButton layer] setBorderWidth:2.5f];

@@ -6,11 +6,6 @@
 #import "LoginVC.h"
 #import <Parse/Parse.h>
 
-NSString *const kDeal = @"deal";
-NSString *const kDiscount = @"discount";
-NSString *const kDImage = @"dimage";
-NSString *const kDDescription = @"ddescription";
-
 @interface LoginVC ()
 
 @end
@@ -86,9 +81,7 @@ NSString *const kDDescription = @"ddescription";
     
     if ([segue.identifier isEqualToString:@"showLogin"]) {
         
-        [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
-        [segue.destinationViewController setHidesBackButton:YES];
-        
+        [segue.destinationViewController setHidesBottomBarWhenPushed:YES];        
     }
 }
 

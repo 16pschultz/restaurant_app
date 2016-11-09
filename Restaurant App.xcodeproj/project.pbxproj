@@ -38,6 +38,7 @@
 		D058A7D61B6846E20097997C /* DealVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D058A7D51B6846E20097997C /* DealVC.m */; };
 		D058A7D91B6848AC0097997C /* LostPsswrdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D058A7D81B6848AC0097997C /* LostPsswrdVC.m */; };
 		D07657B41B8120550069ED9D /* AppRewardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D07657B31B8120550069ED9D /* AppRewardVC.m */; };
+		D08EA2D91DAAC709008A5954 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D08EA2D81DAAC709008A5954 /* Annotation.m */; };
 		D0CAA9CE1B727C34009421D9 /* MapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CAA9CD1B727C34009421D9 /* MapVC.m */; };
 		D0CAA9D11B727C5B009421D9 /* MapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CAA9D01B727C5B009421D9 /* MapPin.m */; };
 		D0CAA9D31B727CFF009421D9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0CAA9D21B727CFF009421D9 /* MapKit.framework */; };
@@ -106,6 +107,8 @@
 		D058A7D81B6848AC0097997C /* LostPsswrdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LostPsswrdVC.m; path = ../LostPsswrdVC.m; sourceTree = "<group>"; };
 		D07657B21B8120550069ED9D /* AppRewardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppRewardVC.h; path = ../AppRewardVC.h; sourceTree = "<group>"; };
 		D07657B31B8120550069ED9D /* AppRewardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AppRewardVC.m; path = ../AppRewardVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		D08EA2D71DAAC709008A5954 /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
+		D08EA2D81DAAC709008A5954 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
 		D0CAA9CC1B727C34009421D9 /* MapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapVC.h; path = ../MapVC.h; sourceTree = "<group>"; };
 		D0CAA9CD1B727C34009421D9 /* MapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = MapVC.m; path = ../MapVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D0CAA9CF1B727C5B009421D9 /* MapPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapPin.h; path = ../MapPin.h; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 				D00AEF8C1B33695D00D004D2 /* AppDelegate.m */,
 				D00AEF8E1B33695D00D004D2 /* ViewController.h */,
 				D00AEF8F1B33695D00D004D2 /* ViewController.m */,
+				D08EA2D71DAAC709008A5954 /* Annotation.h */,
+				D08EA2D81DAAC709008A5954 /* Annotation.m */,
 				D000F8C61BF4333F004A78B5 /* MainMenu.h */,
 				D000F8C71BF4333F004A78B5 /* MainMenu.m */,
 				D000F8C31BF43279004A78B5 /* RestaurantViewCell.h */,
@@ -431,6 +436,7 @@
 				D023BAD31B5D5BEC001E1920 /* LoginVC.m in Sources */,
 				D07657B41B8120550069ED9D /* AppRewardVC.m in Sources */,
 				D0CAA9CE1B727C34009421D9 /* MapVC.m in Sources */,
+				D08EA2D91DAAC709008A5954 /* Annotation.m in Sources */,
 				D058A7D61B6846E20097997C /* DealVC.m in Sources */,
 				D0CAA9D11B727C5B009421D9 /* MapPin.m in Sources */,
 				D00AEF8A1B33695D00D004D2 /* main.m in Sources */,

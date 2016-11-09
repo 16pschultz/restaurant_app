@@ -200,13 +200,14 @@
     } else if ([PFUser currentUser]) {
         
         self.viewRedeeming.hidden = NO;
-        self.oDeal.text = [self.dealListArray objectAtIndex:indexPath.row][@"deal"];
-        self.oRuntime.text = [self.dealListArray objectAtIndex:indexPath.row][@"runTime"];
+    
         
         NSDate *date = [self.dealListArray objectAtIndex:indexPath.row][@"expirationDate"];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"MM-dd-yy"];
-        self.oExpiration.text = [NSString stringWithFormat:@"Expires %@", [formatter stringFromDate:date]];
+        
+        self.oDeal.text = [NSString stringWithFormat:@"%@\n\n%@\n\nExpires: %@", [self.dealListArray objectAtIndex:indexPath.row][@"deal"], [self.dealListArray objectAtIndex:indexPath.row][@"runTime"], [formatter stringFromDate:date]];
+
     }
 }
 
@@ -264,13 +265,14 @@
         menuTVC.resObjectId = self.resObjectId;
         menuTVC.resColor = self.resColor;
         menuTVC.offSetColor = self.offSetColor;
-        menuTVC.mealTypesArray = self.mealTypesArray;
+//        menuTVC.mealTypesArray = self.mealTypesArray;
     }
     
     if ([segue.identifier isEqualToString:@"showDirections"]) {
         
         MapVC *mapVC = (MapVC *)segue.destinationViewController;
         mapVC.resObjectId = self.resObjectId;
+        mapVC.resName = self.resName;
         mapVC.resColor = self.resColor;
         mapVC.resLatitude = self.resLatitude;
         mapVC.resLongitude = self.resLongitude;

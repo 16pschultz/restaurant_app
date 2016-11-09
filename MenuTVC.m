@@ -15,21 +15,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    }
     
-    self.completeMenuArray = [[NSMutableArray alloc]init];
+    self.completeMenuArray = [[NSMutableArray alloc] init];
     
-    NSLog(@"%@", self.mealTypesArray);
-//    [self queryMealType];
-    [self queryMenuItems];
+    [self queryMealType];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
-    
-    NSLog(@"%@", self.mealTypesArray);
     
     // Navigation Bar Attibutes
     [self.navigationController.navigationBar setHidden:NO];
@@ -38,7 +31,6 @@
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,23 +42,20 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return [self.mealTypesArray count];
+    return [self.completeMenuArray count];
     
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
-//    return [[self.mealTypesArray objectAtIndex:section] objectForKey:@"meal"];
-    return @"Peach";
-
+    return [[self.completeMenuArray objectAtIndex:section] objectForKey:@"kMealType"];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     
-    return [[self.completeMenuArray objectAtIndex:section] count];
+    return [[[self.completeMenuArray objectAtIndex:section] objectForKey:@"kMenu"] count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -74,18 +63,15 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Item Name
-    cell.textLabel.text = [[[self.completeMenuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"item"];
+    cell.textLabel.text = [[[[self.completeMenuArray objectAtIndex:indexPath.section] objectForKey:@"kMenu"] objectAtIndex:indexPath.row] objectForKey:@"item"];
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont fontWithName:@"Noteworthy" size:17];
     
     // Item Price
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"$%@",[[[self.completeMenuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"price"]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"$%@",[[[[self.completeMenuArray objectAtIndex:indexPath.section] objectForKey:@"kMenu"] objectAtIndex:indexPath.row] objectForKey:@"price"]];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Noteworthy" size:12];
     cell.detailTextLabel.textColor = [UIColor blackColor];
-    
-//    // Item Image
-//    self.stringPlaceholder = [[[self.completeMenuArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:kImage];
-//    cell.imageView.image = [UIImage imageNamed:self.stringPlaceholder];
+
     
     // Cell and Background Attributes
     cell.backgroundColor = [UIColor whiteColor];
@@ -100,32 +86,8 @@
     [cellImageLayer setMasksToBounds:YES];
     
     return cell;
-    
 }
 
-
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    [tableView beginUpdates];
-    
-    if ([indexPath compare:self.expandedIndexPath] == NSOrderedSame) {
-        
-        self.expandedIndexPath = nil;
-    } else {
-        
-        self.expandedIndexPath = indexPath;
-    }
-    
-    [tableView endUpdates];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([indexPath compare:self.expandedIndexPath] == NSOrderedSame) {
-        return 140.0;
-    }
-    return 70.0;
-}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
@@ -152,44 +114,61 @@
     }
 }
 
-//- (void) queryMealType {
-//    
-//    PFQuery *query = [PFQuery queryWithClassName:@"MealType"];
-//    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
-//    [query orderByAscending:@"createdAt"];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        
-//        self.mealTypesArray = objects;
-//        NSLog(@"%@", self.mealTypesArray);
-//        
-//    }];
-//
-//}
+- (void) queryMealType {
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"MealType"];
+    [query whereKey:@"restaurantId" equalTo:self.resObjectId];
+    [query orderByAscending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+
+        NSLog(@"%@", objects);
+        
+        [self queryMenuItems:objects];
+    }];
+}
 
 
-- (void) queryMenuItems{
+- (void) queryMenuItems:(NSArray *)mealTypes {
     
     PFQuery *query = [PFQuery queryWithClassName:@"MenuItem"];
     [query whereKey:@"restaurantId" equalTo:self.resObjectId];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
-        NSLog(@"%@", objects);
+//    NSMutableArray *tempMArr = [[NSMutableArray alloc] init];
         
-        for (int i = 0; i < [self.mealTypesArray count]; i++) {
+        for (int i = 0; i < [mealTypes count]; i++) {
+            
+            NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
+            [myDictionary setObject: [[mealTypes objectAtIndex:i] objectForKey:@"meal"] forKey:@"kMealType"];
+            
+            NSString *objID = [[mealTypes objectAtIndex:i] objectId];
+            NSLog(@"%@", objID);
+            
+            NSMutableArray *tempMArr = [[NSMutableArray alloc] init];
             
             for (int j = 0; j < [objects count]; j++) {
                 
-                if ([[objects objectAtIndex:j] objectForKey:@"mealTypeId"] == [[self.mealTypesArray objectAtIndex:i] objectForKey:@"objectId"]) {
-                    
-                    [[self.completeMenuArray objectAtIndex:i] addObject:objects[i][j]];
+                NSString *mealID = [[objects objectAtIndex:j] objectForKey:@"mealTypeId"];
 
+                if ([objID isEqualToString:mealID]) {
+                    
+                    [tempMArr addObject:[objects objectAtIndex:j]];
+                    NSLog(@"%@", tempMArr);
                 }
             }
+            
+            [myDictionary setObject: tempMArr forKey:@"kMenu"];
+            [self.completeMenuArray addObject:myDictionary];
         }
-        
+        for (NSObject *myObject in self.completeMenuArray) {
+            NSLog(@"\n\n\n\n ############### %@\n\n\n\n\n", myObject);
+        }
         [self.tableView reloadData];
     }];
     
+
+    
+    [self.tableView reloadData];
 }
 
 

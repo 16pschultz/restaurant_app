@@ -13,6 +13,8 @@
 @interface MapVC : UIViewController <UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSString *resObjectId;
+@property (strong, nonatomic) NSString *resName;
+
 @property (strong, nonatomic) UIColor  *resColor;
 @property (strong, nonatomic) UIColor  *offSetColor;
 
@@ -23,6 +25,7 @@
 
 - (IBAction)toHere;
 
+@property (strong, nonatomic) IBOutlet UILabel *hoursLabel;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *oDirectionsButton;
